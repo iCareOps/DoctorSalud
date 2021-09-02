@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DSModelStoreContainer" CdmEntityContainer="DoctorSalud_Entities">
+    <EntitySetMapping Name="Cardiologo">
+      <EntityTypeMapping TypeName="DSModel.Cardiologo">
+        <MappingFragment StoreEntitySet="Cardiologo">
+          <ScalarProperty Name="idCardiologo" ColumnName="idCardiologo" />
+          <ScalarProperty Name="idPacienteDS" ColumnName="idPacienteDS" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CitaDS">
+      <EntityTypeMapping TypeName="DSModel.CitaDS">
+        <MappingFragment StoreEntitySet="CitaDS">
+          <ScalarProperty Name="Sucursal" ColumnName="Sucursal" />
+          <ScalarProperty Name="idCitaDS" ColumnName="idCitaDS" />
+          <ScalarProperty Name="FechaCita" ColumnName="FechaCita" />
+          <ScalarProperty Name="EstatusPago" ColumnName="EstatusPago" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="Recepcionista" ColumnName="Recepcionista" />
+          <ScalarProperty Name="FechaPago" ColumnName="FechaPago" />
+          <ScalarProperty Name="idPacienteDS" ColumnName="idPacienteDS" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MedicinaInterna">
+      <EntityTypeMapping TypeName="DSModel.MedicinaInterna">
+        <MappingFragment StoreEntitySet="MedicinaInterna">
+          <ScalarProperty Name="idMedicinaInterna" ColumnName="idMedicinaInterna" />
+          <ScalarProperty Name="idPacienteDS" ColumnName="idPacienteDS" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Nutriologo">
+      <EntityTypeMapping TypeName="DSModel.Nutriologo">
+        <MappingFragment StoreEntitySet="Nutriologo">
+          <ScalarProperty Name="idNutriologo" ColumnName="idNutriologo" />
+          <ScalarProperty Name="idPacienteDS" ColumnName="idPacienteDS" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Oftalmologo">
+      <EntityTypeMapping TypeName="DSModel.Oftalmologo">
+        <MappingFragment StoreEntitySet="Oftalmologo">
+          <ScalarProperty Name="idOftalmologo" ColumnName="idOftalmologo" />
+          <ScalarProperty Name="idPacienteDS" ColumnName="idPacienteDS" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PacienteDS">
+      <EntityTypeMapping TypeName="DSModel.PacienteDS">
+        <MappingFragment StoreEntitySet="PacienteDS">
+          <ScalarProperty Name="idPacienteDS" ColumnName="idPacienteDS" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+          <ScalarProperty Name="HASH" ColumnName="HASH" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Menu">
+      <EntityTypeMapping TypeName="DSModel.Menu">
+        <MappingFragment StoreEntitySet="Menu">
+          <ScalarProperty Name="Accion" ColumnName="Accion" />
+          <ScalarProperty Name="Controlador" ColumnName="Controlador" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="idMenu" ColumnName="idMenu" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Roles">
+      <EntityTypeMapping TypeName="DSModel.Roles">
+        <MappingFragment StoreEntitySet="Roles">
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="idRol" ColumnName="idRol" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RolMenu">
+      <EntityTypeMapping TypeName="DSModel.RolMenu">
+        <MappingFragment StoreEntitySet="RolMenu">
+          <ScalarProperty Name="idRol" ColumnName="idRol" />
+          <ScalarProperty Name="idMenu" ColumnName="idMenu" />
+          <ScalarProperty Name="idRolMenu" ColumnName="idRolMenu" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Usuarios">
+      <EntityTypeMapping TypeName="DSModel.Usuarios">
+        <MappingFragment StoreEntitySet="Usuarios">
+          <ScalarProperty Name="idRol" ColumnName="idRol" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RecepcionistaDS">
+      <EntityTypeMapping TypeName="DSModel.RecepcionistaDS">
+        <MappingFragment StoreEntitySet="RecepcionistaDS">
+          <ScalarProperty Name="idSucursalDS" ColumnName="idSucursalDS" />
+          <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
+          <ScalarProperty Name="idRecepcionistaDS" ColumnName="idRecepcionistaDS" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SucursalDS">
+      <EntityTypeMapping TypeName="DSModel.SucursalDS">
+        <MappingFragment StoreEntitySet="SucursalDS">
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="idSucursalDS" ColumnName="idSucursalDS" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="83f9498d6a264d2b83eb3bc4e048c73e" Name="Diagram1" ZoomLevel="55">
+        <EntityTypeShape EntityType="DSModel.Cardiologo" Width="1.5" PointX="4.125" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DSModel.CitaDS" Width="1.5" PointX="1" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DSModel.MedicinaInterna" Width="1.5" PointX="6.125" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DSModel.Nutriologo" Width="1.5" PointX="4.125" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DSModel.Oftalmologo" Width="1.5" PointX="3.5" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DSModel.PacienteDS" Width="1.5" PointX="0.875" PointY="1.25" IsExpanded="true" />
+        <AssociationConnector Association="DSModel.FK_Cardiologo_PacienteDS" ManuallyRouted="false" />
+        <AssociationConnector Association="DSModel.FK_CitaDS_PacienteDS" ManuallyRouted="false" />
+        <AssociationConnector Association="DSModel.FK_MedicinaInterna_PacienteDS" ManuallyRouted="false" />
+        <AssociationConnector Association="DSModel.FK_Nutriologo_PacienteDS" ManuallyRouted="false" />
+        <AssociationConnector Association="DSModel.FK_Oftalmologo_PacienteDS" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="DSModel.Menu" Width="1.5" PointX="6.375" PointY="10.5" />
+        <EntityTypeShape EntityType="DSModel.Roles" Width="1.5" PointX="6.375" PointY="7.625" />
+        <EntityTypeShape EntityType="DSModel.RolMenu" Width="1.5" PointX="8.625" PointY="6.5" />
+        <EntityTypeShape EntityType="DSModel.Usuarios" Width="1.5" PointX="8.625" PointY="10.125" />
+        <AssociationConnector Association="DSModel.FK_RolMenu_Menu" />
+        <AssociationConnector Association="DSModel.FK_RolMenu_Roles" />
+        <AssociationConnector Association="DSModel.FK_Usuarios_Roles" />
+        <EntityTypeShape EntityType="DSModel.RecepcionistaDS" Width="1.875" PointX="11.25" PointY="11.625" />
+        <EntityTypeShape EntityType="DSModel.SucursalDS" Width="1.875" PointX="8.625" PointY="13.5" />
+        <AssociationConnector Association="DSModel.FK_RecepcionistaDS_SucursalDS" />
+        <AssociationConnector Association="DSModel.FK_RecepcionistaDS_Usuarios" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,277 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Cardiologo">
+    <Key>
+      <PropertyRef Name="idCardiologo" />
+    </Key>
+    <Property Name="idCardiologo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="idPacienteDS" Type="int" />
+  </EntityType>
+  <EntityType Name="CitaDS">
+    <Key>
+      <PropertyRef Name="idCitaDS" />
+    </Key>
+    <Property Name="idCitaDS" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FechaCita" Type="datetime" />
+    <Property Name="EstatusPago" Type="varchar" MaxLength="40" />
+    <Property Name="Estado" Type="varchar" MaxLength="50" />
+    <Property Name="Recepcionista" Type="varchar" MaxLength="100" />
+    <Property Name="FechaPago" Type="datetime" />
+    <Property Name="idPacienteDS" Type="int" />
+    <Property Name="Sucursal" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="MedicinaInterna">
+    <Key>
+      <PropertyRef Name="idMedicinaInterna" />
+    </Key>
+    <Property Name="idMedicinaInterna" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="idPacienteDS" Type="int" />
+  </EntityType>
+  <EntityType Name="Menu">
+    <Key>
+      <PropertyRef Name="idMenu" />
+    </Key>
+    <Property Name="idMenu" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="varchar" MaxLength="50" />
+    <Property Name="Controlador" Type="varchar" MaxLength="50" />
+    <Property Name="Accion" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Nutriologo">
+    <Key>
+      <PropertyRef Name="idNutriologo" />
+    </Key>
+    <Property Name="idNutriologo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="idPacienteDS" Type="int" />
+  </EntityType>
+  <EntityType Name="Oftalmologo">
+    <Key>
+      <PropertyRef Name="idOftalmologo" />
+    </Key>
+    <Property Name="idOftalmologo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="idPacienteDS" Type="int" />
+  </EntityType>
+  <EntityType Name="PacienteDS">
+    <Key>
+      <PropertyRef Name="idPacienteDS" />
+    </Key>
+    <Property Name="idPacienteDS" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="varchar" MaxLength="200" />
+    <Property Name="Email" Type="varchar" MaxLength="200" />
+    <Property Name="Telefono" Type="varchar" MaxLength="20" />
+    <Property Name="HASH" Type="varchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="RecepcionistaDS">
+    <Key>
+      <PropertyRef Name="idRecepcionistaDS" />
+    </Key>
+    <Property Name="idRecepcionistaDS" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="idUsuario" Type="int" />
+    <Property Name="idSucursalDS" Type="int" />
+  </EntityType>
+  <EntityType Name="Roles">
+    <Key>
+      <PropertyRef Name="idRol" />
+    </Key>
+    <Property Name="idRol" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="RolMenu">
+    <Key>
+      <PropertyRef Name="idRolMenu" />
+    </Key>
+    <Property Name="idRolMenu" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="idMenu" Type="int" />
+    <Property Name="idRol" Type="int" />
+  </EntityType>
+  <EntityType Name="SucursalDS">
+    <Key>
+      <PropertyRef Name="idSucursalDS" />
+    </Key>
+    <Property Name="idSucursalDS" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Usuarios">
+    <Key>
+      <PropertyRef Name="idUsuario" />
+    </Key>
+    <Property Name="idUsuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="varchar" MaxLength="200" />
+    <Property Name="Email" Type="varchar" MaxLength="200" />
+    <Property Name="Password" Type="varchar" MaxLength="100" />
+    <Property Name="idRol" Type="int" />
+  </EntityType>
+  <Association Name="FK_Cardiologo_PacienteDS">
+    <End Role="PacienteDS" Type="Self.PacienteDS" Multiplicity="0..1" />
+    <End Role="Cardiologo" Type="Self.Cardiologo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PacienteDS">
+        <PropertyRef Name="idPacienteDS" />
+      </Principal>
+      <Dependent Role="Cardiologo">
+        <PropertyRef Name="idPacienteDS" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CitaDS_PacienteDS">
+    <End Role="PacienteDS" Type="Self.PacienteDS" Multiplicity="0..1" />
+    <End Role="CitaDS" Type="Self.CitaDS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PacienteDS">
+        <PropertyRef Name="idPacienteDS" />
+      </Principal>
+      <Dependent Role="CitaDS">
+        <PropertyRef Name="idPacienteDS" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MedicinaInterna_PacienteDS">
+    <End Role="PacienteDS" Type="Self.PacienteDS" Multiplicity="0..1" />
+    <End Role="MedicinaInterna" Type="Self.MedicinaInterna" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PacienteDS">
+        <PropertyRef Name="idPacienteDS" />
+      </Principal>
+      <Dependent Role="MedicinaInterna">
+        <PropertyRef Name="idPacienteDS" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Nutriologo_PacienteDS">
+    <End Role="PacienteDS" Type="Self.PacienteDS" Multiplicity="0..1" />
+    <End Role="Nutriologo" Type="Self.Nutriologo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PacienteDS">
+        <PropertyRef Name="idPacienteDS" />
+      </Principal>
+      <Dependent Role="Nutriologo">
+        <PropertyRef Name="idPacienteDS" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Oftalmologo_PacienteDS">
+    <End Role="PacienteDS" Type="Self.PacienteDS" Multiplicity="0..1" />
+    <End Role="Oftalmologo" Type="Self.Oftalmologo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PacienteDS">
+        <PropertyRef Name="idPacienteDS" />
+      </Principal>
+      <Dependent Role="Oftalmologo">
+        <PropertyRef Name="idPacienteDS" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RecepcionistaDS_SucursalDS">
+    <End Role="SucursalDS" Type="Self.SucursalDS" Multiplicity="0..1" />
+    <End Role="RecepcionistaDS" Type="Self.RecepcionistaDS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SucursalDS">
+        <PropertyRef Name="idSucursalDS" />
+      </Principal>
+      <Dependent Role="RecepcionistaDS">
+        <PropertyRef Name="idSucursalDS" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RecepcionistaDS_Usuarios">
+    <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="0..1" />
+    <End Role="RecepcionistaDS" Type="Self.RecepcionistaDS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Usuarios">
+        <PropertyRef Name="idUsuario" />
+      </Principal>
+      <Dependent Role="RecepcionistaDS">
+        <PropertyRef Name="idUsuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RolMenu_Menu">
+    <End Role="Menu" Type="Self.Menu" Multiplicity="0..1" />
+    <End Role="RolMenu" Type="Self.RolMenu" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Menu">
+        <PropertyRef Name="idMenu" />
+      </Principal>
+      <Dependent Role="RolMenu">
+        <PropertyRef Name="idMenu" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RolMenu_Roles">
+    <End Role="Roles" Type="Self.Roles" Multiplicity="0..1" />
+    <End Role="RolMenu" Type="Self.RolMenu" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Roles">
+        <PropertyRef Name="idRol" />
+      </Principal>
+      <Dependent Role="RolMenu">
+        <PropertyRef Name="idRol" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Usuarios_Roles">
+    <End Role="Roles" Type="Self.Roles" Multiplicity="0..1" />
+    <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Roles">
+        <PropertyRef Name="idRol" />
+      </Principal>
+      <Dependent Role="Usuarios">
+        <PropertyRef Name="idRol" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DSModelStoreContainer">
+    <EntitySet Name="Cardiologo" EntityType="Self.Cardiologo" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CitaDS" EntityType="Self.CitaDS" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MedicinaInterna" EntityType="Self.MedicinaInterna" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Menu" EntityType="Self.Menu" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Nutriologo" EntityType="Self.Nutriologo" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Oftalmologo" EntityType="Self.Oftalmologo" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PacienteDS" EntityType="Self.PacienteDS" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="RecepcionistaDS" EntityType="Self.RecepcionistaDS" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="RolMenu" EntityType="Self.RolMenu" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SucursalDS" EntityType="Self.SucursalDS" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Usuarios" EntityType="Self.Usuarios" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Cardiologo_PacienteDS" Association="Self.FK_Cardiologo_PacienteDS">
+      <End Role="PacienteDS" EntitySet="PacienteDS" />
+      <End Role="Cardiologo" EntitySet="Cardiologo" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CitaDS_PacienteDS" Association="Self.FK_CitaDS_PacienteDS">
+      <End Role="PacienteDS" EntitySet="PacienteDS" />
+      <End Role="CitaDS" EntitySet="CitaDS" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MedicinaInterna_PacienteDS" Association="Self.FK_MedicinaInterna_PacienteDS">
+      <End Role="PacienteDS" EntitySet="PacienteDS" />
+      <End Role="MedicinaInterna" EntitySet="MedicinaInterna" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Nutriologo_PacienteDS" Association="Self.FK_Nutriologo_PacienteDS">
+      <End Role="PacienteDS" EntitySet="PacienteDS" />
+      <End Role="Nutriologo" EntitySet="Nutriologo" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Oftalmologo_PacienteDS" Association="Self.FK_Oftalmologo_PacienteDS">
+      <End Role="PacienteDS" EntitySet="PacienteDS" />
+      <End Role="Oftalmologo" EntitySet="Oftalmologo" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RecepcionistaDS_SucursalDS" Association="Self.FK_RecepcionistaDS_SucursalDS">
+      <End Role="SucursalDS" EntitySet="SucursalDS" />
+      <End Role="RecepcionistaDS" EntitySet="RecepcionistaDS" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RecepcionistaDS_Usuarios" Association="Self.FK_RecepcionistaDS_Usuarios">
+      <End Role="Usuarios" EntitySet="Usuarios" />
+      <End Role="RecepcionistaDS" EntitySet="RecepcionistaDS" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RolMenu_Menu" Association="Self.FK_RolMenu_Menu">
+      <End Role="Menu" EntitySet="Menu" />
+      <End Role="RolMenu" EntitySet="RolMenu" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RolMenu_Roles" Association="Self.FK_RolMenu_Roles">
+      <End Role="Roles" EntitySet="Roles" />
+      <End Role="RolMenu" EntitySet="RolMenu" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Usuarios_Roles" Association="Self.FK_Usuarios_Roles">
+      <End Role="Roles" EntitySet="Roles" />
+      <End Role="Usuarios" EntitySet="Usuarios" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

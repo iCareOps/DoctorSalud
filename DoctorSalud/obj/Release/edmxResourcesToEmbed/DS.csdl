@@ -1,0 +1,297 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Cardiologo">
+    <Key>
+      <PropertyRef Name="idCardiologo" />
+    </Key>
+    <Property Name="idCardiologo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="idPacienteDS" Type="Int32" />
+    <NavigationProperty Name="PacienteDS" Relationship="Self.FK_Cardiologo_PacienteDS" FromRole="Cardiologo" ToRole="PacienteDS" />
+  </EntityType>
+  <EntityType Name="CitaDS">
+    <Key>
+      <PropertyRef Name="idCitaDS" />
+    </Key>
+    <Property Name="idCitaDS" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FechaCita" Type="DateTime" Precision="3" />
+    <Property Name="EstatusPago" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+    <Property Name="Estado" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Recepcionista" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="FechaPago" Type="DateTime" Precision="3" />
+    <Property Name="idPacienteDS" Type="Int32" />
+    <NavigationProperty Name="PacienteDS" Relationship="Self.FK_CitaDS_PacienteDS" FromRole="CitaDS" ToRole="PacienteDS" />
+    <Property Name="Sucursal" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="MedicinaInterna">
+    <Key>
+      <PropertyRef Name="idMedicinaInterna" />
+    </Key>
+    <Property Name="idMedicinaInterna" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="idPacienteDS" Type="Int32" />
+    <NavigationProperty Name="PacienteDS" Relationship="Self.FK_MedicinaInterna_PacienteDS" FromRole="MedicinaInterna" ToRole="PacienteDS" />
+  </EntityType>
+  <EntityType Name="Nutriologo">
+    <Key>
+      <PropertyRef Name="idNutriologo" />
+    </Key>
+    <Property Name="idNutriologo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="idPacienteDS" Type="Int32" />
+    <NavigationProperty Name="PacienteDS" Relationship="Self.FK_Nutriologo_PacienteDS" FromRole="Nutriologo" ToRole="PacienteDS" />
+  </EntityType>
+  <EntityType Name="Oftalmologo">
+    <Key>
+      <PropertyRef Name="idOftalmologo" />
+    </Key>
+    <Property Name="idOftalmologo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="idPacienteDS" Type="Int32" />
+    <NavigationProperty Name="PacienteDS" Relationship="Self.FK_Oftalmologo_PacienteDS" FromRole="Oftalmologo" ToRole="PacienteDS" />
+  </EntityType>
+  <EntityType Name="PacienteDS">
+    <Key>
+      <PropertyRef Name="idPacienteDS" />
+    </Key>
+    <Property Name="idPacienteDS" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="Telefono" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="HASH" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Cardiologo" Relationship="Self.FK_Cardiologo_PacienteDS" FromRole="PacienteDS" ToRole="Cardiologo" />
+    <NavigationProperty Name="CitaDS" Relationship="Self.FK_CitaDS_PacienteDS" FromRole="PacienteDS" ToRole="CitaDS" />
+    <NavigationProperty Name="MedicinaInterna" Relationship="Self.FK_MedicinaInterna_PacienteDS" FromRole="PacienteDS" ToRole="MedicinaInterna" />
+    <NavigationProperty Name="Nutriologo" Relationship="Self.FK_Nutriologo_PacienteDS" FromRole="PacienteDS" ToRole="Nutriologo" />
+    <NavigationProperty Name="Oftalmologo" Relationship="Self.FK_Oftalmologo_PacienteDS" FromRole="PacienteDS" ToRole="Oftalmologo" />
+  </EntityType>
+  <Association Name="FK_Cardiologo_PacienteDS">
+    <End Role="PacienteDS" Type="Self.PacienteDS" Multiplicity="0..1" />
+    <End Role="Cardiologo" Type="Self.Cardiologo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PacienteDS">
+        <PropertyRef Name="idPacienteDS" />
+      </Principal>
+      <Dependent Role="Cardiologo">
+        <PropertyRef Name="idPacienteDS" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CitaDS_PacienteDS">
+    <End Role="PacienteDS" Type="Self.PacienteDS" Multiplicity="0..1" />
+    <End Role="CitaDS" Type="Self.CitaDS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PacienteDS">
+        <PropertyRef Name="idPacienteDS" />
+      </Principal>
+      <Dependent Role="CitaDS">
+        <PropertyRef Name="idPacienteDS" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MedicinaInterna_PacienteDS">
+    <End Role="PacienteDS" Type="Self.PacienteDS" Multiplicity="0..1" />
+    <End Role="MedicinaInterna" Type="Self.MedicinaInterna" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PacienteDS">
+        <PropertyRef Name="idPacienteDS" />
+      </Principal>
+      <Dependent Role="MedicinaInterna">
+        <PropertyRef Name="idPacienteDS" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Nutriologo_PacienteDS">
+    <End Role="PacienteDS" Type="Self.PacienteDS" Multiplicity="0..1" />
+    <End Role="Nutriologo" Type="Self.Nutriologo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PacienteDS">
+        <PropertyRef Name="idPacienteDS" />
+      </Principal>
+      <Dependent Role="Nutriologo">
+        <PropertyRef Name="idPacienteDS" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Oftalmologo_PacienteDS">
+    <End Role="PacienteDS" Type="Self.PacienteDS" Multiplicity="0..1" />
+    <End Role="Oftalmologo" Type="Self.Oftalmologo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PacienteDS">
+        <PropertyRef Name="idPacienteDS" />
+      </Principal>
+      <Dependent Role="Oftalmologo">
+        <PropertyRef Name="idPacienteDS" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DoctorSalud_Entities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Cardiologo" EntityType="Self.Cardiologo" />
+    <EntitySet Name="CitaDS" EntityType="Self.CitaDS" />
+    <EntitySet Name="MedicinaInterna" EntityType="Self.MedicinaInterna" />
+    <EntitySet Name="Nutriologo" EntityType="Self.Nutriologo" />
+    <EntitySet Name="Oftalmologo" EntityType="Self.Oftalmologo" />
+    <EntitySet Name="PacienteDS" EntityType="Self.PacienteDS" />
+    <AssociationSet Name="FK_Cardiologo_PacienteDS" Association="Self.FK_Cardiologo_PacienteDS">
+      <End Role="PacienteDS" EntitySet="PacienteDS" />
+      <End Role="Cardiologo" EntitySet="Cardiologo" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CitaDS_PacienteDS" Association="Self.FK_CitaDS_PacienteDS">
+      <End Role="PacienteDS" EntitySet="PacienteDS" />
+      <End Role="CitaDS" EntitySet="CitaDS" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MedicinaInterna_PacienteDS" Association="Self.FK_MedicinaInterna_PacienteDS">
+      <End Role="PacienteDS" EntitySet="PacienteDS" />
+      <End Role="MedicinaInterna" EntitySet="MedicinaInterna" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Nutriologo_PacienteDS" Association="Self.FK_Nutriologo_PacienteDS">
+      <End Role="PacienteDS" EntitySet="PacienteDS" />
+      <End Role="Nutriologo" EntitySet="Nutriologo" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Oftalmologo_PacienteDS" Association="Self.FK_Oftalmologo_PacienteDS">
+      <End Role="PacienteDS" EntitySet="PacienteDS" />
+      <End Role="Oftalmologo" EntitySet="Oftalmologo" />
+    </AssociationSet>
+    <EntitySet Name="Menu" EntityType="DSModel.Menu" />
+    <EntitySet Name="Roles" EntityType="DSModel.Roles" />
+    <EntitySet Name="RolMenu" EntityType="DSModel.RolMenu" />
+    <EntitySet Name="Usuarios" EntityType="DSModel.Usuarios" />
+    <AssociationSet Name="FK_RolMenu_Menu" Association="DSModel.FK_RolMenu_Menu">
+      <End Role="Menu" EntitySet="Menu" />
+      <End Role="RolMenu" EntitySet="RolMenu" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RolMenu_Roles" Association="DSModel.FK_RolMenu_Roles">
+      <End Role="Roles" EntitySet="Roles" />
+      <End Role="RolMenu" EntitySet="RolMenu" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Usuarios_Roles" Association="DSModel.FK_Usuarios_Roles">
+      <End Role="Roles" EntitySet="Roles" />
+      <End Role="Usuarios" EntitySet="Usuarios" />
+    </AssociationSet>
+    <EntitySet Name="RecepcionistaDS" EntityType="DSModel.RecepcionistaDS" />
+    <EntitySet Name="SucursalDS" EntityType="DSModel.SucursalDS" />
+    <AssociationSet Name="FK_RecepcionistaDS_SucursalDS" Association="DSModel.FK_RecepcionistaDS_SucursalDS">
+      <End Role="SucursalDS" EntitySet="SucursalDS" />
+      <End Role="RecepcionistaDS" EntitySet="RecepcionistaDS" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RecepcionistaDS_Usuarios" Association="DSModel.FK_RecepcionistaDS_Usuarios">
+      <End Role="Usuarios" EntitySet="Usuarios" />
+      <End Role="RecepcionistaDS" EntitySet="RecepcionistaDS" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Menu">
+    <Key>
+      <PropertyRef Name="idMenu" />
+    </Key>
+    <Property Name="idMenu" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Controlador" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Accion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="RolMenu" Relationship="DSModel.FK_RolMenu_Menu" FromRole="Menu" ToRole="RolMenu" />
+  </EntityType>
+  <EntityType Name="Roles">
+    <Key>
+      <PropertyRef Name="idRol" />
+    </Key>
+    <Property Name="idRol" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="RolMenu" Relationship="DSModel.FK_RolMenu_Roles" FromRole="Roles" ToRole="RolMenu" />
+    <NavigationProperty Name="Usuarios" Relationship="DSModel.FK_Usuarios_Roles" FromRole="Roles" ToRole="Usuarios" />
+  </EntityType>
+  <EntityType Name="RolMenu">
+    <Key>
+      <PropertyRef Name="idRolMenu" />
+    </Key>
+    <Property Name="idRolMenu" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="idMenu" Type="Int32" />
+    <Property Name="idRol" Type="Int32" />
+    <NavigationProperty Name="Menu" Relationship="DSModel.FK_RolMenu_Menu" FromRole="RolMenu" ToRole="Menu" />
+    <NavigationProperty Name="Roles" Relationship="DSModel.FK_RolMenu_Roles" FromRole="RolMenu" ToRole="Roles" />
+  </EntityType>
+  <EntityType Name="Usuarios">
+    <Key>
+      <PropertyRef Name="idUsuario" />
+    </Key>
+    <Property Name="idUsuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="idRol" Type="Int32" />
+    <NavigationProperty Name="Roles" Relationship="DSModel.FK_Usuarios_Roles" FromRole="Usuarios" ToRole="Roles" />
+    <NavigationProperty Name="RecepcionistaDS" Relationship="DSModel.FK_RecepcionistaDS_Usuarios" FromRole="Usuarios" ToRole="RecepcionistaDS" />
+  </EntityType>
+  <Association Name="FK_RolMenu_Menu">
+    <End Type="DSModel.Menu" Role="Menu" Multiplicity="0..1" />
+    <End Type="DSModel.RolMenu" Role="RolMenu" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Menu">
+        <PropertyRef Name="idMenu" />
+      </Principal>
+      <Dependent Role="RolMenu">
+        <PropertyRef Name="idMenu" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RolMenu_Roles">
+    <End Type="DSModel.Roles" Role="Roles" Multiplicity="0..1" />
+    <End Type="DSModel.RolMenu" Role="RolMenu" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Roles">
+        <PropertyRef Name="idRol" />
+      </Principal>
+      <Dependent Role="RolMenu">
+        <PropertyRef Name="idRol" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Usuarios_Roles">
+    <End Type="DSModel.Roles" Role="Roles" Multiplicity="0..1" />
+    <End Type="DSModel.Usuarios" Role="Usuarios" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Roles">
+        <PropertyRef Name="idRol" />
+      </Principal>
+      <Dependent Role="Usuarios">
+        <PropertyRef Name="idRol" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="RecepcionistaDS">
+    <Key>
+      <PropertyRef Name="idRecepcionistaDS" />
+    </Key>
+    <Property Name="idRecepcionistaDS" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="idUsuario" Type="Int32" />
+    <Property Name="idSucursalDS" Type="Int32" />
+    <NavigationProperty Name="SucursalDS" Relationship="DSModel.FK_RecepcionistaDS_SucursalDS" FromRole="RecepcionistaDS" ToRole="SucursalDS" />
+    <NavigationProperty Name="Usuarios" Relationship="DSModel.FK_RecepcionistaDS_Usuarios" FromRole="RecepcionistaDS" ToRole="Usuarios" />
+  </EntityType>
+  <EntityType Name="SucursalDS">
+    <Key>
+      <PropertyRef Name="idSucursalDS" />
+    </Key>
+    <Property Name="idSucursalDS" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="RecepcionistaDS" Relationship="DSModel.FK_RecepcionistaDS_SucursalDS" FromRole="SucursalDS" ToRole="RecepcionistaDS" />
+  </EntityType>
+  <Association Name="FK_RecepcionistaDS_SucursalDS">
+    <End Type="DSModel.SucursalDS" Role="SucursalDS" Multiplicity="0..1" />
+    <End Type="DSModel.RecepcionistaDS" Role="RecepcionistaDS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SucursalDS">
+        <PropertyRef Name="idSucursalDS" />
+      </Principal>
+      <Dependent Role="RecepcionistaDS">
+        <PropertyRef Name="idSucursalDS" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RecepcionistaDS_Usuarios">
+    <End Type="DSModel.Usuarios" Role="Usuarios" Multiplicity="0..1" />
+    <End Type="DSModel.RecepcionistaDS" Role="RecepcionistaDS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Usuarios">
+        <PropertyRef Name="idUsuario" />
+      </Principal>
+      <Dependent Role="RecepcionistaDS">
+        <PropertyRef Name="idUsuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
