@@ -1,0 +1,147 @@
+﻿
+
+@{
+
+    ViewBag.Title = "Index";
+
+    DoctorSalud_Entities db = new DoctorSalud_Entities();
+
+    DateTime start = DateTime.Now;
+    //DateTime startDay = Convert.ToDateTime(start.Day);
+
+    var oUser = (Usuarios)HttpContext.Current.Session["User"];
+
+    string nombreUsuario = null;
+    int idUser = 0;
+    int? idRol = 0;
+
+    int idPaciente = Convert.ToInt32(ViewBag.ID);
+
+    if (oUser != null)
+    {
+        idUser = oUser.idUsuario;
+        nombreUsuario = oUser.Nombre;
+        idRol = oUser.idRol;
+    }
+
+    var nombrePaciente = (from d in db.PacienteDS where d.idPacienteDS == idPaciente select d.Nombre).FirstOrDefault();
+}
+
+
+<br />
+<h3 class="text-center text-primary"><span style="color:cadetblue">Exámenes de: </span>@nombrePaciente</h3>
+<br />
+
+<div style="width:100%">
+    <center>
+        @{
+            var oftalmo = (from o in db.Oftalmologo where o.idPacienteDS == idPaciente select o).FirstOrDefault();
+            var cardiolo = (from o in db.Cardiologo where o.idPacienteDS == idPaciente select o).FirstOrDefault();
+            var nutriolo = (from o in db.Nutriologo where o.idPacienteDS == idPaciente select o).FirstOrDefault();
+            var medicina = (from o in db.MedicinaInterna where o.idPacienteDS == idPaciente select o).FirstOrDefault();
+
+            if (medicina != null)
+            {
+                <button class="btn btn-info" data-toggle="modal" data-target="#medicina" style="width:25vw; height:25vw; margin:0.5%; max-width: 200px; max-height:200px; white-space:normal; font-size: 75%" id="aparicion">MEDICINA INTERNA</button>
+            }
+            if (oftalmo != null)
+            {
+                <button class="btn  btn-info" data-toggle="modal" data-target="#oftalmologia" style="width:25vw; height:25vw; margin:0.5%; max-width: 200px; max-height:200px; white-space:normal; font-size: 75%" id="aparicion">OFTALMOLOGÍA</button>
+            }
+            if (cardiolo != null)
+            {
+                <button class="btn  btn-info" data-toggle="modal" data-target="#cardiologia" style="width:25vw; height:25vw; margin:0.5%; max-width: 200px; max-height:200px; white-space:normal; font-size: 75%" id="aparicion">CARDIÓLOGO</button>
+
+            }
+            if (nutriolo != null)
+            {
+                <button class="btn  btn-info" data-toggle="modal" data-target="#nutricion" style="width:25vw; height:25vw; margin:0.5%; max-width: 200px; max-height:200px; white-space:normal; font-size: 75%" id="aparicion">NUTRICIÓN</button>
+
+            }
+        }
+    </center>
+
+    <form method="post" enctype="multipart/form-data" action="@Url.Content("~/Modulos/MedicinaInterna")">
+        @Html.AntiForgeryToken()
+        <div class="modal fade" id="medicina" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title text-primary" id="exampleModalLabel"><b>¿Desear iniciar el examen Medicina Interna de @nombrePaciente?</b></h4>
+                        <input type="hidden" value="@idPaciente" name="id" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <input type="submit" value="Iniciar" class="btn btn-primary" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <form method="post" enctype="multipart/form-data" action="@Url.Content("~/Modulos/Oftalmologia")">
+        @Html.AntiForgeryToken()
+        <div class="modal fade" id="oftalmologia" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title text-primary" id="exampleModalLabel"><b>¿Desear iniciar el examen Oftalmología de @nombrePaciente?</b></h4>
+                        <input type="hidden" value="@idPaciente" name="id" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <input type="submit" value="Iniciar" class="btn btn-primary" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+    <form method="post" enctype="multipart/form-data" action="@Url.Content("~/Modulos/Cardiologia")">
+        @Html.AntiForgeryToken()
+        <div class="modal fade" id="cardiologia" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title text-primary" id="exampleModalLabel"><b>¿Desear iniciar el examen Cardiología de @nombrePaciente?</b></h4>
+                        <input type="hidden" value="@idPaciente" name="id" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <input type="submit" value="Iniciar" class="btn btn-primary" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+    <form method="post" enctype="multipart/form-data" action="@Url.Content("~/Modulos/Nutricion")">
+        @Html.AntiForgeryToken()
+        <div class="modal fade" id="nutricion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title text-primary" id="exampleModalLabel"><b>¿Desear iniciar el examen Nutrición de @nombrePaciente?</b></h4>
+                        <input type="hidden" value="@idPaciente" name="id" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <input type="submit" value="Iniciar" class="btn btn-primary" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+@*<script type="text/javascript">
+    $(document).ready(function () {
+        $('#aparicion').fadeIn(700);
+    });
+</script>*@
+
+
+

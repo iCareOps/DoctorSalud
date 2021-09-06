@@ -1,0 +1,82 @@
+﻿
+@{
+    ViewBag.Title = "Nutricion";
+    DoctorSalud_Entities db = new DoctorSalud_Entities();
+
+    int idPaciente = Convert.ToInt32(ViewBag.ID);
+
+    var nombrePaciente = (from d in db.PacienteDS where d.idPacienteDS == idPaciente select d.Nombre).FirstOrDefault();
+    var pacienteHASH = (from d in db.PacienteDS where d.idPacienteDS == idPaciente select d.HASH).FirstOrDefault();
+}
+
+<br />
+<h2 style="text-align:left" class="text-info">Nutrición</h2>
+
+@{
+    var pacienteGMI = (from p in db.Paciente where p.HASH == pacienteHASH select p).FirstOrDefault();
+
+
+    if (pacienteGMI != null)
+    {
+        int idGMI = (from p in db.Paciente where p.idPaciente == pacienteGMI.idPaciente select p.idPaciente).FirstOrDefault();
+        <h3 class="text-primary"><span class="text-info">Datos del examen EPI: </span>@nombrePaciente </h3>
+
+        var consulta1 = (from c in db.EPI_SignosVitales where c.idPaciente == idGMI orderby c.idSignosVitales descending select c).FirstOrDefault();
+
+    <h4 style="text-align:left"><b>Presion Arterial Sistólica: </b><span class="text-primary"> @consulta1.Sistolica</span></h4>
+    <h4 style="text-align:left"><b>Presion Arterial Diastólica: </b><span class="text-primary"> @consulta1.Diastolica</span></h4>
+    <h4 style="text-align:left"><b>Frecuencia Cardiaca: </b><span class="text-primary"> @consulta1.Cardiaca</span></h4>
+    <h4 style="text-align:left"><b>Frecuencia Respiratoria: </b><span class="text-primary"> @consulta1.Respiratoria</span></h4>
+    <h4 style="text-align:left"><b>Temperatura: </b><span class="text-primary"> @consulta1.Temperatura °</span></h4>
+    <h4 style="text-align:left"><b>Peso: </b><span class="text-primary"> @consulta1.Peso kgs</span></h4>
+    <h4 style="text-align:left"><b>Estatura: </b><span class="text-primary"> @consulta1.Estatura cms</span></h4>
+    <h4 style="text-align:left"><b>IMC: </b><span class="text-primary"> @consulta1.IMC</span></h4>
+    <h4 style="text-align:left"><b>Cintura: </b><span class="text-primary"> @consulta1.Cintura cms</span></h4>
+    <h4 style="text-align:left"><b>Cuello: </b><span class="text-primary"> @consulta1.Cuello cms</span></h4>
+    <h4 style="text-align:left"><b>% de Grasa: </b><span class="text-primary"> @consulta1.Grasa %</span></h4>
+    <hr />
+
+    }
+}
+<br />
+<h3 class="text-primary"><span class="text-info">Diagnostico del paciente: </span>@nombrePaciente </h3>
+<br />
+
+<form method="post" enctype="multipart/form-data" action="@Url.Content("~/Modulos/Guardar_Nutricion")" style="display:inline-block; margin:0.5%">
+
+    <h4 style="text-align:left">Certficado Médico:</h4>
+    <textarea style="width:300vw" name="certificado"></textarea>
+    <br />
+    <h4 style="text-align:left">Plan de Tratamiento:</h4>
+    <textarea style="width:300vw" name="tratamiento"></textarea>
+
+    <br />
+    <br />
+
+    <input type="hidden" value="@idPaciente" name="id" />
+
+    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#noapto">Concluir Diagnóstico</button>
+
+    <div class="modal fade" id="noapto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document" @*style="width:60%; min-width:300px"*@>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title text-primary" id="exampleModalLabel"><b>¿Desea concluir con el examen?</b></h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <input type="submit" name="accion" class="btn btn-warning" value="Enviar Diagnóstico" />
+                </div>
+            </div>
+
+        </div>
+    </div>
+</form>
+<br />
+<form method="post" enctype="multipart/form-data" action="@Url.Content("~/Modulos/Index")" style="display:inline-block; margin:0.5%">
+    <input type="hidden" value="@idPaciente" name="id" />
+    <input type="submit" class="btn btn-info" value="Regresar a Módulos" />
+</form>
+
+
+

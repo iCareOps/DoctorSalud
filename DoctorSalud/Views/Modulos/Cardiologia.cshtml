@@ -1,0 +1,77 @@
+﻿
+@{
+    ViewBag.Title = "Cardiologia";
+    DoctorSalud_Entities db = new DoctorSalud_Entities();
+
+    int idPaciente = Convert.ToInt32(ViewBag.ID);
+
+    var nombrePaciente = (from d in db.PacienteDS where d.idPacienteDS == idPaciente select d.Nombre).FirstOrDefault();
+    var pacienteHASH = (from d in db.PacienteDS where d.idPacienteDS == idPaciente select d.HASH).FirstOrDefault();
+}
+<br />
+<h2 style="text-align:left" class="text-info">Cardiología</h2>
+@{
+    var pacienteGMI = (from p in db.Paciente where p.HASH == pacienteHASH select p).FirstOrDefault();
+
+
+    if (pacienteGMI != null)
+    {
+        int idGMI = (from p in db.Paciente where p.idPaciente == pacienteGMI.idPaciente select p.idPaciente).FirstOrDefault();
+        <h3 class="text-primary"><span class="text-info">Datos del examen EPI: </span>@nombrePaciente </h3>
+
+        var consulta2 = (from c in db.EPI_Cardiologia where c.idPaciente == idGMI orderby c.idCardiologia descending select c).FirstOrDefault();
+    <h3 style="text-align:left">Cardiología</h3>
+    <h4 style="text-align:left"><b>Ritmo: </b><span class="text-primary"> @consulta2.Ritmo</span></h4>
+    <h4 style="text-align:left"><b>Frecuencia: </b><span class="text-primary"> @consulta2.Frecuencia</span></h4>
+    <h4 style="text-align:left"><b>Eje: </b><span class="text-primary"> @consulta2.Eje</span></h4>
+    <h4 style="text-align:left;"><b>Intervalo PR: </b><span class="text-primary"> @consulta2.PR</span></h4>
+    <h4 style="text-align:left"><b>Intervalo QT: </b><span class="text-primary"> @consulta2.QT</span></h4>
+    <h4 style="text-align:left"><b>Intervalo QRS: </b><span class="text-primary"> @consulta2.QRS</span></h4>
+    <h4 style="text-align:left"><b>Onda P: </b><span class="text-primary"> @consulta2.OndaP</span></h4>
+    <h4 style="text-align:left"><b>Onda T: </b><span class="text-primary"> @consulta2.OndaT</span></h4>
+    <hr />
+
+    }
+}
+
+<br />
+<h3 class="text-primary"><span class="text-info">Diagnostico del paciente: </span>@nombrePaciente </h3>
+<br />
+
+<form method="post" enctype="multipart/form-data" action="@Url.Content("~/Modulos/Guardar_Cardiologia")" style="display:inline-block; margin:0.5%">
+
+    <h4 style="text-align:left">Certficado Médico:</h4>
+    <textarea style="width:300vw" name="certificado"></textarea>
+    <br />
+    <h4 style="text-align:left">Plan de Tratamiento:</h4>
+    <textarea style="width:300vw" name="tratamiento"></textarea>
+
+    <br />
+    <br />
+
+    <input type="hidden" value="@idPaciente" name="id" />
+
+    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#noapto">Concluir Diagnóstico</button>
+
+    <div class="modal fade" id="noapto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document" @*style="width:60%; min-width:300px"*@>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title text-primary" id="exampleModalLabel"><b>¿Desea concluir con el examen?</b></h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <input type="submit" name="accion" class="btn btn-warning" value="Enviar Diagnóstico" />
+                </div>
+            </div>
+
+        </div>
+    </div>
+</form>
+<br />
+<form method="post" enctype="multipart/form-data" action="@Url.Content("~/Modulos/Index")" style="display:inline-block; margin:0.5%">
+    <input type="hidden" value="@idPaciente" name="id" />
+    <input type="submit" class="btn btn-info" value="Regresar a Módulos" />
+</form>
+
+

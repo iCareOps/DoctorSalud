@@ -16,6 +16,8 @@ namespace DoctorSalud
     {
         public int idMedicinaInterna { get; set; }
         public Nullable<int> idPacienteDS { get; set; }
+        public string CertificadoMedico { get; set; }
+        public string PlanTratamiento { get; set; }
     
         public virtual PacienteDS PacienteDS { get; set; }
     }

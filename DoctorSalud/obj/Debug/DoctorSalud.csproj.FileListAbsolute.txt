@@ -87,3 +87,4 @@ C:\Users\punks\source\repos\DoctorSalud\DoctorSalud\obj\Debug\DoctorSalud.csproj
 C:\Users\punks\source\repos\DoctorSalud\DoctorSalud\obj\Debug\DoctorSalud.csproj.CopyComplete
 C:\Users\punks\source\repos\DoctorSalud\DoctorSalud\obj\Debug\DoctorSalud.dll
 C:\Users\punks\source\repos\DoctorSalud\DoctorSalud\obj\Debug\DoctorSalud.pdb
+C:\Users\punks\source\repos\DoctorSalud\DoctorSalud\obj\Debug\DoctorSalud.csprojAssemblyReference.cache

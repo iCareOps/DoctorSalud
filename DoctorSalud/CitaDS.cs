@@ -22,6 +22,15 @@ namespace DoctorSalud
         public Nullable<System.DateTime> FechaPago { get; set; }
         public Nullable<int> idPacienteDS { get; set; }
         public string Sucursal { get; set; }
+        public Nullable<System.DateTime> Inicio_Oftalmologia { get; set; }
+        public Nullable<System.DateTime> Fin_Oftalmologia { get; set; }
+        public Nullable<System.DateTime> Inicio_MedicinaInterna { get; set; }
+        public Nullable<System.DateTime> Fin_MedicinaInterna { get; set; }
+        public Nullable<System.DateTime> Inicio_Cardiologia { get; set; }
+        public Nullable<System.DateTime> Fin_Cardiologia { get; set; }
+        public Nullable<System.DateTime> Inicio_Nutriciom { get; set; }
+        public Nullable<System.DateTime> Fin_Nutricion { get; set; }
+        public string Membresia { get; set; }
     
         public virtual PacienteDS PacienteDS { get; set; }
     }

@@ -5,6 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <_PublishTargetUrl>C:\Publicacion\DoctorSalud</_PublishTargetUrl>
+    <History>True|2021-09-03T22:32:13.4556789Z;</History>
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/Antlr3.Runtime.dll">
@@ -14,10 +15,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>09/10/2013 17:29:20</publishTime>
     </File>
     <File Include="bin/DoctorSalud.dll">
-      <publishTime>09/02/2021 17:01:31</publishTime>
+      <publishTime>09/06/2021 09:49:15</publishTime>
     </File>
     <File Include="bin/DoctorSalud.pdb">
-      <publishTime>09/02/2021 17:01:31</publishTime>
+      <publishTime>09/06/2021 09:49:15</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>10/23/2017 14:15:18</publishTime>
@@ -29,7 +30,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>11/28/2018 13:04:36</publishTime>
     </File>
     <File Include="bin/es/System.Web.Mvc.resources.dll">
-      <publishTime>11/28/2018 13:00:00</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/es/System.Web.Optimization.resources.dll">
       <publishTime>02/11/2014 15:28:40</publishTime>
@@ -343,8 +344,23 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="Views/Login/Inicio.cshtml">
       <publishTime>09/02/2021 10:26:01</publishTime>
     </File>
+    <File Include="Views/Modulos/Cardiologia.cshtml">
+      <publishTime>09/06/2021 09:48:34</publishTime>
+    </File>
+    <File Include="Views/Modulos/Index.cshtml">
+      <publishTime>03/09/2021 16:02:59</publishTime>
+    </File>
+    <File Include="Views/Modulos/MedicinaInterna.cshtml">
+      <publishTime>09/06/2021 09:48:54</publishTime>
+    </File>
+    <File Include="Views/Modulos/Nutricion.cshtml">
+      <publishTime>09/06/2021 09:48:29</publishTime>
+    </File>
+    <File Include="Views/Modulos/Oftalmologia.cshtml">
+      <publishTime>09/06/2021 09:48:43</publishTime>
+    </File>
     <File Include="Views/Recepcion/Index.cshtml">
-      <publishTime>09/02/2021 16:36:25</publishTime>
+      <publishTime>03/09/2021 14:55:48</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>09/01/2021 16:36:13</publishTime>

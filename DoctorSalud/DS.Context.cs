@@ -37,5 +37,18 @@ namespace DoctorSalud
         public virtual DbSet<Usuarios> Usuarios { get; set; }
         public virtual DbSet<RecepcionistaDS> RecepcionistaDS { get; set; }
         public virtual DbSet<SucursalDS> SucursalDS { get; set; }
+        public virtual DbSet<EPI_A_Heredofamiliares> EPI_A_Heredofamiliares { get; set; }
+        public virtual DbSet<EPI_A_NoPatologicos> EPI_A_NoPatologicos { get; set; }
+        public virtual DbSet<EPI_A_Patologicos> EPI_A_Patologicos { get; set; }
+        public virtual DbSet<EPI_AparatosSistemas> EPI_AparatosSistemas { get; set; }
+        public virtual DbSet<EPI_Audiologia> EPI_Audiologia { get; set; }
+        public virtual DbSet<EPI_Cardiologia> EPI_Cardiologia { get; set; }
+        public virtual DbSet<EPI_DictamenAptitud> EPI_DictamenAptitud { get; set; }
+        public virtual DbSet<EPI_ExploracionFisica> EPI_ExploracionFisica { get; set; }
+        public virtual DbSet<EPI_Laboratorio> EPI_Laboratorio { get; set; }
+        public virtual DbSet<EPI_Odontologia> EPI_Odontologia { get; set; }
+        public virtual DbSet<Epi_Oftalmologia> Epi_Oftalmologia { get; set; }
+        public virtual DbSet<EPI_SignosVitales> EPI_SignosVitales { get; set; }
+        public virtual DbSet<Paciente> Paciente { get; set; }
     }
 }

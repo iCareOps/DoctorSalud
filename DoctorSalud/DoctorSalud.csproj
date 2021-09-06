@@ -137,6 +137,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Login\LoginController.cs" />
     <Compile Include="Controllers\Logoff\LogoffController.cs" />
+    <Compile Include="Controllers\Modulos\ModulosController.cs" />
     <Compile Include="Controllers\Recepcion\RecepcionController.cs" />
     <Compile Include="DS.Context.cs">
       <AutoGen>True</AutoGen>
@@ -154,6 +155,42 @@
       <DependentUpon>DS.edmx</DependentUpon>
     </Compile>
     <Compile Include="Encrypt.cs" />
+    <Compile Include="EPI_AparatosSistemas.cs">
+      <DependentUpon>DS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EPI_Audiologia.cs">
+      <DependentUpon>DS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EPI_A_Heredofamiliares.cs">
+      <DependentUpon>DS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EPI_A_NoPatologicos.cs">
+      <DependentUpon>DS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EPI_A_Patologicos.cs">
+      <DependentUpon>DS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EPI_Cardiologia.cs">
+      <DependentUpon>DS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EPI_DictamenAptitud.cs">
+      <DependentUpon>DS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EPI_ExploracionFisica.cs">
+      <DependentUpon>DS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EPI_Laboratorio.cs">
+      <DependentUpon>DS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EPI_Odontologia.cs">
+      <DependentUpon>DS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Epi_Oftalmologia.cs">
+      <DependentUpon>DS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EPI_SignosVitales.cs">
+      <DependentUpon>DS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Filters\Autenticacion.cs" />
     <Compile Include="Filters\VerificarSession.cs" />
     <Compile Include="Global.asax.cs">
@@ -169,6 +206,9 @@
       <DependentUpon>DS.tt</DependentUpon>
     </Compile>
     <Compile Include="Oftalmologo.cs">
+      <DependentUpon>DS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Paciente.cs">
       <DependentUpon>DS.tt</DependentUpon>
     </Compile>
     <Compile Include="PacienteDS.cs">
@@ -251,6 +291,11 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Login\Inicio.cshtml" />
     <Content Include="Views\Recepcion\Index.cshtml" />
+    <Content Include="Views\Modulos\Index.cshtml" />
+    <Content Include="Views\Modulos\MedicinaInterna.cshtml" />
+    <Content Include="Views\Modulos\Oftalmologia.cshtml" />
+    <Content Include="Views\Modulos\Cardiologia.cshtml" />
+    <Content Include="Views\Modulos\Nutricion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

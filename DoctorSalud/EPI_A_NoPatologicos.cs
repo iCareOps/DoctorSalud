@@ -12,13 +12,16 @@ namespace DoctorSalud
     using System;
     using System.Collections.Generic;
     
-    public partial class Cardiologo
+    public partial class EPI_A_NoPatologicos
     {
-        public int idCardiologo { get; set; }
-        public Nullable<int> idPacienteDS { get; set; }
-        public string CertificadoMedico { get; set; }
-        public string PlanTratamiento { get; set; }
+        public int idNoPatologicos { get; set; }
+        public string VacunasCompletas { get; set; }
+        public string EstadoCivil { get; set; }
+        public string Religion { get; set; }
+        public string Escolaridad { get; set; }
+        public string Hijos { get; set; }
+        public Nullable<int> idPaciente { get; set; }
     
-        public virtual PacienteDS PacienteDS { get; set; }
+        public virtual Paciente Paciente { get; set; }
     }
 }

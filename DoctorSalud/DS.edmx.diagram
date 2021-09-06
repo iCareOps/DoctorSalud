@@ -27,6 +27,31 @@
         <EntityTypeShape EntityType="DSModel.SucursalDS" Width="1.875" PointX="8.625" PointY="13.5" />
         <AssociationConnector Association="DSModel.FK_RecepcionistaDS_SucursalDS" />
         <AssociationConnector Association="DSModel.FK_RecepcionistaDS_Usuarios" />
+        <EntityTypeShape EntityType="DSModel.EPI_A_Heredofamiliares" Width="1.5" PointX="3" PointY="31.25" />
+        <EntityTypeShape EntityType="DSModel.EPI_A_NoPatologicos" Width="1.5" PointX="3" PointY="43.125" />
+        <EntityTypeShape EntityType="DSModel.EPI_A_Patologicos" Width="1.5" PointX="3" PointY="46.375" />
+        <EntityTypeShape EntityType="DSModel.EPI_AparatosSistemas" Width="1.5" PointX="3" PointY="54.5" />
+        <EntityTypeShape EntityType="DSModel.EPI_Audiologia" Width="1.5" PointX="3" PointY="21" />
+        <EntityTypeShape EntityType="DSModel.EPI_Cardiologia" Width="1.5" PointX="3" PointY="23.875" />
+        <EntityTypeShape EntityType="DSModel.EPI_DictamenAptitud" Width="1.5" PointX="3" PointY="51.625" />
+        <EntityTypeShape EntityType="DSModel.EPI_ExploracionFisica" Width="1.5" PointX="3" PointY="27.75" />
+        <EntityTypeShape EntityType="DSModel.EPI_Laboratorio" Width="1.5" PointX="3" PointY="35.875" />
+        <EntityTypeShape EntityType="DSModel.EPI_Odontologia" Width="1.5" PointX="3" PointY="18.25" />
+        <EntityTypeShape EntityType="DSModel.Epi_Oftalmologia" Width="1.5" PointX="3" PointY="13.125" />
+        <EntityTypeShape EntityType="DSModel.EPI_SignosVitales" Width="1.5" PointX="3" PointY="38.625" />
+        <EntityTypeShape EntityType="DSModel.Paciente" Width="1.5" PointX="0.75" PointY="34.375" />
+        <AssociationConnector Association="DSModel.FK_EPI_A_Heredofamiliares_Paciente" />
+        <AssociationConnector Association="DSModel.FK_EPI_A_NoPatologicos_Paciente" />
+        <AssociationConnector Association="DSModel.FK_EPI_A_Patologicos_Paciente" />
+        <AssociationConnector Association="DSModel.FK_EPI_AparatosSistemas_Paciente" />
+        <AssociationConnector Association="DSModel.FK_EPI_Audiologia_Paciente" />
+        <AssociationConnector Association="DSModel.FK_EPI_Cardiologia_Paciente" />
+        <AssociationConnector Association="DSModel.FK_EPI_DictamenAptitud_Paciente" />
+        <AssociationConnector Association="DSModel.FK_EPI_ExploracionFisica_Paciente" />
+        <AssociationConnector Association="DSModel.FK_EPI_Laboratorio_Paciente" />
+        <AssociationConnector Association="DSModel.FK_EPI_Odontologia_Paciente" />
+        <AssociationConnector Association="DSModel.FK_Epi_Oftalmologia_Paciente" />
+        <AssociationConnector Association="DSModel.FK_EPI_SignosVitales_Paciente" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

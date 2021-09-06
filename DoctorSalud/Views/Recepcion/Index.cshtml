@@ -205,8 +205,8 @@ registros = db.PacienteDS.Join(db.CitaDS, n => n.idPacienteDS, m => m.idPaciente
                         <input type="email" class="form-control" id="email" name="email" required>
                     </div>
                     <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Estado:</label>
-                        <input type="text" class="form-control" id="email" name="estado" required>
+                        <label for="recipient-name" class="col-form-label">Código HASH:</label>
+                        <input type="text" class="form-control" id="email" name="hash" required>
                     </div>
                     <input type="hidden" value="@nombreUsuario" name="usuario" />
                     <input type="hidden" value="@Sucursal" name="sucursal" />
@@ -253,6 +253,7 @@ else
                 </tr>
             </thead>
 
+            
 
             @foreach (var item in modelo)
             {
@@ -262,7 +263,49 @@ else
                     </td>
 
                     <td>
-                        <b>@Html.DisplayFor(modelItem => item.N.Nombre)</b>
+                        @{
+                            var pagado = (from p in db.CitaDS where p.EstatusPago == "Pagado" && p.idPacienteDS == item.N.idPacienteDS select p).FirstOrDefault();
+
+                            if (pagado != null)
+                            {
+                                <span class="field-tip">
+                                    <b>@Html.DisplayFor(modelItem => item.N.Nombre)</b>
+                                    <span class="tip-content">
+                                        <h6>
+                                            <b>Módulos:</b><br />
+                                            @{
+                                                var ofta = (from o in db.Oftalmologo where o.idPacienteDS == item.N.idPacienteDS select o).FirstOrDefault();
+                                                var cardio = (from o in db.Cardiologo where o.idPacienteDS == item.N.idPacienteDS select o).FirstOrDefault();
+                                                var nutri = (from o in db.Nutriologo where o.idPacienteDS == item.N.idPacienteDS select o).FirstOrDefault();
+                                                var medicina = (from o in db.MedicinaInterna where o.idPacienteDS == item.N.idPacienteDS select o).FirstOrDefault();
+
+                                                if (ofta != null)
+                                                {
+                                                    <b>-Oftalmología</b><br />
+                                                }
+                                                if (cardio != null)
+                                                {
+                                                    <b>-Cardiología</b><br />
+                                                }
+                                                if (nutri != null)
+                                                {
+                                                    <b>-Nutrición</b><br />
+                                                }
+                                                if (medicina != null)
+                                                {
+                                                    <b>-Medicina Interna</b><br />
+                                                }
+                                            }
+                                        </h6>
+                                    </span>
+                                </span>
+                            }
+                            else
+                            {
+                                <b>@Html.DisplayFor(modelItem => item.N.Nombre)</b>
+                            }
+                        }
+
                     </td>
 
                     <td>
@@ -295,8 +338,10 @@ else
                                 {
                                     <a href="#" data-toggle="modal" data-target="#ModalEditar_@item.M.idPacienteDS"><b>Editar</b></a>
                                     <div class="dropdown-divider"></div>
+                                    <a href="#" data-toggle="modal" data-target="#examen_@item.M.idPacienteDS"><b>Iniciar Examen</b></a>
+                                    <div class="dropdown-divider"></div>
                                     @*<a href="#" data-toggle="modal" data-target="#cancela_@item.M.idPacienteDS"><b class="text-danger">Cancelar Cita</b></a>
-                                    <div class="dropdown-divider"></div>*@
+                    <div class="dropdown-divider"></div>*@
                                 }
                                 else if (item.M.EstatusPago == "Pendiente")
                                 {
@@ -305,7 +350,7 @@ else
                                     <a href="#" data-toggle="modal" data-target="#ModalPago_@item.M.idPacienteDS"><b>Pagado</b></a>
                                     <div class="dropdown-divider"></div>
                                     @*<a href="#" data-toggle="modal" data-target="#cancela_@item.M.idPacienteDS"><b class="text-danger">Cancelar Cita</b></a>
-                                    <div class="dropdown-divider"></div>*@
+                    <div class="dropdown-divider"></div>*@
                                 }
 
                             </div>
@@ -335,7 +380,7 @@ else
                                                 <label class="h4">Oftalmología: &nbsp; </label>
                                                 <input type="checkbox" id="derechorp" name="ofta">
                                                 <hr />
-                                                <label class="h4">Membresía: &nbsp; </label>
+                                                <label class="h4">¿Cuenta con Membresía?: &nbsp; </label>
                                                 <input type="checkbox" id="derechorp" name="membresia">
                                             </div>
                                         </div>
@@ -398,13 +443,32 @@ else
                                                 <input type="email" class="form-control" id="email" name="email" placeholder="@item.N.Email" />
                                             </div>
                                             <div class="form-group">
-                                                <label for="recipient-name" class="col-form-label">Estado:</label>
-                                                <input type="text" class="form-control" id="email" name="estado" placeholder="@item.M.Estado" />
+                                                <label for="recipient-name" class="col-form-label">Código HASH:</label>
+                                                <input type="text" class="form-control" id="email" name="estado" placeholder="@item.N.HASH" />
                                             </div>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                                             <input type="submit" value="Guardar" class="btn btn-primary" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                        <!-- Modal para Iniciar Exámenes-->
+                        <form method="post" enctype="multipart/form-data" action="@Url.Content("~/Modulos/Index")">
+                            @Html.AntiForgeryToken()
+                            <div class="modal fade" id="examen_@item.M.idPacienteDS" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title text-primary" id="exampleModalLabel"><b>¿Desear iniciar el examen de @item.N.Nombre?</b></h4>
+                                            <input type="hidden" value="@item.N.idPacienteDS" name="id" />
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                            <input type="submit" value="Iniciar" class="btn btn-primary" />
                                         </div>
                                     </div>
                                 </div>

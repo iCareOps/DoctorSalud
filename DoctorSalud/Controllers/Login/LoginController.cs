@@ -40,8 +40,10 @@ namespace DoctorSalud.Controllers.Login
                     {
                         case 14:
                             ViewBag.Nombre = oUser.Nombre.ToString();
+                            return Redirect("~/Modulos/Index");
+                        case 15:
+                            ViewBag.Nombre = oUser.Nombre.ToString();
                             return Redirect("~/Recepcion/Index");
-
                         default:
                             return View();
                     }

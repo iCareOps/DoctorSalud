@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewBag.Title = "Cardiologia";
+    DoctorSalud_Entities db = new DoctorSalud_Entities();
+
+    int idPaciente = Convert.ToInt32(ViewBag.ID);
+
+    var nombrePaciente = (from d in db.PacienteDS where d.idPacienteDS == idPaciente select d.Nombre).FirstOrDefault();
+}
+
+<br />
+<h3 class="text-center text-primary"><span class="text-info">Diagnostico del paciente: </span>@nombrePaciente </h3>
+<br />
+
+<form method="post" enctype="multipart/form-data" action="@Url.Content("~/Modulos/Index")" style="display:inline-block; margin:0.5%">
+
+    <h4 style="text-align:left">Diagnóstico:</h4>
+    <textarea style="width:300vw" name="diagnostico"></textarea>
+    <br />
+    <h4 style="text-align:left">Tratamiento:</h4>
+    <textarea style="width:300vw" name="tratamiento"></textarea>
+
+    <br />
+    <br />
+
+    <input type="hidden" value="@idPaciente" name="id" />
+
+    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#noapto">Concluir Diagnóstico</button>
+
+    <div class="modal fade" id="noapto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document" @*style="width:60%; min-width:300px"*@>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title text-primary" id="exampleModalLabel"><b>¿Desea concluir con el examen?</b></h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <input type="submit" name="accion" class="btn btn-warning" value="Enviar Diagnóstico" />
+                </div>
+            </div>
+
+        </div>
+    </div>
+</form>
+<br />
+<form method="post" enctype="multipart/form-data" action="@Url.Content("~/Modulos/Index")" style="display:inline-block; margin:0.5%">
+    <input type="hidden" value="@idPaciente" name="id" />
+    <input type="submit" class="btn btn-info" value="Regresar a Módulos" />
+</form>
+
+

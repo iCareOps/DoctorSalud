@@ -18,7 +18,7 @@ namespace DoctorSalud.Controllers.Recepcion
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Crear(string nombre, string telefono, string email, string usuario, string sucursal, string estado)
+        public ActionResult Crear(string nombre, string telefono, string email, string usuario, string sucursal, string hash)
         {
 
             PacienteDS paciente = new PacienteDS();
@@ -26,31 +26,29 @@ namespace DoctorSalud.Controllers.Recepcion
             paciente.Telefono = telefono;
             paciente.Email = email;
 
-            //Se obtienen las abreviaciónes de Sucursal y el ID del doctor
-            //string SUC = (from S in db.Sucursales where S.Nombre == sucursal select S.SUC).FirstOrDefault();
-
-            //Se obtiene el número del contador desde la base de datos
-            //int? num = (from c in db.Sucursales where c.Nombre == sucursal select c.Contador).FirstOrDefault() + 1;
-
-            //Contadores por número de citas en cada sucursal
-            //string contador = "";
-            //if (num == null)
+            //string hash;
+            //do
             //{
-            //    contador = "100";
-            //}
-            //else if (num < 10)
-            //{
-            //    contador = "00" + Convert.ToString(num);
-            //}
-            //else if (num >= 10 && num < 100)
-            //{
-            //    contador = "0" + Convert.ToString(num);
-            //}
+            //    Random numero = new Random();
+            //    int randomize = numero.Next(0, 61);
+            //    string[] aleatorio = new string[62] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+            //    string get_1;
+            //    get_1 = aleatorio[randomize];
+            //    hash = get_1;
+            //    for (int i = 0; i < 9; i++)
+            //    {
+            //        randomize = numero.Next(0, 61);
+            //        get_1 = aleatorio[randomize];
+            //        hash += get_1;
+            //    }
+            //} while ((from i in db.PacienteDS where i.HASH == hash select i) == null);
 
             string mes = DateTime.Now.Month.ToString();
             string dia = DateTime.Now.Day.ToString();
             char[] year = (DateTime.Now.Year.ToString()).ToCharArray();
             string anio = "";
+
+            paciente.HASH = hash;
 
             for (int i = 2; i < year.Length; i++)
             {
@@ -67,9 +65,6 @@ namespace DoctorSalud.Controllers.Recepcion
                 dia = "0" + dia;
             }
 
-            //string numFolio = dia + mes + anio + SUC + "-" + contador;
-            //paciente.Folio = dia + mes + anio + SUC + "-" + contador;
-
             if (ModelState.IsValid)
             {
                 db.PacienteDS.Add(paciente);
@@ -85,7 +80,7 @@ namespace DoctorSalud.Controllers.Recepcion
             cita.FechaCita = DateTime.Now;
             cita.Recepcionista = usuario;
             cita.EstatusPago = "Pendiente";
-            cita.Estado = estado.ToUpper();
+            //cita.Estado = estado.ToUpper();
 
             //-------------------------------------------------------------
             if (ModelState.IsValid)
@@ -99,7 +94,7 @@ namespace DoctorSalud.Controllers.Recepcion
         }
 
 
-        public ActionResult Editar(int id, string nombre, string email, string telefono, string estado)
+        public ActionResult Editar(int id, string nombre, string email, string telefono, string hash)
         {
             var paciente = db.PacienteDS.Find(id);
 
@@ -109,7 +104,7 @@ namespace DoctorSalud.Controllers.Recepcion
 
             var cita = (from c in db.CitaDS where c.idPacienteDS == id select c).FirstOrDefault();
 
-            cita.Estado = estado == "" ? cita.Estado : estado.ToUpper();
+            paciente.HASH = hash == "" ? paciente.HASH : hash;
 
             if (ModelState.IsValid)
             {
@@ -125,13 +120,23 @@ namespace DoctorSalud.Controllers.Recepcion
         public ActionResult Pagado(int id, string mi, string ofta, string cardio, string nutri, string membresia)
         {
             var paciente = db.PacienteDS.Find(id);
+            var cita = (from c in db.CitaDS where c.idPacienteDS == id select c).FirstOrDefault();
 
             var oftalmo = (from o in db.Oftalmologo where o.idPacienteDS == id select o).FirstOrDefault();
             var cardiolo = (from o in db.Cardiologo where o.idPacienteDS == id select o).FirstOrDefault();
             var nutriolo = (from o in db.Nutriologo where o.idPacienteDS == id select o).FirstOrDefault();
             var medicina = (from o in db.MedicinaInterna where o.idPacienteDS == id select o).FirstOrDefault();
 
-            if(ofta != null && oftalmo == null)
+            cita.EstatusPago = "Pagado";
+            cita.Membresia = membresia == "on" ? "SI" : null;
+
+            if (ModelState.IsValid)
+            {
+                db.Entry(cita).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+
+            if (ofta != null && oftalmo == null)
             {
                 Oftalmologo oftalmologo = new Oftalmologo();
                 oftalmologo.idPacienteDS = id;

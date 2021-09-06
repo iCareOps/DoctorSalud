@@ -4,6 +4,8 @@
     <EntitySetMapping Name="Cardiologo">
       <EntityTypeMapping TypeName="DSModel.Cardiologo">
         <MappingFragment StoreEntitySet="Cardiologo">
+          <ScalarProperty Name="PlanTratamiento" ColumnName="PlanTratamiento" />
+          <ScalarProperty Name="CertificadoMedico" ColumnName="CertificadoMedico" />
           <ScalarProperty Name="idCardiologo" ColumnName="idCardiologo" />
           <ScalarProperty Name="idPacienteDS" ColumnName="idPacienteDS" />
         </MappingFragment>
@@ -12,6 +14,15 @@
     <EntitySetMapping Name="CitaDS">
       <EntityTypeMapping TypeName="DSModel.CitaDS">
         <MappingFragment StoreEntitySet="CitaDS">
+          <ScalarProperty Name="Membresia" ColumnName="Membresia" />
+          <ScalarProperty Name="Fin_Nutricion" ColumnName="Fin_Nutricion" />
+          <ScalarProperty Name="Inicio_Nutriciom" ColumnName="Inicio_Nutriciom" />
+          <ScalarProperty Name="Fin_Cardiologia" ColumnName="Fin_Cardiologia" />
+          <ScalarProperty Name="Inicio_Cardiologia" ColumnName="Inicio_Cardiologia" />
+          <ScalarProperty Name="Fin_MedicinaInterna" ColumnName="Fin_MedicinaInterna" />
+          <ScalarProperty Name="Inicio_MedicinaInterna" ColumnName="Inicio_MedicinaInterna" />
+          <ScalarProperty Name="Fin_Oftalmologia" ColumnName="Fin_Oftalmologia" />
+          <ScalarProperty Name="Inicio_Oftalmologia" ColumnName="Inicio_Oftalmologia" />
           <ScalarProperty Name="Sucursal" ColumnName="Sucursal" />
           <ScalarProperty Name="idCitaDS" ColumnName="idCitaDS" />
           <ScalarProperty Name="FechaCita" ColumnName="FechaCita" />
@@ -26,6 +37,8 @@
     <EntitySetMapping Name="MedicinaInterna">
       <EntityTypeMapping TypeName="DSModel.MedicinaInterna">
         <MappingFragment StoreEntitySet="MedicinaInterna">
+          <ScalarProperty Name="PlanTratamiento" ColumnName="PlanTratamiento" />
+          <ScalarProperty Name="CertificadoMedico" ColumnName="CertificadoMedico" />
           <ScalarProperty Name="idMedicinaInterna" ColumnName="idMedicinaInterna" />
           <ScalarProperty Name="idPacienteDS" ColumnName="idPacienteDS" />
         </MappingFragment>
@@ -34,6 +47,8 @@
     <EntitySetMapping Name="Nutriologo">
       <EntityTypeMapping TypeName="DSModel.Nutriologo">
         <MappingFragment StoreEntitySet="Nutriologo">
+          <ScalarProperty Name="PlanTratamiento" ColumnName="PlanTratamiento" />
+          <ScalarProperty Name="CertificadoMedico" ColumnName="CertificadoMedico" />
           <ScalarProperty Name="idNutriologo" ColumnName="idNutriologo" />
           <ScalarProperty Name="idPacienteDS" ColumnName="idPacienteDS" />
         </MappingFragment>
@@ -42,6 +57,8 @@
     <EntitySetMapping Name="Oftalmologo">
       <EntityTypeMapping TypeName="DSModel.Oftalmologo">
         <MappingFragment StoreEntitySet="Oftalmologo">
+          <ScalarProperty Name="PlanTratamiento" ColumnName="PlanTratamiento" />
+          <ScalarProperty Name="CertificadoMedico" ColumnName="CertificadoMedico" />
           <ScalarProperty Name="idOftalmologo" ColumnName="idOftalmologo" />
           <ScalarProperty Name="idPacienteDS" ColumnName="idPacienteDS" />
         </MappingFragment>
@@ -110,6 +127,217 @@
         <MappingFragment StoreEntitySet="SucursalDS">
           <ScalarProperty Name="Nombre" ColumnName="Nombre" />
           <ScalarProperty Name="idSucursalDS" ColumnName="idSucursalDS" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EPI_A_Heredofamiliares">
+      <EntityTypeMapping TypeName="DSModel.EPI_A_Heredofamiliares">
+        <MappingFragment StoreEntitySet="EPI_A_Heredofamiliares">
+          <ScalarProperty Name="idPaciente" ColumnName="idPaciente" />
+          <ScalarProperty Name="Neoplasticas" ColumnName="Neoplasticas" />
+          <ScalarProperty Name="Tiroides" ColumnName="Tiroides" />
+          <ScalarProperty Name="Infarto" ColumnName="Infarto" />
+          <ScalarProperty Name="VascularCerebral" ColumnName="VascularCerebral" />
+          <ScalarProperty Name="Cardiopatia" ColumnName="Cardiopatia" />
+          <ScalarProperty Name="Obesidad" ColumnName="Obesidad" />
+          <ScalarProperty Name="Hipertension" ColumnName="Hipertension" />
+          <ScalarProperty Name="Diabetes" ColumnName="Diabetes" />
+          <ScalarProperty Name="FamiliaGrave" ColumnName="FamiliaGrave" />
+          <ScalarProperty Name="HermanosViven" ColumnName="HermanosViven" />
+          <ScalarProperty Name="PadreVive" ColumnName="PadreVive" />
+          <ScalarProperty Name="MadreVive" ColumnName="MadreVive" />
+          <ScalarProperty Name="idHeredofamiliares" ColumnName="idHeredofamiliares" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EPI_A_NoPatologicos">
+      <EntityTypeMapping TypeName="DSModel.EPI_A_NoPatologicos">
+        <MappingFragment StoreEntitySet="EPI_A_NoPatologicos">
+          <ScalarProperty Name="idPaciente" ColumnName="idPaciente" />
+          <ScalarProperty Name="Hijos" ColumnName="Hijos" />
+          <ScalarProperty Name="Escolaridad" ColumnName="Escolaridad" />
+          <ScalarProperty Name="Religion" ColumnName="Religion" />
+          <ScalarProperty Name="EstadoCivil" ColumnName="EstadoCivil" />
+          <ScalarProperty Name="VacunasCompletas" ColumnName="VacunasCompletas" />
+          <ScalarProperty Name="idNoPatologicos" ColumnName="idNoPatologicos" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EPI_A_Patologicos">
+      <EntityTypeMapping TypeName="DSModel.EPI_A_Patologicos">
+        <MappingFragment StoreEntitySet="EPI_A_Patologicos">
+          <ScalarProperty Name="idPaciente" ColumnName="idPaciente" />
+          <ScalarProperty Name="Drogas" ColumnName="Drogas" />
+          <ScalarProperty Name="Fuma" ColumnName="Fuma" />
+          <ScalarProperty Name="Alcoholismo" ColumnName="Alcoholismo" />
+          <ScalarProperty Name="Hipertension" ColumnName="Hipertension" />
+          <ScalarProperty Name="Cardiopatias" ColumnName="Cardiopatias" />
+          <ScalarProperty Name="Oncologicos" ColumnName="Oncologicos" />
+          <ScalarProperty Name="Convulsivas" ColumnName="Convulsivas" />
+          <ScalarProperty Name="Traumatismo" ColumnName="Traumatismo" />
+          <ScalarProperty Name="Diabetes" ColumnName="Diabetes" />
+          <ScalarProperty Name="Transfuncionales" ColumnName="Transfuncionales" />
+          <ScalarProperty Name="Quirurgicos" ColumnName="Quirurgicos" />
+          <ScalarProperty Name="Pulmonar" ColumnName="Pulmonar" />
+          <ScalarProperty Name="TranstornoMemoria" ColumnName="TranstornoMemoria" />
+          <ScalarProperty Name="Alergias" ColumnName="Alergias" />
+          <ScalarProperty Name="EnfermedadCongenita" ColumnName="EnfermedadCongenita" />
+          <ScalarProperty Name="idPatologicos" ColumnName="idPatologicos" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EPI_AparatosSistemas">
+      <EntityTypeMapping TypeName="DSModel.EPI_AparatosSistemas">
+        <MappingFragment StoreEntitySet="EPI_AparatosSistemas">
+          <ScalarProperty Name="idPaciente" ColumnName="idPaciente" />
+          <ScalarProperty Name="Extremidades" ColumnName="Extremidades" />
+          <ScalarProperty Name="Abdomen" ColumnName="Abdomen" />
+          <ScalarProperty Name="CabezaCuello" ColumnName="CabezaCuello" />
+          <ScalarProperty Name="Neurologica" ColumnName="Neurologica" />
+          <ScalarProperty Name="Apnea" ColumnName="Apnea" />
+          <ScalarProperty Name="Suenio" ColumnName="Suenio" />
+          <ScalarProperty Name="Articulaciones" ColumnName="Articulaciones" />
+          <ScalarProperty Name="CancerSangre" ColumnName="CancerSangre" />
+          <ScalarProperty Name="Intestinal" ColumnName="Intestinal" />
+          <ScalarProperty Name="Venas" ColumnName="Venas" />
+          <ScalarProperty Name="Urinaria" ColumnName="Urinaria" />
+          <ScalarProperty Name="Endocrinologica" ColumnName="Endocrinologica" />
+          <ScalarProperty Name="Respiratoria" ColumnName="Respiratoria" />
+          <ScalarProperty Name="Cardiaca" ColumnName="Cardiaca" />
+          <ScalarProperty Name="Gusto" ColumnName="Gusto" />
+          <ScalarProperty Name="Nariz" ColumnName="Nariz" />
+          <ScalarProperty Name="Auditivo" ColumnName="Auditivo" />
+          <ScalarProperty Name="Audicion" ColumnName="Audicion" />
+          <ScalarProperty Name="Lentes" ColumnName="Lentes" />
+          <ScalarProperty Name="AlteracionVista" ColumnName="AlteracionVista" />
+          <ScalarProperty Name="Sintoma" ColumnName="Sintoma" />
+          <ScalarProperty Name="idAparatosSistemas" ColumnName="idAparatosSistemas" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EPI_Audiologia">
+      <EntityTypeMapping TypeName="DSModel.EPI_Audiologia">
+        <MappingFragment StoreEntitySet="EPI_Audiologia">
+          <ScalarProperty Name="idPaciente" ColumnName="idPaciente" />
+          <ScalarProperty Name="NotaMedica" ColumnName="NotaMedica" />
+          <ScalarProperty Name="Grafica" ColumnName="Grafica" />
+          <ScalarProperty Name="Patologia" ColumnName="Patologia" />
+          <ScalarProperty Name="idAudiologia" ColumnName="idAudiologia" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EPI_Cardiologia">
+      <EntityTypeMapping TypeName="DSModel.EPI_Cardiologia">
+        <MappingFragment StoreEntitySet="EPI_Cardiologia">
+          <ScalarProperty Name="idPaciente" ColumnName="idPaciente" />
+          <ScalarProperty Name="OndaT" ColumnName="OndaT" />
+          <ScalarProperty Name="OndaP" ColumnName="OndaP" />
+          <ScalarProperty Name="QRS" ColumnName="QRS" />
+          <ScalarProperty Name="QT" ColumnName="QT" />
+          <ScalarProperty Name="PR" ColumnName="PR" />
+          <ScalarProperty Name="Eje" ColumnName="Eje" />
+          <ScalarProperty Name="Frecuencia" ColumnName="Frecuencia" />
+          <ScalarProperty Name="Ritmo" ColumnName="Ritmo" />
+          <ScalarProperty Name="idCardiologia" ColumnName="idCardiologia" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EPI_DictamenAptitud">
+      <EntityTypeMapping TypeName="DSModel.EPI_DictamenAptitud">
+        <MappingFragment StoreEntitySet="EPI_DictamenAptitud">
+          <ScalarProperty Name="Motivo" ColumnName="Motivo" />
+          <ScalarProperty Name="idPaciente" ColumnName="idPaciente" />
+          <ScalarProperty Name="Aptitud" ColumnName="Aptitud" />
+          <ScalarProperty Name="NotaMedica" ColumnName="NotaMedica" />
+          <ScalarProperty Name="idDictamenAptitud" ColumnName="idDictamenAptitud" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EPI_ExploracionFisica">
+      <EntityTypeMapping TypeName="DSModel.EPI_ExploracionFisica">
+        <MappingFragment StoreEntitySet="EPI_ExploracionFisica">
+          <ScalarProperty Name="idPaciente" ColumnName="idPaciente" />
+          <ScalarProperty Name="Protesis" ColumnName="Protesis" />
+          <ScalarProperty Name="Amputaciones" ColumnName="Amputaciones" />
+          <ScalarProperty Name="Soplo" ColumnName="Soplo" />
+          <ScalarProperty Name="Estrabismo" ColumnName="Estrabismo" />
+          <ScalarProperty Name="PuntaNariz" ColumnName="PuntaNariz" />
+          <ScalarProperty Name="Romberg" ColumnName="Romberg" />
+          <ScalarProperty Name="idExploracionFisica" ColumnName="idExploracionFisica" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EPI_Laboratorio">
+      <EntityTypeMapping TypeName="DSModel.EPI_Laboratorio">
+        <MappingFragment StoreEntitySet="EPI_Laboratorio">
+          <ScalarProperty Name="idPaciente" ColumnName="idPaciente" />
+          <ScalarProperty Name="HemoglobinaGlucosilada" ColumnName="HemoglobinaGlucosilada" />
+          <ScalarProperty Name="Glucosa" ColumnName="Glucosa" />
+          <ScalarProperty Name="idLaboratorio" ColumnName="idLaboratorio" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EPI_Odontologia">
+      <EntityTypeMapping TypeName="DSModel.EPI_Odontologia">
+        <MappingFragment StoreEntitySet="EPI_Odontologia">
+          <ScalarProperty Name="idPaciente" ColumnName="idPaciente" />
+          <ScalarProperty Name="NotaOdontologica" ColumnName="NotaOdontologica" />
+          <ScalarProperty Name="Exploracion" ColumnName="Exploracion" />
+          <ScalarProperty Name="idOdontologia" ColumnName="idOdontologia" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Epi_Oftalmologia">
+      <EntityTypeMapping TypeName="DSModel.Epi_Oftalmologia">
+        <MappingFragment StoreEntitySet="Epi_Oftalmologia">
+          <ScalarProperty Name="idPaciente" ColumnName="idPaciente" />
+          <ScalarProperty Name="Cromatica" ColumnName="Cromatica" />
+          <ScalarProperty Name="IzquierdoRP" ColumnName="IzquierdoRP" />
+          <ScalarProperty Name="DerechoRP" ColumnName="DerechoRP" />
+          <ScalarProperty Name="CampoVisual" ColumnName="CampoVisual" />
+          <ScalarProperty Name="MovimientosOculares" ColumnName="MovimientosOculares" />
+          <ScalarProperty Name="CartaAccidentes" ColumnName="CartaAccidentes" />
+          <ScalarProperty Name="Estereopsis" ColumnName="Estereopsis" />
+          <ScalarProperty Name="AgudezaVisual" ColumnName="AgudezaVisual" />
+          <ScalarProperty Name="DerechoAVL" ColumnName="DerechoAVL" />
+          <ScalarProperty Name="DerechoAVM" ColumnName="DerechoAVM" />
+          <ScalarProperty Name="DerechoAVC" ColumnName="DerechoAVC" />
+          <ScalarProperty Name="IzquierdoAVL" ColumnName="IzquierdoAVL" />
+          <ScalarProperty Name="IzquierdoAVM" ColumnName="IzquierdoAVM" />
+          <ScalarProperty Name="IzquierdoAVC" ColumnName="IzquierdoAVC" />
+          <ScalarProperty Name="idOftalmologia" ColumnName="idOftalmologia" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EPI_SignosVitales">
+      <EntityTypeMapping TypeName="DSModel.EPI_SignosVitales">
+        <MappingFragment StoreEntitySet="EPI_SignosVitales">
+          <ScalarProperty Name="idPaciente" ColumnName="idPaciente" />
+          <ScalarProperty Name="Grasa" ColumnName="Grasa" />
+          <ScalarProperty Name="Cuello" ColumnName="Cuello" />
+          <ScalarProperty Name="Cintura" ColumnName="Cintura" />
+          <ScalarProperty Name="IMC" ColumnName="IMC" />
+          <ScalarProperty Name="Estatura" ColumnName="Estatura" />
+          <ScalarProperty Name="Peso" ColumnName="Peso" />
+          <ScalarProperty Name="Temperatura" ColumnName="Temperatura" />
+          <ScalarProperty Name="Respiratoria" ColumnName="Respiratoria" />
+          <ScalarProperty Name="Cardiaca" ColumnName="Cardiaca" />
+          <ScalarProperty Name="Diastolica" ColumnName="Diastolica" />
+          <ScalarProperty Name="Sistolica" ColumnName="Sistolica" />
+          <ScalarProperty Name="idSignosVitales" ColumnName="idSignosVitales" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Paciente">
+      <EntityTypeMapping TypeName="DSModel.Paciente">
+        <MappingFragment StoreEntitySet="Paciente">
+          <ScalarProperty Name="HASH" ColumnName="HASH" />
+          <ScalarProperty Name="CURP" ColumnName="CURP" />
+          <ScalarProperty Name="Folio" ColumnName="Folio" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="idPaciente" ColumnName="idPaciente" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
