@@ -205,8 +205,8 @@ registros = db.PacienteDS.Join(db.CitaDS, n => n.idPacienteDS, m => m.idPaciente
                         <input type="email" class="form-control" id="email" name="email" required>
                     </div>
                     <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Estado:</label>
-                        <input type="text" class="form-control" id="email" name="estado" required>
+                        <label for="recipient-name" class="col-form-label">Código HASH:</label>
+                        <input type="text" class="form-control" id="email" name="hash" required>
                     </div>
                     <input type="hidden" value="@nombreUsuario" name="usuario" />
                     <input type="hidden" value="@Sucursal" name="sucursal" />
@@ -380,7 +380,7 @@ else
                                                 <label class="h4">Oftalmología: &nbsp; </label>
                                                 <input type="checkbox" id="derechorp" name="ofta">
                                                 <hr />
-                                                <label class="h4">Membresía: &nbsp; </label>
+                                                <label class="h4">¿Cuenta con Membresía?: &nbsp; </label>
                                                 <input type="checkbox" id="derechorp" name="membresia">
                                             </div>
                                         </div>
@@ -443,8 +443,8 @@ else
                                                 <input type="email" class="form-control" id="email" name="email" placeholder="@item.N.Email" />
                                             </div>
                                             <div class="form-group">
-                                                <label for="recipient-name" class="col-form-label">Estado:</label>
-                                                <input type="text" class="form-control" id="email" name="estado" placeholder="@item.M.Estado" />
+                                                <label for="recipient-name" class="col-form-label">Código HASH:</label>
+                                                <input type="text" class="form-control" id="email" name="estado" placeholder="@item.N.HASH" />
                                             </div>
                                         </div>
                                         <div class="modal-footer">

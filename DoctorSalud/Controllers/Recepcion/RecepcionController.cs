@@ -16,6 +16,11 @@ namespace DoctorSalud.Controllers.Recepcion
             return View();
         }
 
+        public ActionResult Inicio()
+        {
+            return View();
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Crear(string nombre, string telefono, string email, string usuario, string sucursal, string hash)

@@ -1,0 +1,334 @@
+﻿@model IEnumerable<DoctorSalud.PacienteDS>
+@{
+
+    ViewBag.Title = "Index";
+
+
+    var oUser = (Usuarios)HttpContext.Current.Session["User"];
+
+    DoctorSalud_Entities db = new DoctorSalud_Entities();
+    System.Web.Script.Serialization.JavaScriptSerializer js = new System.Web.Script.Serialization.JavaScriptSerializer();
+
+    var Recepcion = new int?();
+    var Hospital = "";
+    var idHospital = 0;
+    string Sucursal = null;
+    int idUser = 14;
+    string nombreUsuario = null;
+    string fila = "";
+    int registros;
+
+    int flag = 1; //contador de la tabla
+
+    DateTime start = DateTime.Now;
+    DateTime finish = DateTime.Now.AddDays(1);
+
+    int year = start.Year;
+    int month = start.Month;
+    int day = start.Day;
+
+    int year1 = finish.Year;
+    int month1 = finish.Month;
+    int day1 = finish.Day;
+
+    int tomorrorDay = day + 1;
+    DateTime thisDate = new DateTime(year, month, day);
+    DateTime tomorrowDate = new DateTime(year1, month1, day1);
+
+    var modelo = db.PacienteDS.Join(db.CitaDS, n => n.idPacienteDS, m => m.idPacienteDS, (n, m) => new { N = n, M = m }).Where(s => s.M.Sucursal == Sucursal && s.M.FechaCita >= thisDate && s.M.FechaCita < tomorrowDate)@*.OrderByDescending(o => new { o.M.TipoTramite,  }).OrderBy(r => r.M.EstatusPago)*@;
+int? idRol = 0;
+
+if (oUser != null)
+{
+idUser = oUser.idUsuario;
+nombreUsuario = oUser.Nombre;
+idRol = oUser.idRol;
+
+if (oUser.idRol == 14)
+{
+Recepcion = (from r in db.RecepcionistaDS where r.idUsuario == idUser select r.idSucursalDS).FirstOrDefault();
+Hospital = (from h in db.SucursalDS where h.idSucursalDS == Recepcion select h.Nombre).FirstOrDefault();
+idHospital = (from h in db.SucursalDS where h.idSucursalDS == Recepcion select h.idSucursalDS).FirstOrDefault();
+Sucursal = Hospital.ToString();
+
+modelo = db.PacienteDS.Join(db.CitaDS, n => n.idPacienteDS, m => m.idPacienteDS, (n, m) => new { N = n, M = m }).Where(s => s.M.FechaCita >= thisDate && s.M.FechaCita < tomorrowDate && s.M.Sucursal == Sucursal);
+
+registros = db.PacienteDS.Join(db.CitaDS, n => n.idPacienteDS, m => m.idPacienteDS, (n, m) => new { N = n, M = m }).Where(s => s.M.FechaCita >= thisDate && s.M.FechaCita < tomorrowDate && s.M.Sucursal == Sucursal).Count();
+
+}
+else
+{
+Hospital = "GENERAL";
+Sucursal = Hospital.ToString();
+
+modelo = db.PacienteDS.Join(db.CitaDS, n => n.idPacienteDS, m => m.idPacienteDS, (n, m) => new { N = n, M = m }).Where(s => s.M.FechaCita >= thisDate && s.M.FechaCita < tomorrowDate)/*.OrderByDescending(o => o.M.TipoTramite)*/;
+
+registros = db.PacienteDS.Join(db.CitaDS, n => n.idPacienteDS, m => m.idPacienteDS, (n, m) => new { N = n, M = m }).Where(s => s.M.FechaCita >= thisDate && s.M.FechaCita < tomorrowDate).Count();
+
+}
+}
+
+
+}
+
+<br />
+<br />
+<h2 style="color:navy" @*class="text-center"*@>@Sucursal</h2>
+<br />
+<!--<div class="form-inline">
+    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModal"><span class="glyphicon glyphicon-plus"></span> Nueva Cita</button>-->
+    @*<div class="input-group pull-right">
+            <input type="text" class="form-control" id="buscador" name="dato" placeholder="Paciente o Expediente">
+            <span class="input-group-btn">
+                <button class="btn btn-info buscar" id="buscar" type="button"><span class="glyphicon glyphicon-search"></span></button>
+            </span>
+        </div>*@
+<!--</div>-->
+
+@section scripts{
+
+    <script>
+        var input = document.getElementById("buscador");
+        input.addEventListener("keyup", function (event) {
+            if (event.keyCode === 13) {
+                event.preventDefault();
+                document.getElementById("buscar").click();
+            }
+        });
+
+    </script>
+
+    <script>
+    $(function () {
+        $(".buscar").click(function () {
+            var url = "@Url.Action("Buscar", "Recepcion")";
+            var dato = $("#buscador").val();
+            var data = { dato: dato };
+
+            $.post(url, data).done(function (data) {
+                console.log(data);
+                let miResultado = "";
+                if ($.isEmptyObject(data)) {
+                    miResultado = "<h3>No se encontraron registros!!</h3>"
+                }
+                else {
+                    miResultado +=  "<tr class=\"bg-primary\"><th>Nombre</th><th>Sucursal</th><th>Tipo Tramite</th><th>Tipo Licencia</th><th>Estatus Dictamen</th><th>Fecha Cita</th><th></th></tr>"
+                    for (let i = 0; i < data.length; i++) {
+
+                        if (data[i].EstatusDictamen == null) {
+                            miResultado += "<tr style=\"border:1px solid gray\">" +
+                                "<td><b>" + data[i].Nombre + "</b></td>" +
+                                "<td><b>" + data[i].Sucursal + "</b></td>" +
+                                "<td><b>" + data[i].TipoTramite + "</b></td>" +
+                                "<td><b>" + data[i].TipoLicencia + "</b></td>" +
+                                "<td><b>Pendiente</b></td>" +
+                                "<td><b>" + data[i].FechaCita + "</b></td>" +
+                                "</tr>"
+
+                        } else {
+                            miResultado += "<tr style=\"border:1px solid gray\">" +
+                                "<td><b>" + data[i].Nombre + "</b></td>" +
+                                "<td><b>" + data[i].Sucursal + "</b></td>" +
+                                "<td><b>" + data[i].TipoTramite + "</b></td>" +
+                                "<td><b>" + data[i].TipoLicencia + "</b></td>" +
+                                "<td><b>" + data[i].EstatusDictamen + "</b></td>" +
+                                "<td><b>" + data[i].FechaCita + "</b></td>" +
+                                "</tr>"
+
+                        }
+
+                    }
+                }
+
+                $('#exampleModal5').modal('show');
+                document.getElementById("tablaEjemploSS").innerHTML = miResultado;
+
+            }).fail().always(function () {
+
+            });
+        });
+    });
+    </script>
+
+    @if (TempData["Link"] != null)
+    {
+        <script>
+            @*location.href='@Url.Action("AbrirEPI","EPIs", new { id = TempData["ID"] })';*@
+            window.open('@TempData["Link"]');
+        </script>
+    }
+}
+
+<br />
+
+<div class="modal fade" id="exampleModal5" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="width:70%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title text-primary" id="exampleModalLabel"><b>Resultado de la búsqueda:</b></h3>
+            </div>
+            <div class="modal-body" id="">
+                <div class="tablaScroll">
+                    <table class="table tablas table-responsive" id="tablaEjemploSS" style="color: #2F2D6B">
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-info">
+                <h3 class="modal-title text-primary" id="exampleModalLabel"><b>Registrar cita previamente pagada</b></h3>
+            </div>
+            <div class="modal-body">
+                <form method="post" enctype="multipart/form-data" action="@Url.Content("~/Recepcion/Crear")">
+                    @Html.AntiForgeryToken()
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Nombre del Paciente:</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Teléfono:</label>
+                        <input type="text" class="form-control" id="telefono" name="telefono" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Email:</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Código HASH:</label>
+                        <input type="text" class="form-control" id="email" name="hash" required>
+                    </div>
+                    <input type="hidden" value="@nombreUsuario" name="usuario" />
+                    <input type="hidden" value="@Sucursal" name="sucursal" />
+            </div>
+            <div class="modal-footer bg-info">
+                <button type="button" class="btn btn-warning" data-dismiss="modal">Cerrar</button>
+                <input type="submit" value="Enviar" class="btn btn-primary" />
+            </div></form>
+        </div>
+    </div>
+</div>
+
+
+@if (modelo.FirstOrDefault() == null)
+{
+    <h1 class="text-primary">No existen citas registradas el día de hoy</h1>
+}
+else
+{
+    <div class="tablaScroll">
+        <table class="table tablas" style="color: #2F2D6B">
+            <thead>
+                <tr class="bg-primary" style="border-top-color: black">
+                    <th>
+                    </th>
+
+                    <th>
+                        PACIENTE
+                    </th>
+
+                    <th>
+                        MEDICINA INTERNA
+                    </th>
+                    <th>
+                        OFTALMOLOGÍA
+                    </th>
+                    <th>
+                        CARDIOLOGÍA
+                    </th>
+                    <th>
+                        NUTRICIÓN
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            
+
+            @foreach (var item in modelo)
+            {
+                <tr style="background-color:white; border-bottom: solid 0.1px #337AB7">
+                    <td>
+                        @flag
+                    </td>
+
+                    <td>
+                        <b>@Html.DisplayFor(modelItem => item.N.Nombre)</b>
+                    </td>
+                            <td>
+                                @{
+                                    if ((from c in db.CitaDS where c.idPacienteDS == item.N.idPacienteDS select c.Fin_MedicinaInterna).FirstOrDefault() == null)
+                                    {
+                                        <span class="glyphicon glyphicon-minus" style="color:dodgerblue"></span>
+                                    }
+                                    else
+                                    {
+                                        <span class="glyphicon glyphicon-ok" style="color:forestgreen"></span>
+                                    }
+                            }
+                        </td>
+                    <td>
+                        @{
+                            if ((from c in db.CitaDS where c.idPacienteDS == item.N.idPacienteDS select c.Fin_Oftalmologia).FirstOrDefault() == null)
+                            {
+                                <span class="glyphicon glyphicon-minus" style="color:dodgerblue"></span>
+                            }
+                            else
+                            {
+                                <span class="glyphicon glyphicon-ok" style="color:forestgreen"></span>
+                            }
+                        }
+                    </td>
+                    <td>
+                        @{
+                            if ((from c in db.CitaDS where c.idPacienteDS == item.N.idPacienteDS select c.Fin_Cardiologia).FirstOrDefault() == null)
+                            {
+                                <span class="glyphicon glyphicon-minus" style="color:dodgerblue"></span>
+                            }
+                            else
+                            {
+                                <span class="glyphicon glyphicon-ok" style="color:forestgreen"></span>
+                            }
+                        }
+                    </td>
+                    <td>
+                        @{
+                            if ((from c in db.CitaDS where c.idPacienteDS == item.N.idPacienteDS select c.Fin_Nutricion).FirstOrDefault() == null)
+                            {
+                                <span class="glyphicon glyphicon-minus" style="color:dodgerblue"></span>
+                            }
+                            else
+                            {
+                                <span class="glyphicon glyphicon-ok" style="color:forestgreen"></span>
+                            }
+                        }
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <form method="post" enctype="multipart/form-data" action="@Url.Content("~/Modulos/Index")">
+                                <input type="hidden" value="@item.N.idPacienteDS" name="id" />
+                                <input type="submit" class="btn btn-info" value="Exámenes" />
+                            </form>
+                        </div>
+
+                    </td>
+                </tr>
+
+                flag += 1;
+
+            }
+
+        </table>
+    </div>
+}
+

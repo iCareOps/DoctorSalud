@@ -336,21 +336,21 @@ else
                             <div class="dropdown-menu" style="padding:10px">
                                 @if (item.M.EstatusPago == "Pagado")
                                 {
-                                    <a href="#" data-toggle="modal" data-target="#ModalEditar_@item.M.idPacienteDS"><b>Editar</b></a>
+                                    <a href="#" data-toggle="modal" data-target="#ModalEditar_@item.M.idPacienteDS"><b>Editar Datos</b></a>
                                     <div class="dropdown-divider"></div>
-                                    <a href="#" data-toggle="modal" data-target="#examen_@item.M.idPacienteDS"><b>Iniciar Examen</b></a>
+                                    <a href="#" data-toggle="modal" data-target="#ModalPago_@item.M.idPacienteDS"><b>Agregar Examen</b></a>
                                     <div class="dropdown-divider"></div>
-                                    @*<a href="#" data-toggle="modal" data-target="#cancela_@item.M.idPacienteDS"><b class="text-danger">Cancelar Cita</b></a>
-                    <div class="dropdown-divider"></div>*@
+                                    @*<a href="#" data-toggle="modal" data-target="#examen_@item.M.idPacienteDS"><b>Iniciar Examen</b></a>
+                                    <div class="dropdown-divider"></div>*@
                                 }
                                 else if (item.M.EstatusPago == "Pendiente")
                                 {
-                                    <a href="#" data-toggle="modal" data-target="#ModalEditar_@item.M.idPacienteDS"><b>Editar</b></a>
+                                    <a href="#" data-toggle="modal" data-target="#ModalEditar_@item.M.idPacienteDS"><b>Editar Datos</b></a>
                                     <div class="dropdown-divider"></div>
                                     <a href="#" data-toggle="modal" data-target="#ModalPago_@item.M.idPacienteDS"><b>Pagado</b></a>
                                     <div class="dropdown-divider"></div>
                                     @*<a href="#" data-toggle="modal" data-target="#cancela_@item.M.idPacienteDS"><b class="text-danger">Cancelar Cita</b></a>
-                    <div class="dropdown-divider"></div>*@
+                                    <div class="dropdown-divider"></div>*@
                                 }
 
                             </div>

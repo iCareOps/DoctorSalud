@@ -296,6 +296,7 @@
     <Content Include="Views\Modulos\Oftalmologia.cshtml" />
     <Content Include="Views\Modulos\Cardiologia.cshtml" />
     <Content Include="Views\Modulos\Nutricion.cshtml" />
+    <Content Include="Views\Recepcion\Inicio.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
