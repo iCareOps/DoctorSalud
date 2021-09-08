@@ -42,23 +42,57 @@
 
             if (medicina != null)
             {
-                <button class="btn btn-info" data-toggle="modal" data-target="#medicina" style="width:25vw; height:25vw; margin:0.5%; max-width: 200px; max-height:200px; white-space:normal; font-size: 75%" id="aparicion">MEDICINA INTERNA</button>
+                if ((from i in db.CitaDS where i.idPacienteDS == idPaciente && i.Fin_MedicinaInterna != null orderby i.idCitaDS descending select i).FirstOrDefault() != null)
+                {
+                    <button class="btn btn-info" data-toggle="modal" data-target="#medicinaCompleto" style="width:25vw; height:25vw; margin:0.5%; max-width: 200px; max-height:200px; white-space:normal; font-size: 75%" id="aparicion">MEDICINA INTERNA <span style="color:gold">(COMPLETO)</span></button>
+                }
+                else
+                {
+                    <button class="btn btn-info" data-toggle="modal" data-target="#medicina" style="width:25vw; height:25vw; margin:0.5%; max-width: 200px; max-height:200px; white-space:normal; font-size: 75%" id="aparicion">MEDICINA INTERNA</button>
+                }
+
             }
             if (oftalmo != null)
             {
-                <button class="btn  btn-info" data-toggle="modal" data-target="#oftalmologia" style="width:25vw; height:25vw; margin:0.5%; max-width: 200px; max-height:200px; white-space:normal; font-size: 75%" id="aparicion">OFTALMOLOGÍA</button>
+                if ((from i in db.CitaDS where i.idPacienteDS == idPaciente && i.Fin_Oftalmologia != null orderby i.idCitaDS descending select i).FirstOrDefault() != null)
+                {
+                    <button class="btn btn-info" data-toggle="modal" data-target="#oftalmologiaCompleto" style="width:25vw; height:25vw; margin:0.5%; max-width: 200px; max-height:200px; white-space:normal; font-size: 75%" id="aparicion">OFTALMOLOGÍA <span style="color:gold">(COMPLETO)</span></button>
+                }
+                else
+                {
+                    <button class="btn btn-info" data-toggle="modal" data-target="#oftalmologia" style="width:25vw; height:25vw; margin:0.5%; max-width: 200px; max-height:200px; white-space:normal; font-size: 75%" id="aparicion">OFTALMOLOGÍA</button>
+                }
             }
             if (cardiolo != null)
             {
-                <button class="btn  btn-info" data-toggle="modal" data-target="#cardiologia" style="width:25vw; height:25vw; margin:0.5%; max-width: 200px; max-height:200px; white-space:normal; font-size: 75%" id="aparicion">CARDIÓLOGO</button>
+                if ((from i in db.CitaDS where i.idPacienteDS == idPaciente && i.Fin_Cardiologia != null orderby i.idCitaDS descending select i).FirstOrDefault() != null)
+                {
+                    <button class="btn btn-info" data-toggle="modal" data-target="#cardiologiaCompleto" style="width:25vw; height:25vw; margin:0.5%; max-width: 200px; max-height:200px; white-space:normal; font-size: 75%" id="aparicion">CARDIOLOGÍA <span style="color:gold">(COMPLETO)</span></button>
+                }
+                else
+                {
+                    <button class="btn btn-info" data-toggle="modal" data-target="#cardiologia" style="width:25vw; height:25vw; margin:0.5%; max-width: 200px; max-height:200px; white-space:normal; font-size: 75%" id="aparicion">CARDIOLOGÍA</button>
+                }
 
             }
             if (nutriolo != null)
             {
-                <button class="btn  btn-info" data-toggle="modal" data-target="#nutricion" style="width:25vw; height:25vw; margin:0.5%; max-width: 200px; max-height:200px; white-space:normal; font-size: 75%" id="aparicion">NUTRICIÓN</button>
+                if ((from i in db.CitaDS where i.idPacienteDS == idPaciente && i.Fin_Nutricion != null orderby i.idCitaDS descending select i).FirstOrDefault() != null)
+                {
+                    <button class="btn btn-info" data-toggle="modal" data-target="#nutricionCompleto" style="width:25vw; height:25vw; margin:0.5%; max-width: 200px; max-height:200px; white-space:normal; font-size: 75%" id="aparicion">NUTRICIÓN <span style="color:gold">(COMPLETO)</span></button>
+                }
+                else
+                {
+                    <button class="btn btn-info" data-toggle="modal" data-target="#nutricion" style="width:25vw; height:25vw; margin:0.5%; max-width: 200px; max-height:200px; white-space:normal; font-size: 75%" id="aparicion">NUTRICIÓN</button>
+                }
 
             }
         }
+        <br />
+        <br />
+        <div class="enlaceSinBoton">
+            <h4><a href="~/Recepcion/Inicio"><< Volver al Inicio</a></h4>
+        </div>
     </center>
 
     <form method="post" enctype="multipart/form-data" action="@Url.Content("~/Modulos/MedicinaInterna")">
@@ -135,13 +169,104 @@
         </div>
     </form>
 
+    <div class="modal fade" id="medicinaCompleto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    @{
+                        string nombrePacienteModal = (from n in db.PacienteDS where n.idPacienteDS == idPaciente select n.Nombre).FirstOrDefault();
+                        <h4 class="modal-title text-primary" id="exampleModalLabel"><b>Datos del examen MEDICINA INTERNA para @nombrePacienteModal</b></h4>
+                    }
+
+                </div>
+                <div class="modal-body" id="">
+                    @{
+                        var consulta = (from c in db.MedicinaInterna where c.idPacienteDS == idPaciente orderby c.idMedicinaInterna descending select c).FirstOrDefault();
+                        <h4 style="text-align:left"><b>Certificado Médico: </b><span class="text-primary"> @consulta.CertificadoMedico</span></h4>
+                        <h4 style="text-align:left"><b>Plan de Tratamiento: </b><span class="text-primary"> @consulta.PlanTratamiento</span></h4>
+                    }
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="oftalmologiaCompleto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    @{
+                        string nombrePacienteModal2 = (from n in db.PacienteDS where n.idPacienteDS == idPaciente select n.Nombre).FirstOrDefault();
+                        <h4 class="modal-title text-primary" id="exampleModalLabel"><b>Datos del examen OFTALMOLOGÍA para @nombrePacienteModal2</b></h4>
+                    }
+
+                </div>
+                <div class="modal-body" id="">
+                    @{
+                        var consulta2 = (from c in db.Oftalmologo where c.idPacienteDS == idPaciente orderby c.idOftalmologo descending select c).FirstOrDefault();
+                        <h4 style="text-align:left"><b>Certificado Médico: </b><span class="text-primary"> @consulta2.CertificadoMedico</span></h4>
+                        <h4 style="text-align:left"><b>Plan de Tratamiento: </b><span class="text-primary"> @consulta2.PlanTratamiento</span></h4>
+                    }
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="cardiologiaCompleto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    @{
+                        string nombrePacienteModal3 = (from n in db.PacienteDS where n.idPacienteDS == idPaciente select n.Nombre).FirstOrDefault();
+                        <h4 class="modal-title text-primary" id="exampleModalLabel"><b>Datos del examen CARDIOLOGÍA para @nombrePacienteModal3</b></h4>
+                    }
+
+                </div>
+                <div class="modal-body" id="">
+                    @{
+                        var consulta3 = (from c in db.Cardiologo where c.idPacienteDS == idPaciente orderby c.idCardiologo descending select c).FirstOrDefault();
+                        <h4 style="text-align:left"><b>Certificado Médico: </b><span class="text-primary"> @consulta3.CertificadoMedico</span></h4>
+                        <h4 style="text-align:left"><b>Plan de Tratamiento: </b><span class="text-primary"> @consulta3.PlanTratamiento</span></h4>
+                    }
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="nutricionCompleto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    @{
+                        string nombrePacienteModal4 = (from n in db.PacienteDS where n.idPacienteDS == idPaciente select n.Nombre).FirstOrDefault();
+                        <h4 class="modal-title text-primary" id="exampleModalLabel"><b>Datos del examen NUTRICIÓN para @nombrePacienteModal4</b></h4>
+                    }
+
+                </div>
+                <div class="modal-body" id="">
+                    @{
+                        var consulta4 = (from c in db.Nutriologo where c.idPacienteDS == idPaciente orderby c.idNutriologo descending select c).FirstOrDefault();
+                        <h4 style="text-align:left"><b>Certificado Médico: </b><span class="text-primary"> @consulta4.CertificadoMedico</span></h4>
+                        <h4 style="text-align:left"><b>Plan de Tratamiento: </b><span class="text-primary"> @consulta4.PlanTratamiento</span></h4>
+                    }
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
-@*<script type="text/javascript">
-    $(document).ready(function () {
-        $('#aparicion').fadeIn(700);
-    });
-</script>*@
 
 
 

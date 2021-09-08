@@ -21,6 +21,11 @@ namespace DoctorSalud.Controllers.Recepcion
             return View();
         }
 
+        public ActionResult Farmacia()
+        {
+            return View();
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Crear(string nombre, string telefono, string email, string usuario, string sucursal, string hash)
@@ -192,6 +197,67 @@ namespace DoctorSalud.Controllers.Recepcion
             return Redirect("Index");
         }
 
+        public ActionResult PagadoMedicamento(int id, string mi, string ofta, string cardio, string nutri)
+        {
+            var paciente = db.PacienteDS.Find(id);
+            var cita = (from c in db.CitaDS where c.idPacienteDS == id select c).FirstOrDefault();
+
+            var oftalmo = (from o in db.Oftalmologo where o.idPacienteDS == id orderby o.idOftalmologo descending select o).FirstOrDefault();
+            var cardiolo = (from o in db.Cardiologo where o.idPacienteDS == id orderby o.idCardiologo descending select o).FirstOrDefault();
+            var nutriolo = (from o in db.Nutriologo where o.idPacienteDS == id orderby o.idNutriologo descending select o).FirstOrDefault();
+            var medicina = (from o in db.MedicinaInterna where o.idPacienteDS == id orderby o.idMedicinaInterna descending select o).FirstOrDefault();
+
+
+            if (ofta == "on" && oftalmo.Medicamento == null)
+            {
+                Oftalmologo oftalmologo = db.Oftalmologo.Find(oftalmo.idOftalmologo);
+                oftalmologo.Medicamento = "SI";
+
+                if (ModelState.IsValid)
+                {
+                    db.Entry(oftalmologo).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+            }
+
+            if (cardio == "on" && cardiolo.Medicamento == null)
+            {
+                Cardiologo cardiologo = db.Cardiologo.Find(cardiolo.idCardiologo);
+                cardiologo.Medicamento = "SI";
+
+                if (ModelState.IsValid)
+                {
+                    db.Entry(cardiologo).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+            }
+
+            if (mi == "on" && medicina.Medicamento == null)
+            {
+                MedicinaInterna medicinaInterna = db.MedicinaInterna.Find(medicina.idMedicinaInterna);
+                medicinaInterna.Medicamento = "SI";
+
+                if (ModelState.IsValid)
+                {
+                    db.Entry(medicinaInterna).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+            }
+
+            if (nutri == "on" && nutriolo.Medicamento == null)
+            {
+                Nutriologo nutriologo = db.Nutriologo.Find(nutriolo.idNutriologo);
+                nutriologo.Medicamento = "SI";
+
+                if (ModelState.IsValid)
+                {
+                    db.Entry(nutriologo).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+            }
+
+            return Redirect("Farmacia");
+        }
 
     }
 }

@@ -88,6 +88,11 @@
 
             }
         }
+        <br />
+        <br />
+        <div class="enlaceSinBoton">
+            <h4><a href="~/Recepcion/Inicio"><< Volver al Inicio</a></h4>
+        </div>
     </center>
 
     <form method="post" enctype="multipart/form-data" action="@Url.Content("~/Modulos/MedicinaInterna")">
@@ -177,8 +182,12 @@
                 <div class="modal-body" id="">
                     @{
                         var consulta = (from c in db.MedicinaInterna where c.idPacienteDS == idPaciente orderby c.idMedicinaInterna descending select c).FirstOrDefault();
-                        <h4 style="text-align:left"><b>Certificado Médico: </b><span class="text-primary"> @consulta.CertificadoMedico</span></h4>
-                        <h4 style="text-align:left"><b>Plan de Tratamiento: </b><span class="text-primary"> @consulta.PlanTratamiento</span></h4>
+                        if (consulta != null)
+                        {
+                            <h4 style="text-align:left"><b>Certificado Médico: </b><span class="text-primary"> @consulta.CertificadoMedico</span></h4>
+                            <h4 style="text-align:left"><b>Plan de Tratamiento: </b><span class="text-primary"> @consulta.PlanTratamiento</span></h4>
+                        }
+
                     }
                 </div>
                 <div class="modal-footer">
@@ -201,8 +210,12 @@
                 <div class="modal-body" id="">
                     @{
                         var consulta2 = (from c in db.Oftalmologo where c.idPacienteDS == idPaciente orderby c.idOftalmologo descending select c).FirstOrDefault();
-                        <h4 style="text-align:left"><b>Certificado Médico: </b><span class="text-primary"> @consulta2.CertificadoMedico</span></h4>
-                        <h4 style="text-align:left"><b>Plan de Tratamiento: </b><span class="text-primary"> @consulta2.PlanTratamiento</span></h4>
+                        if (consulta2 != null)
+                        {
+                            <h4 style="text-align:left"><b>Certificado Médico: </b><span class="text-primary"> @consulta2.CertificadoMedico</span></h4>
+                            <h4 style="text-align:left"><b>Plan de Tratamiento: </b><span class="text-primary"> @consulta2.PlanTratamiento</span></h4>
+                        }
+
                     }
                 </div>
                 <div class="modal-footer">
@@ -225,8 +238,12 @@
                 <div class="modal-body" id="">
                     @{
                         var consulta3 = (from c in db.Cardiologo where c.idPacienteDS == idPaciente orderby c.idCardiologo descending select c).FirstOrDefault();
-                        <h4 style="text-align:left"><b>Certificado Médico: </b><span class="text-primary"> @consulta3.CertificadoMedico</span></h4>
-                        <h4 style="text-align:left"><b>Plan de Tratamiento: </b><span class="text-primary"> @consulta3.PlanTratamiento</span></h4>
+                        if (consulta3 != null)
+                        {
+                            <h4 style="text-align:left"><b>Certificado Médico: </b><span class="text-primary"> @consulta3.CertificadoMedico</span></h4>
+                            <h4 style="text-align:left"><b>Plan de Tratamiento: </b><span class="text-primary"> @consulta3.PlanTratamiento</span></h4>
+                        }
+
                     }
                 </div>
                 <div class="modal-footer">
@@ -249,8 +266,12 @@
                 <div class="modal-body" id="">
                     @{
                         var consulta4 = (from c in db.Nutriologo where c.idPacienteDS == idPaciente orderby c.idNutriologo descending select c).FirstOrDefault();
-                        <h4 style="text-align:left"><b>Certificado Médico: </b><span class="text-primary"> @consulta4.CertificadoMedico</span></h4>
-                        <h4 style="text-align:left"><b>Plan de Tratamiento: </b><span class="text-primary"> @consulta4.PlanTratamiento</span></h4>
+                        if (consulta4 != null)
+                        {
+                            <h4 style="text-align:left"><b>Certificado Médico: </b><span class="text-primary"> @consulta4.CertificadoMedico</span></h4>
+                            <h4 style="text-align:left"><b>Plan de Tratamiento: </b><span class="text-primary"> @consulta4.PlanTratamiento</span></h4>
+                        }
+
                     }
                 </div>
                 <div class="modal-footer">

@@ -44,7 +44,7 @@ idUser = oUser.idUsuario;
 nombreUsuario = oUser.Nombre;
 idRol = oUser.idRol;
 
-if (oUser.idRol == 14)
+if (oUser.idRol == 16)
 {
 Recepcion = (from r in db.RecepcionistaDS where r.idUsuario == idUser select r.idSucursalDS).FirstOrDefault();
 Hospital = (from h in db.SucursalDS where h.idSucursalDS == Recepcion select h.Nombre).FirstOrDefault();
@@ -73,17 +73,17 @@ registros = db.PacienteDS.Join(db.CitaDS, n => n.idPacienteDS, m => m.idPaciente
 
 <br />
 <br />
-<h2 style="color:navy" @*class="text-center"*@>@Sucursal</h2>
+<h2 style="color:navy" @*class="text-center"*@><span class="text-info">FARMACIA -</span> @Sucursal</h2>
 <br />
-<div class="form-inline">
-    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModal"><span class="glyphicon glyphicon-plus"></span> Nueva Cita</button>
+<!--<div class="form-inline">
+    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModal"><span class="glyphicon glyphicon-plus"></span> Nueva Cita</button>-->
     @*<div class="input-group pull-right">
             <input type="text" class="form-control" id="buscador" name="dato" placeholder="Paciente o Expediente">
             <span class="input-group-btn">
                 <button class="btn btn-info buscar" id="buscar" type="button"><span class="glyphicon glyphicon-search"></span></button>
             </span>
         </div>*@
-</div>
+<!--</div>-->
 
 @section scripts{
 
@@ -238,16 +238,16 @@ else
                     </th>
 
                     <th>
-                        TELÉFONO
+                        MEDICINA INTERNA
                     </th>
                     <th>
-                        EMAIL
+                        OFTALMOLOGÍA
                     </th>
                     <th>
-                        ESTADO
+                        CARDIOLOGÍA
                     </th>
                     <th>
-                        ESTATUS PAGO
+                        NUTRICIÓN
                     </th>
                     <th></th>
                 </tr>
@@ -263,68 +263,86 @@ else
                     </td>
 
                     <td>
+                        <b>@Html.DisplayFor(modelItem => item.N.Nombre)</b>
+                    </td>
+                    <td>
                         @{
-                            var pagado = (from p in db.CitaDS where p.EstatusPago == "Pagado" && p.idPacienteDS == item.N.idPacienteDS select p).FirstOrDefault();
-
-                            if (pagado != null)
+                            if ((from c in db.MedicinaInterna where c.idPacienteDS == item.N.idPacienteDS select c).FirstOrDefault() != null)
                             {
-                                <span class="field-tip">
-                                    <b>@Html.DisplayFor(modelItem => item.N.Nombre)</b>
-                                    <span class="tip-content">
-                                        <h6>
-                                            <b>Módulos:</b><br />
-                                            @{
-                                                var ofta = (from o in db.Oftalmologo where o.idPacienteDS == item.N.idPacienteDS select o).FirstOrDefault();
-                                                var cardio = (from o in db.Cardiologo where o.idPacienteDS == item.N.idPacienteDS select o).FirstOrDefault();
-                                                var nutri = (from o in db.Nutriologo where o.idPacienteDS == item.N.idPacienteDS select o).FirstOrDefault();
-                                                var medicina = (from o in db.MedicinaInterna where o.idPacienteDS == item.N.idPacienteDS select o).FirstOrDefault();
+                                if ((from c in db.CitaDS where c.idPacienteDS == item.N.idPacienteDS select c.Fin_MedicinaInterna).FirstOrDefault() == null)
+                                {
+                                    <h4 class="text-info">En proceso...</h4>
+                                }
+                                else
+                                {
+                                    <h4 class="text-success">Ver Certificado</h4>
+                                }
+                            }
+                    else
+                    {
+                        <h4>N/A</h4>
+                    }
 
-                                                if (ofta != null)
-                                                {
-                                                    <b>-Oftalmología</b><br />
-                                                }
-                                                if (cardio != null)
-                                                {
-                                                    <b>-Cardiología</b><br />
-                                                }
-                                                if (nutri != null)
-                                                {
-                                                    <b>-Nutrición</b><br />
-                                                }
-                                                if (medicina != null)
-                                                {
-                                                    <b>-Medicina Interna</b><br />
-                                                }
-                                            }
-                                        </h6>
-                                    </span>
-                                </span>
+                        }
+                    </td>
+                    <td>
+                        @{
+                            if ((from c in db.Oftalmologo where c.idPacienteDS == item.N.idPacienteDS select c).FirstOrDefault() != null)
+                            {
+                                if ((from c in db.CitaDS where c.idPacienteDS == item.N.idPacienteDS select c.Fin_Oftalmologia).FirstOrDefault() == null)
+                                {
+                                    <h4 class="text-info">En proceso...</h4>
+                                }
+                                else
+                                {
+                                    <h4 class="text-success">Ver Certificado</h4>
+                                }
                             }
                             else
                             {
-                                <b>@Html.DisplayFor(modelItem => item.N.Nombre)</b>
+                                <h4>N/A</h4>
                             }
-                        }
 
-                    </td>
-
-                    <td>
-                        @Html.DisplayFor(modelItem => item.N.Telefono)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.N.Email)
-                    </td>
-                    <td>
-                        <b>@Html.DisplayFor(modelItem => item.M.Sucursal)</b>
-                    </td>
-                    <td>
-                        @if (item.M.EstatusPago == "pending_payment" || item.M.EstatusPago == "Pendiente")
-                        {
-                            <b><mark style="background-color: #FFFF00; padding:5px; border-radius:10px">Pendiente</mark></b>
                         }
-                        else if (item.M.EstatusPago == "paid" || item.M.EstatusPago == "Pagado")
-                        {
-                            <b><mark style="background-color: #41F51A; padding:5px; border-radius:10px">Pagado</mark></b>
+                    </td>
+                    <td>
+                        @{
+                            if ((from c in db.Cardiologo where c.idPacienteDS == item.N.idPacienteDS select c).FirstOrDefault() != null)
+                            {
+                                if ((from c in db.CitaDS where c.idPacienteDS == item.N.idPacienteDS select c.Fin_Cardiologia).FirstOrDefault() == null)
+                                {
+                                    <h4 class="text-info">En proceso...</h4>
+                                }
+                                else
+                                {
+                                    <h4 class="text-success">Ver Certificado</h4>
+                                }
+                            }
+                            else
+                            {
+                                <h4>N/A</h4>
+                            }
+
+                        }
+                    </td>
+                    <td>
+                        @{
+                            if ((from c in db.Nutriologo where c.idPacienteDS == item.N.idPacienteDS select c).FirstOrDefault() != null)
+                            {
+                                if ((from c in db.CitaDS where c.idPacienteDS == item.N.idPacienteDS select c.Fin_Nutricion).FirstOrDefault() == null)
+                                {
+                                    <h4 class="text-info">En proceso...</h4>
+                                }
+                                else
+                                {
+                                    <h4 class="text-success">Ver Certificado</h4>
+                                }
+                            }
+                            else
+                            {
+                                <h4>N/A</h4>
+                            }
+
                         }
                     </td>
                     <td>
@@ -334,54 +352,109 @@ else
                             </button>
 
                             <div class="dropdown-menu" style="padding:10px">
-                                @if (item.M.EstatusPago == "Pagado")
-                                {
-                                    <a href="#" data-toggle="modal" data-target="#ModalEditar_@item.M.idPacienteDS"><b>Editar Datos</b></a>
-                                    <div class="dropdown-divider"></div>
-                                    <a href="#" data-toggle="modal" data-target="#ModalPago_@item.M.idPacienteDS"><b>Agregar Examen</b></a>
-                                    <div class="dropdown-divider"></div>
-                                    @*<a href="#" data-toggle="modal" data-target="#examen_@item.M.idPacienteDS"><b>Iniciar Examen</b></a>
-                                    <div class="dropdown-divider"></div>*@
-                                }
-                                else if (item.M.EstatusPago == "Pendiente")
-                                {
-                                    <a href="#" data-toggle="modal" data-target="#ModalEditar_@item.M.idPacienteDS"><b>Editar Datos</b></a>
-                                    <div class="dropdown-divider"></div>
-                                    <a href="#" data-toggle="modal" data-target="#ModalPago_@item.M.idPacienteDS"><b>Pagado</b></a>
-                                    <div class="dropdown-divider"></div>
-                                    @*<a href="#" data-toggle="modal" data-target="#cancela_@item.M.idPacienteDS"><b class="text-danger">Cancelar Cita</b></a>
-                                    <div class="dropdown-divider"></div>*@
-                                }
-
+                                <a href="#" data-toggle="modal" data-target="#entregar_@item.M.idPacienteDS">Medicamento</a>
+                                <div class="dropdown-divider"></div>
+                                @*<a href="#" data-toggle="modal" data-target="#estatus_@item.M.idPacienteDS">Estatus Medicamento</a>
+                                <div class="dropdown-divider"></div>*@
                             </div>
                         </div>
 
-                        <!-- Modal para elegir el método de pago una vez que se concrete el mismo -->
-                        <form method="post" enctype="multipart/form-data" action="@Url.Content("~/Recepcion/Pagado")">
+                        <!-- Modal para elegir modulos de entrega medicamento -->
+                        <form method="post" enctype="multipart/form-data" action="@Url.Content("~/Recepcion/PagadoMedicamento")">
                             @Html.AntiForgeryToken()
-                            <div class="modal fade" id="ModalPago_@item.M.idPacienteDS" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="entregar_@item.M.idPacienteDS" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header bg-info">
-                                            <h4 class="modal-title" id="exampleModalLabel"><b>Elegir Módulos Pagados</b></h4>
+                                            <h4 class="modal-title" id="exampleModalLabel"><b>Elegir Medicamento Pagados</b></h4>
                                         </div>
                                         <div class="modal-body">
                                             <input type="hidden" name="id" value="@item.M.idPacienteDS" />
                                             <div class="form-group">
-                                                <label class="h4">Médicina Interna: &nbsp; </label>
-                                                <input type="checkbox" id="derechorp" name="mi">
-                                                <br />
-                                                <label class="h4">Cardiólogo: &nbsp; </label>
-                                                <input type="checkbox" id="derechorp" name="cardio">
-                                                <br />
-                                                <label class="h4">Nutriólogo: &nbsp; </label>
-                                                <input type="checkbox" id="derechorp" name="nutri">
-                                                <br />
-                                                <label class="h4">Oftalmología: &nbsp; </label>
-                                                <input type="checkbox" id="derechorp" name="ofta">
-                                                <hr />
-                                                <label class="h4">¿Cuenta con Membresía?: &nbsp; </label>
-                                                <input type="checkbox" id="derechorp" name="membresia">
+                                                @{
+                                                    var medicinaMI = (from i in db.MedicinaInterna where i.idPacienteDS == item.N.idPacienteDS orderby i.idMedicinaInterna descending select i).FirstOrDefault();
+                                                    var medicinaOftalmologo = (from i in db.Oftalmologo where i.idPacienteDS == item.N.idPacienteDS orderby i.idOftalmologo descending select i).FirstOrDefault();
+                                                    var medicinaCardiologo = (from i in db.Cardiologo where i.idPacienteDS == item.N.idPacienteDS orderby i.idCardiologo descending select i).FirstOrDefault();
+                                                    var medicinaNutricion = (from i in db.Nutriologo where i.idPacienteDS == item.N.idPacienteDS orderby i.idNutriologo descending select i).FirstOrDefault();
+
+                                                    if (medicinaMI != null && medicinaMI.PlanTratamiento == null)
+                                                    {
+                                                        <label class="h4">Médicina Interna: <span class="text-info">Examen en proceso...</span></label>
+                                                        <input type="hidden" value="no" id="derechorp" name="mi">
+                                                        <br />
+                                                    }
+                                                    else if (medicinaMI != null && medicinaMI.Medicamento != null)
+                                                    {
+                                                        <label class="h4">Médicina Interna: <span class="text-success">Medicamento Pagado</span></label>
+                                                        <input type="hidden" value="no" id="derechorp" name="mi">
+                                                        <br />
+                                                    }
+                                                    else if (medicinaMI != null && medicinaMI.PlanTratamiento != null)
+                                                    {
+                                                        <label class="h4">Médicina Interna: &nbsp; </label>
+                                                        <input type="checkbox" id="derechorp" name="mi">
+                                                        <br />
+                                                    }
+
+
+                                                    if (medicinaOftalmologo != null && medicinaOftalmologo.PlanTratamiento == null)
+                                                    {
+                                                        <label class="h4">Oftalmologo: <span class="text-info">Examen en proceso...</span></label>
+                                                        <input type="hidden" value="no" id="derechorp" name="ofta">
+                                                        <br />
+                                                    }
+                                                    else if (medicinaOftalmologo != null && medicinaOftalmologo.Medicamento != null)
+                                                    {
+                                                        <label class="h4">Oftalmologo: <span class="text-success">Medicamento Pagado</span></label>
+                                                        <input type="hidden" value="no" id="derechorp" name="ofta">
+                                                        <br />
+                                                    }
+                                                    else if (medicinaOftalmologo != null && medicinaOftalmologo.PlanTratamiento != null)
+                                                    {
+                                                        <label class="h4">Oftalmologo: &nbsp; </label>
+                                                        <input type="checkbox" id="derechorp" name="ofta">
+                                                        <br />
+                                                    }
+
+                                                    if (medicinaCardiologo != null && medicinaCardiologo.PlanTratamiento == null)
+                                                    {
+                                                        <label class="h4">Cardiologo: <span class="text-info">Examen en proceso...</span></label>
+                                                        <input type="hidden" value="no" id="derechorp" name="cardio">
+                                                        <br />
+                                                    }
+                                                    else if (medicinaCardiologo != null && medicinaCardiologo.Medicamento != null)
+                                                    {
+                                                        <label class="h4">Cardiólogo: <span class="text-success">Medicamento Pagado</span></label>
+                                                        <input type="hidden" value="no" id="derechorp" name="cardio">
+                                                        <br />
+                                                    }
+                                                    else if (medicinaCardiologo != null && medicinaCardiologo.PlanTratamiento != null)
+                                                    {
+                                                        <label class="h4">Cardiólogo: &nbsp; </label>
+                                                        <input type="checkbox" id="derechorp" name="cardio">
+                                                        <br />
+                                                    }
+
+                                                    if (medicinaNutricion != null && medicinaNutricion.PlanTratamiento == null)
+                                                    {
+                                                        <label class="h4">Nutriólogo: <span class="text-info">Examen en proceso...</span></label>
+                                                        <input type="hidden" value="no" id="derechorp" name="nutri">
+                                                        <br />
+                                                    }
+                                                    else if (medicinaNutricion != null && medicinaNutricion.Medicamento != null)
+                                                    {
+                                                        <label class="h4">Nutrición: <span class="text-success">Medicamento Pagado</span></label>
+                                                        <input type="hidden" value="no" id="derechorp" name="nutri">
+                                                        <br />
+                                                    }
+                                                    else if (medicinaNutricion != null && medicinaNutricion.PlanTratamiento != null)
+                                                    {
+                                                        <label class="h4">Nutriólogo: &nbsp; </label>
+                                                        <input type="checkbox" id="derechorp" name="nutri">
+                                                        <br />
+                                                    }
+
+                                                }
                                             </div>
                                         </div>
                                         <div class="modal-footer">
@@ -419,14 +492,12 @@ else
                         </form>
 
 
-                        <!-- Modal para digitalización completa-->
-                        <form method="post" enctype="multipart/form-data" action="@Url.Content("~/Recepcion/Editar")">
-                            @Html.AntiForgeryToken()
-                            <div class="modal fade" id="ModalEditar_@item.M.idPacienteDS" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <!-- Modal para ver estatus de entrega de medicamento-->
+                            <div class="modal fade" id="estatus_@item.M.idPacienteDS" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h4 class="modal-title text-primary" id="exampleModalLabel"><b>Editar Datos</b></h4>
+                                            <h4 class="modal-title text-primary" id="exampleModalLabel"><b>Medicamentos entregados</b></h4>
                                         </div>
                                         <div class="modal-body">
                                             <div class="form-group">
@@ -454,26 +525,6 @@ else
                                     </div>
                                 </div>
                             </div>
-                        </form>
-
-                        <!-- Modal para Iniciar Exámenes-->
-                        <form method="post" enctype="multipart/form-data" action="@Url.Content("~/Modulos/Index")">
-                            @Html.AntiForgeryToken()
-                            <div class="modal fade" id="examen_@item.M.idPacienteDS" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title text-primary" id="exampleModalLabel"><b>¿Desear iniciar el examen de @item.N.Nombre?</b></h4>
-                                            <input type="hidden" value="@item.N.idPacienteDS" name="id" />
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                            <input type="submit" value="Iniciar" class="btn btn-primary" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
 
                     </td>
                 </tr>

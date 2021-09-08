@@ -18,6 +18,7 @@ namespace DoctorSalud
         public Nullable<int> idPacienteDS { get; set; }
         public string CertificadoMedico { get; set; }
         public string PlanTratamiento { get; set; }
+        public string Medicamento { get; set; }
     
         public virtual PacienteDS PacienteDS { get; set; }
     }

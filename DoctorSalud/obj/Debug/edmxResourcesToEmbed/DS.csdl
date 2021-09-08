@@ -9,6 +9,7 @@
     <NavigationProperty Name="PacienteDS" Relationship="Self.FK_Cardiologo_PacienteDS" FromRole="Cardiologo" ToRole="PacienteDS" />
     <Property Name="CertificadoMedico" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="PlanTratamiento" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Medicamento" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="CitaDS">
     <Key>
@@ -42,6 +43,7 @@
     <NavigationProperty Name="PacienteDS" Relationship="Self.FK_MedicinaInterna_PacienteDS" FromRole="MedicinaInterna" ToRole="PacienteDS" />
     <Property Name="CertificadoMedico" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="PlanTratamiento" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Medicamento" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="Nutriologo">
     <Key>
@@ -52,6 +54,7 @@
     <NavigationProperty Name="PacienteDS" Relationship="Self.FK_Nutriologo_PacienteDS" FromRole="Nutriologo" ToRole="PacienteDS" />
     <Property Name="CertificadoMedico" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="PlanTratamiento" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Medicamento" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="Oftalmologo">
     <Key>
@@ -62,6 +65,7 @@
     <NavigationProperty Name="PacienteDS" Relationship="Self.FK_Oftalmologo_PacienteDS" FromRole="Oftalmologo" ToRole="PacienteDS" />
     <Property Name="CertificadoMedico" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="PlanTratamiento" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Medicamento" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="PacienteDS">
     <Key>

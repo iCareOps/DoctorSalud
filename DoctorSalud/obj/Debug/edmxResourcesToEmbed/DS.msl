@@ -4,6 +4,7 @@
     <EntitySetMapping Name="Cardiologo">
       <EntityTypeMapping TypeName="DSModel.Cardiologo">
         <MappingFragment StoreEntitySet="Cardiologo">
+          <ScalarProperty Name="Medicamento" ColumnName="Medicamento" />
           <ScalarProperty Name="PlanTratamiento" ColumnName="PlanTratamiento" />
           <ScalarProperty Name="CertificadoMedico" ColumnName="CertificadoMedico" />
           <ScalarProperty Name="idCardiologo" ColumnName="idCardiologo" />
@@ -37,6 +38,7 @@
     <EntitySetMapping Name="MedicinaInterna">
       <EntityTypeMapping TypeName="DSModel.MedicinaInterna">
         <MappingFragment StoreEntitySet="MedicinaInterna">
+          <ScalarProperty Name="Medicamento" ColumnName="Medicamento" />
           <ScalarProperty Name="PlanTratamiento" ColumnName="PlanTratamiento" />
           <ScalarProperty Name="CertificadoMedico" ColumnName="CertificadoMedico" />
           <ScalarProperty Name="idMedicinaInterna" ColumnName="idMedicinaInterna" />
@@ -47,6 +49,7 @@
     <EntitySetMapping Name="Nutriologo">
       <EntityTypeMapping TypeName="DSModel.Nutriologo">
         <MappingFragment StoreEntitySet="Nutriologo">
+          <ScalarProperty Name="Medicamento" ColumnName="Medicamento" />
           <ScalarProperty Name="PlanTratamiento" ColumnName="PlanTratamiento" />
           <ScalarProperty Name="CertificadoMedico" ColumnName="CertificadoMedico" />
           <ScalarProperty Name="idNutriologo" ColumnName="idNutriologo" />
@@ -57,6 +60,7 @@
     <EntitySetMapping Name="Oftalmologo">
       <EntityTypeMapping TypeName="DSModel.Oftalmologo">
         <MappingFragment StoreEntitySet="Oftalmologo">
+          <ScalarProperty Name="Medicamento" ColumnName="Medicamento" />
           <ScalarProperty Name="PlanTratamiento" ColumnName="PlanTratamiento" />
           <ScalarProperty Name="CertificadoMedico" ColumnName="CertificadoMedico" />
           <ScalarProperty Name="idOftalmologo" ColumnName="idOftalmologo" />
