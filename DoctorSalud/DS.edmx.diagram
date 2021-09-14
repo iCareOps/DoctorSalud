@@ -52,6 +52,10 @@
         <AssociationConnector Association="DSModel.FK_EPI_Odontologia_Paciente" />
         <AssociationConnector Association="DSModel.FK_Epi_Oftalmologia_Paciente" />
         <AssociationConnector Association="DSModel.FK_EPI_SignosVitales_Paciente" />
+        <EntityTypeShape EntityType="DSModel.SignosVitalesDS" Width="1.5" PointX="3.125" PointY="61" />
+        <AssociationConnector Association="DSModel.FK_SignosVitalesDS_PacienteDS" />
+        <EntityTypeShape EntityType="DSModel.Farmacia" Width="1.5" PointX="3.125" PointY="66" />
+        <AssociationConnector Association="DSModel.FK_Farmacia_PacienteDS" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

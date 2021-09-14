@@ -15,6 +15,8 @@
     <EntitySetMapping Name="CitaDS">
       <EntityTypeMapping TypeName="DSModel.CitaDS">
         <MappingFragment StoreEntitySet="CitaDS">
+          <ScalarProperty Name="Fin_SignosVitales" ColumnName="Fin_SignosVitales" />
+          <ScalarProperty Name="Inicio_SignosVitales" ColumnName="Inicio_SignosVitales" />
           <ScalarProperty Name="Membresia" ColumnName="Membresia" />
           <ScalarProperty Name="Fin_Nutricion" ColumnName="Fin_Nutricion" />
           <ScalarProperty Name="Inicio_Nutriciom" ColumnName="Inicio_Nutriciom" />
@@ -342,6 +344,34 @@
           <ScalarProperty Name="Telefono" ColumnName="Telefono" />
           <ScalarProperty Name="Nombre" ColumnName="Nombre" />
           <ScalarProperty Name="idPaciente" ColumnName="idPaciente" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SignosVitalesDS">
+      <EntityTypeMapping TypeName="DSModel.SignosVitalesDS">
+        <MappingFragment StoreEntitySet="SignosVitalesDS">
+          <ScalarProperty Name="idPacienteDS" ColumnName="idPacienteDS" />
+          <ScalarProperty Name="Grasa" ColumnName="Grasa" />
+          <ScalarProperty Name="Cuello" ColumnName="Cuello" />
+          <ScalarProperty Name="Cintura" ColumnName="Cintura" />
+          <ScalarProperty Name="IMC" ColumnName="IMC" />
+          <ScalarProperty Name="Estatura" ColumnName="Estatura" />
+          <ScalarProperty Name="Peso" ColumnName="Peso" />
+          <ScalarProperty Name="Temperatura" ColumnName="Temperatura" />
+          <ScalarProperty Name="Respiratoria" ColumnName="Respiratoria" />
+          <ScalarProperty Name="Cardiaca" ColumnName="Cardiaca" />
+          <ScalarProperty Name="Diastolica" ColumnName="Diastolica" />
+          <ScalarProperty Name="Sistolica" ColumnName="Sistolica" />
+          <ScalarProperty Name="idSignosVitalesDS" ColumnName="idSignosVitalesDS" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Farmacia">
+      <EntityTypeMapping TypeName="DSModel.Farmacia">
+        <MappingFragment StoreEntitySet="Farmacia">
+          <ScalarProperty Name="idPacienteDS" ColumnName="idPacienteDS" />
+          <ScalarProperty Name="MedicamentoGeneral" ColumnName="MedicamentoGeneral" />
+          <ScalarProperty Name="idFarmacia" ColumnName="idFarmacia" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

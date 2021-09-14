@@ -33,6 +33,8 @@
     <Property Name="Inicio_Nutriciom" Type="DateTime" Precision="3" />
     <Property Name="Fin_Nutricion" Type="DateTime" Precision="3" />
     <Property Name="Membresia" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Inicio_SignosVitales" Type="DateTime" Precision="3" />
+    <Property Name="Fin_SignosVitales" Type="DateTime" Precision="3" />
   </EntityType>
   <EntityType Name="MedicinaInterna">
     <Key>
@@ -81,6 +83,8 @@
     <NavigationProperty Name="MedicinaInterna" Relationship="Self.FK_MedicinaInterna_PacienteDS" FromRole="PacienteDS" ToRole="MedicinaInterna" />
     <NavigationProperty Name="Nutriologo" Relationship="Self.FK_Nutriologo_PacienteDS" FromRole="PacienteDS" ToRole="Nutriologo" />
     <NavigationProperty Name="Oftalmologo" Relationship="Self.FK_Oftalmologo_PacienteDS" FromRole="PacienteDS" ToRole="Oftalmologo" />
+    <NavigationProperty Name="SignosVitalesDS" Relationship="DSModel.FK_SignosVitalesDS_PacienteDS" FromRole="PacienteDS" ToRole="SignosVitalesDS" />
+    <NavigationProperty Name="Farmacia" Relationship="DSModel.FK_Farmacia_PacienteDS" FromRole="PacienteDS" ToRole="Farmacia" />
   </EntityType>
   <Association Name="FK_Cardiologo_PacienteDS">
     <End Role="PacienteDS" Type="Self.PacienteDS" Multiplicity="0..1" />
@@ -255,6 +259,16 @@
     <AssociationSet Name="FK_EPI_SignosVitales_Paciente" Association="DSModel.FK_EPI_SignosVitales_Paciente">
       <End Role="Paciente" EntitySet="Paciente" />
       <End Role="EPI_SignosVitales" EntitySet="EPI_SignosVitales" />
+    </AssociationSet>
+    <EntitySet Name="SignosVitalesDS" EntityType="DSModel.SignosVitalesDS" />
+    <AssociationSet Name="FK_SignosVitalesDS_PacienteDS" Association="DSModel.FK_SignosVitalesDS_PacienteDS">
+      <End Role="PacienteDS" EntitySet="PacienteDS" />
+      <End Role="SignosVitalesDS" EntitySet="SignosVitalesDS" />
+    </AssociationSet>
+    <EntitySet Name="Farmacia" EntityType="DSModel.Farmacia" />
+    <AssociationSet Name="FK_Farmacia_PacienteDS" Association="DSModel.FK_Farmacia_PacienteDS">
+      <End Role="PacienteDS" EntitySet="PacienteDS" />
+      <End Role="Farmacia" EntitySet="Farmacia" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Menu">
@@ -739,6 +753,58 @@
       </Principal>
       <Dependent Role="EPI_SignosVitales">
         <PropertyRef Name="idPaciente" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="SignosVitalesDS">
+    <Key>
+      <PropertyRef Name="idSignosVitalesDS" />
+    </Key>
+    <Property Name="idSignosVitalesDS" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Sistolica" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Diastolica" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Cardiaca" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Respiratoria" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Temperatura" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Peso" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Estatura" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="IMC" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Cintura" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Cuello" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Grasa" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="idPacienteDS" Type="Int32" />
+    <NavigationProperty Name="PacienteDS" Relationship="DSModel.FK_SignosVitalesDS_PacienteDS" FromRole="SignosVitalesDS" ToRole="PacienteDS" />
+  </EntityType>
+  <Association Name="FK_SignosVitalesDS_PacienteDS">
+    <End Type="DSModel.PacienteDS" Role="PacienteDS" Multiplicity="0..1" />
+    <End Type="DSModel.SignosVitalesDS" Role="SignosVitalesDS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PacienteDS">
+        <PropertyRef Name="idPacienteDS" />
+      </Principal>
+      <Dependent Role="SignosVitalesDS">
+        <PropertyRef Name="idPacienteDS" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Farmacia">
+    <Key>
+      <PropertyRef Name="idFarmacia" />
+    </Key>
+    <Property Name="idFarmacia" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MedicamentoGeneral" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="idPacienteDS" Type="Int32" />
+    <NavigationProperty Name="PacienteDS" Relationship="DSModel.FK_Farmacia_PacienteDS" FromRole="Farmacia" ToRole="PacienteDS" />
+  </EntityType>
+  <Association Name="FK_Farmacia_PacienteDS">
+    <End Type="DSModel.PacienteDS" Role="PacienteDS" Multiplicity="0..1" />
+    <End Type="DSModel.Farmacia" Role="Farmacia" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PacienteDS">
+        <PropertyRef Name="idPacienteDS" />
+      </Principal>
+      <Dependent Role="Farmacia">
+        <PropertyRef Name="idPacienteDS" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

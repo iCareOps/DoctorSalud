@@ -22,6 +22,8 @@ namespace DoctorSalud
             this.MedicinaInterna = new HashSet<MedicinaInterna>();
             this.Nutriologo = new HashSet<Nutriologo>();
             this.Oftalmologo = new HashSet<Oftalmologo>();
+            this.SignosVitalesDS = new HashSet<SignosVitalesDS>();
+            this.Farmacia = new HashSet<Farmacia>();
         }
     
         public int idPacienteDS { get; set; }
@@ -40,5 +42,9 @@ namespace DoctorSalud
         public virtual ICollection<Nutriologo> Nutriologo { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Oftalmologo> Oftalmologo { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SignosVitalesDS> SignosVitalesDS { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Farmacia> Farmacia { get; set; }
     }
 }

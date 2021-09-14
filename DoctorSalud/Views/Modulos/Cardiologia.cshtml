@@ -7,44 +7,61 @@
 
     var nombrePaciente = (from d in db.PacienteDS where d.idPacienteDS == idPaciente select d.Nombre).FirstOrDefault();
     var pacienteHASH = (from d in db.PacienteDS where d.idPacienteDS == idPaciente select d.HASH).FirstOrDefault();
+
+    var signos = (from c in db.SignosVitalesDS where c.idPacienteDS == idPaciente orderby c.idSignosVitalesDS descending select c).FirstOrDefault();
 }
 <br />
 <h2 style="text-align:left" class="text-info">Cardiología</h2>
-@{
-    var pacienteGMI = (from p in db.Paciente where p.HASH == pacienteHASH select p).FirstOrDefault();
+@*@{
+        var pacienteGMI = (from p in db.Paciente where p.HASH == pacienteHASH select p).FirstOrDefault();
 
 
-    if (pacienteGMI != null)
-    {
-        int idGMI = (from p in db.Paciente where p.idPaciente == pacienteGMI.idPaciente select p.idPaciente).FirstOrDefault();
-        <h3 class="text-primary"><span class="text-info">Datos del examen EPI: </span>@nombrePaciente </h3>
+        if (pacienteGMI != null)
+        {
+            int idGMI = (from p in db.Paciente where p.idPaciente == pacienteGMI.idPaciente select p.idPaciente).FirstOrDefault();
+            <h3 class="text-primary"><span class="text-info">Datos del examen EPI: </span>@nombrePaciente </h3>
 
-        var consulta2 = (from c in db.EPI_Cardiologia where c.idPaciente == idGMI orderby c.idCardiologia descending select c).FirstOrDefault();
-    <h3 style="text-align:left">Cardiología</h3>
-    <h4 style="text-align:left"><b>Ritmo: </b><span class="text-primary"> @consulta2.Ritmo</span></h4>
-    <h4 style="text-align:left"><b>Frecuencia: </b><span class="text-primary"> @consulta2.Frecuencia</span></h4>
-    <h4 style="text-align:left"><b>Eje: </b><span class="text-primary"> @consulta2.Eje</span></h4>
-    <h4 style="text-align:left;"><b>Intervalo PR: </b><span class="text-primary"> @consulta2.PR</span></h4>
-    <h4 style="text-align:left"><b>Intervalo QT: </b><span class="text-primary"> @consulta2.QT</span></h4>
-    <h4 style="text-align:left"><b>Intervalo QRS: </b><span class="text-primary"> @consulta2.QRS</span></h4>
-    <h4 style="text-align:left"><b>Onda P: </b><span class="text-primary"> @consulta2.OndaP</span></h4>
-    <h4 style="text-align:left"><b>Onda T: </b><span class="text-primary"> @consulta2.OndaT</span></h4>
-    <hr />
+            var consulta2 = (from c in db.EPI_Cardiologia where c.idPaciente == idGMI orderby c.idCardiologia descending select c).FirstOrDefault();
+        <h3 style="text-align:left">Cardiología</h3>
+        <h4 style="text-align:left"><b>Ritmo: </b><span class="text-primary"> @consulta2.Ritmo</span></h4>
+        <h4 style="text-align:left"><b>Frecuencia: </b><span class="text-primary"> @consulta2.Frecuencia</span></h4>
+        <h4 style="text-align:left"><b>Eje: </b><span class="text-primary"> @consulta2.Eje</span></h4>
+        <h4 style="text-align:left;"><b>Intervalo PR: </b><span class="text-primary"> @consulta2.PR</span></h4>
+        <h4 style="text-align:left"><b>Intervalo QT: </b><span class="text-primary"> @consulta2.QT</span></h4>
+        <h4 style="text-align:left"><b>Intervalo QRS: </b><span class="text-primary"> @consulta2.QRS</span></h4>
+        <h4 style="text-align:left"><b>Onda P: </b><span class="text-primary"> @consulta2.OndaP</span></h4>
+        <h4 style="text-align:left"><b>Onda T: </b><span class="text-primary"> @consulta2.OndaT</span></h4>
+        <hr />
 
-    }
-}
+        }
+    }*@
 
-<br />
+<h3 class="text-primary"><span class="text-info">Signos Vitales de: </span>@nombrePaciente </h3>
+
+
+<h4 style="text-align:left"><b>Frecuencia Arterial Sistólica: </b><span class="text-primary"> @signos.Sistolica</span></h4>
+<h4 style="text-align:left"><b>Frecuencia Arterial Diastólica: </b><span class="text-primary"> @signos.Diastolica</span></h4>
+<h4 style="text-align:left"><b>Frecuencia Cardiaca: </b><span class="text-primary"> @signos.Cardiaca</span></h4>
+<h4 style="text-align:left"><b>Frecuencia Respiratoria: </b><span class="text-primary"> @signos.Respiratoria</span></h4>
+<h4 style="text-align:left"><b>Temperatura: </b><span class="text-primary"> @signos.Temperatura°</span></h4>
+<h4 style="text-align:left"><b>Peso (Kgs): </b><span class="text-primary"> @signos.Peso Kgs</span></h4>
+<h4 style="text-align:left"><b>Estatura (cms): </b><span class="text-primary"> @signos.Estatura cms</span></h4>
+<h4 style="text-align:left"><b>IMC: </b><span class="text-primary"> @signos.IMC</span></h4>
+<h4 style="text-align:left"><b>Cintura (cms): </b><span class="text-primary"> @signos.Cintura cms</span></h4>
+<h4 style="text-align:left"><b>Cuello (cms): </b><span class="text-primary"> @signos.Cuello cms</span></h4>
+<h4 style="text-align:left"><b>Porcentaje de Grasa: </b><span class="text-primary"> @signos.Grasa %</span></h4>
+
+<hr />
 <h3 class="text-primary"><span class="text-info">Diagnostico del paciente: </span>@nombrePaciente </h3>
 <br />
 
 <form method="post" enctype="multipart/form-data" action="@Url.Content("~/Modulos/Guardar_Cardiologia")" style="display:inline-block; margin:0.5%">
 
     <h4 style="text-align:left">Certficado Médico:</h4>
-    <textarea style="width:300vw" name="certificado"></textarea>
+    <textarea style="width:80vw;max-width:80vw; height:30vh; max-height:30vh; font-size:x-large" name="certificado" required></textarea>
     <br />
     <h4 style="text-align:left">Plan de Tratamiento:</h4>
-    <textarea style="width:300vw" name="tratamiento"></textarea>
+    <textarea style="width:80vw;max-width:80vw; height:30vh; max-height:30vh; font-size:x-large" name="tratamiento" required></textarea>
 
     <br />
     <br />

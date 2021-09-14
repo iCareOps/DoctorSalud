@@ -36,22 +36,6 @@ namespace DoctorSalud.Controllers.Recepcion
             paciente.Telefono = telefono;
             paciente.Email = email;
 
-            //string hash;
-            //do
-            //{
-            //    Random numero = new Random();
-            //    int randomize = numero.Next(0, 61);
-            //    string[] aleatorio = new string[62] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
-            //    string get_1;
-            //    get_1 = aleatorio[randomize];
-            //    hash = get_1;
-            //    for (int i = 0; i < 9; i++)
-            //    {
-            //        randomize = numero.Next(0, 61);
-            //        get_1 = aleatorio[randomize];
-            //        hash += get_1;
-            //    }
-            //} while ((from i in db.PacienteDS where i.HASH == hash select i) == null);
 
             string mes = DateTime.Now.Month.ToString();
             string dia = DateTime.Now.Day.ToString();
@@ -136,9 +120,21 @@ namespace DoctorSalud.Controllers.Recepcion
             var cardiolo = (from o in db.Cardiologo where o.idPacienteDS == id select o).FirstOrDefault();
             var nutriolo = (from o in db.Nutriologo where o.idPacienteDS == id select o).FirstOrDefault();
             var medicina = (from o in db.MedicinaInterna where o.idPacienteDS == id select o).FirstOrDefault();
+            var signos = (from o in db.SignosVitalesDS where o.idPacienteDS == id select o).FirstOrDefault();
 
             cita.EstatusPago = "Pagado";
             cita.Membresia = membresia == "on" ? "SI" : null;
+
+            SignosVitalesDS signosV = new SignosVitalesDS();
+            signosV.idPacienteDS = id;
+            if(signos == null)
+            {
+                if (ModelState.IsValid)
+                {
+                    db.SignosVitalesDS.Add(signosV);
+                    db.SaveChanges();
+                }
+            }
 
             if (ModelState.IsValid)
             {

@@ -75,15 +75,7 @@ registros = db.PacienteDS.Join(db.CitaDS, n => n.idPacienteDS, m => m.idPaciente
 <br />
 <h2 style="color:navy" @*class="text-center"*@>@Sucursal</h2>
 <br />
-<!--<div class="form-inline">
-    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModal"><span class="glyphicon glyphicon-plus"></span> Nueva Cita</button>-->
-    @*<div class="input-group pull-right">
-            <input type="text" class="form-control" id="buscador" name="dato" placeholder="Paciente o Expediente">
-            <span class="input-group-btn">
-                <button class="btn btn-info buscar" id="buscar" type="button"><span class="glyphicon glyphicon-search"></span></button>
-            </span>
-        </div>*@
-<!--</div>-->
+
 
 @section scripts{
 
@@ -237,6 +229,16 @@ else
                         PACIENTE
                     </th>
 
+                    @{
+                        if (idRol == 18)
+                        {
+                            <th>
+                                SUCURSAL
+                            </th>
+                        }
+
+                    }
+
                     <th>
                         MEDICINA INTERNA
                     </th>
@@ -265,6 +267,14 @@ else
                     <td>
                         <b>@Html.DisplayFor(modelItem => item.N.Nombre)</b>
                     </td>
+                    @{ 
+                        if(idRol == 18)
+                    {
+                        <td>
+                            @item.M.Sucursal
+                        </td>
+                    }
+                    }
                     <td>
                         @{
                             if ((from c in db.MedicinaInterna where c.idPacienteDS == item.N.idPacienteDS select c).FirstOrDefault() != null)

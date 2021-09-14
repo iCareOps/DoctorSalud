@@ -58,6 +58,14 @@
                                     @Usuario  <span class="glyphicon glyphicon-chevron-down"></span>
                                 </button>
                                 <div class="dropdown-menu" style="padding: 7px">
+                                    @{
+                                        if (rol == 18)
+                                        {
+                                            <h5>@Html.ActionLink("Recepción", "Index", "Recepcion")</h5>
+                                            <h5>@Html.ActionLink("Exámenes", "Inicio", "Recepcion")</h5>
+                                            <h5>@Html.ActionLink("Farmacia", "Farmacia", "Recepcion")</h5>
+                                        }
+                                    }
                                     <h5>
                                         <b>@Html.ActionLink("Cerrar Sesión", "Logoff", "Logoff")</b>
                                     </h5>

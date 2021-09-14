@@ -31,6 +31,8 @@
     <Property Name="Inicio_Nutriciom" Type="datetime" />
     <Property Name="Fin_Nutricion" Type="datetime" />
     <Property Name="Membresia" Type="varchar" MaxLength="10" />
+    <Property Name="Inicio_SignosVitales" Type="datetime" />
+    <Property Name="Fin_SignosVitales" Type="datetime" />
   </EntityType>
   <EntityType Name="EPI_A_Heredofamiliares">
     <Key>
@@ -218,6 +220,14 @@
     <Property Name="Grasa" Type="varchar" MaxLength="10" />
     <Property Name="idPaciente" Type="int" />
   </EntityType>
+  <EntityType Name="Farmacia">
+    <Key>
+      <PropertyRef Name="idFarmacia" />
+    </Key>
+    <Property Name="idFarmacia" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MedicamentoGeneral" Type="varchar" MaxLength="500" />
+    <Property Name="idPacienteDS" Type="int" />
+  </EntityType>
   <EntityType Name="MedicinaInterna">
     <Key>
       <PropertyRef Name="idMedicinaInterna" />
@@ -301,6 +311,24 @@
     <Property Name="idRolMenu" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="idMenu" Type="int" />
     <Property Name="idRol" Type="int" />
+  </EntityType>
+  <EntityType Name="SignosVitalesDS">
+    <Key>
+      <PropertyRef Name="idSignosVitalesDS" />
+    </Key>
+    <Property Name="idSignosVitalesDS" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Sistolica" Type="varchar" MaxLength="20" />
+    <Property Name="Diastolica" Type="varchar" MaxLength="10" />
+    <Property Name="Cardiaca" Type="varchar" MaxLength="10" />
+    <Property Name="Respiratoria" Type="varchar" MaxLength="10" />
+    <Property Name="Temperatura" Type="varchar" MaxLength="10" />
+    <Property Name="Peso" Type="varchar" MaxLength="10" />
+    <Property Name="Estatura" Type="varchar" MaxLength="10" />
+    <Property Name="IMC" Type="varchar" MaxLength="10" />
+    <Property Name="Cintura" Type="varchar" MaxLength="10" />
+    <Property Name="Cuello" Type="varchar" MaxLength="10" />
+    <Property Name="Grasa" Type="varchar" MaxLength="10" />
+    <Property Name="idPacienteDS" Type="int" />
   </EntityType>
   <EntityType Name="SucursalDS">
     <Key>
@@ -487,6 +515,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Farmacia_PacienteDS">
+    <End Role="PacienteDS" Type="Self.PacienteDS" Multiplicity="0..1" />
+    <End Role="Farmacia" Type="Self.Farmacia" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PacienteDS">
+        <PropertyRef Name="idPacienteDS" />
+      </Principal>
+      <Dependent Role="Farmacia">
+        <PropertyRef Name="idPacienteDS" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_MedicinaInterna_PacienteDS">
     <End Role="PacienteDS" Type="Self.PacienteDS" Multiplicity="0..1" />
     <End Role="MedicinaInterna" Type="Self.MedicinaInterna" Multiplicity="*" />
@@ -571,6 +611,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_SignosVitalesDS_PacienteDS">
+    <End Role="PacienteDS" Type="Self.PacienteDS" Multiplicity="0..1" />
+    <End Role="SignosVitalesDS" Type="Self.SignosVitalesDS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PacienteDS">
+        <PropertyRef Name="idPacienteDS" />
+      </Principal>
+      <Dependent Role="SignosVitalesDS">
+        <PropertyRef Name="idPacienteDS" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Usuarios_Roles">
     <End Role="Roles" Type="Self.Roles" Multiplicity="0..1" />
     <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="*" />
@@ -598,6 +650,7 @@
     <EntitySet Name="EPI_Odontologia" EntityType="Self.EPI_Odontologia" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Epi_Oftalmologia" EntityType="Self.Epi_Oftalmologia" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="EPI_SignosVitales" EntityType="Self.EPI_SignosVitales" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Farmacia" EntityType="Self.Farmacia" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="MedicinaInterna" EntityType="Self.MedicinaInterna" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Menu" EntityType="Self.Menu" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Nutriologo" EntityType="Self.Nutriologo" Schema="dbo" store:Type="Tables" />
@@ -607,6 +660,7 @@
     <EntitySet Name="RecepcionistaDS" EntityType="Self.RecepcionistaDS" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="RolMenu" EntityType="Self.RolMenu" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SignosVitalesDS" EntityType="Self.SignosVitalesDS" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SucursalDS" EntityType="Self.SucursalDS" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Usuarios" EntityType="Self.Usuarios" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_Cardiologo_PacienteDS" Association="Self.FK_Cardiologo_PacienteDS">
@@ -665,6 +719,10 @@
       <End Role="Paciente" EntitySet="Paciente" />
       <End Role="EPI_SignosVitales" EntitySet="EPI_SignosVitales" />
     </AssociationSet>
+    <AssociationSet Name="FK_Farmacia_PacienteDS" Association="Self.FK_Farmacia_PacienteDS">
+      <End Role="PacienteDS" EntitySet="PacienteDS" />
+      <End Role="Farmacia" EntitySet="Farmacia" />
+    </AssociationSet>
     <AssociationSet Name="FK_MedicinaInterna_PacienteDS" Association="Self.FK_MedicinaInterna_PacienteDS">
       <End Role="PacienteDS" EntitySet="PacienteDS" />
       <End Role="MedicinaInterna" EntitySet="MedicinaInterna" />
@@ -692,6 +750,10 @@
     <AssociationSet Name="FK_RolMenu_Roles" Association="Self.FK_RolMenu_Roles">
       <End Role="Roles" EntitySet="Roles" />
       <End Role="RolMenu" EntitySet="RolMenu" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SignosVitalesDS_PacienteDS" Association="Self.FK_SignosVitalesDS_PacienteDS">
+      <End Role="PacienteDS" EntitySet="PacienteDS" />
+      <End Role="SignosVitalesDS" EntitySet="SignosVitalesDS" />
     </AssociationSet>
     <AssociationSet Name="FK_Usuarios_Roles" Association="Self.FK_Usuarios_Roles">
       <End Role="Roles" EntitySet="Roles" />

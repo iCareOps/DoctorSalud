@@ -3,10 +3,11 @@
 
     ViewBag.Title = "Index";
 
-
     var oUser = (Usuarios)HttpContext.Current.Session["User"];
 
     DoctorSalud_Entities db = new DoctorSalud_Entities();
+
+
     System.Web.Script.Serialization.JavaScriptSerializer js = new System.Web.Script.Serialization.JavaScriptSerializer();
 
     var Recepcion = new int?();
@@ -73,16 +74,16 @@ registros = db.PacienteDS.Join(db.CitaDS, n => n.idPacienteDS, m => m.idPaciente
 
 <br />
 <br />
-<h2 style="color:navy" @*class="text-center"*@><span class="text-info">FARMACIA -</span> @Sucursal</h2>
+<h2 style="color:navy" @*class="text-center"*@><span class="text-info">FARMACIA - </span> @Sucursal</h2>
 <br />
 <!--<div class="form-inline">
     <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModal"><span class="glyphicon glyphicon-plus"></span> Nueva Cita</button>-->
-    @*<div class="input-group pull-right">
-            <input type="text" class="form-control" id="buscador" name="dato" placeholder="Paciente o Expediente">
-            <span class="input-group-btn">
-                <button class="btn btn-info buscar" id="buscar" type="button"><span class="glyphicon glyphicon-search"></span></button>
-            </span>
-        </div>*@
+@*<div class="input-group pull-right">
+        <input type="text" class="form-control" id="buscador" name="dato" placeholder="Paciente o Expediente">
+        <span class="input-group-btn">
+            <button class="btn btn-info buscar" id="buscar" type="button"><span class="glyphicon glyphicon-search"></span></button>
+        </span>
+    </div>*@
 <!--</div>-->
 
 @section scripts{
@@ -149,6 +150,12 @@ registros = db.PacienteDS.Join(db.CitaDS, n => n.idPacienteDS, m => m.idPaciente
         });
     });
     </script>
+    @if (TempData["ID_FARMACIA"] != null)
+    {
+        <script>
+            window.open('@Url.Action("DescargarFARMACIA","Modulos", new {id = TempData["ID_FARMACIA"] })');
+        </script>
+    }
 
     @if (TempData["Link"] != null)
     {
@@ -253,7 +260,7 @@ else
                 </tr>
             </thead>
 
-            
+
 
             @foreach (var item in modelo)
             {
@@ -275,13 +282,38 @@ else
                                 }
                                 else
                                 {
-                                    <h4 class="text-success">Ver Certificado</h4>
+                                    <h4 class="text-success" data-toggle="modal" data-target="#certificadoMI_@item.N.idPacienteDS">Ver Certificado</h4>
+
+                                    <div class="modal fade" id="certificadoMI_@item.M.idPacienteDS" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title" id="exampleModalLabel"><b>Certificado de Medicina Interna para <span class="text-danger">@item.N.Nombre</span></b></h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="form-group">
+                                                        @{
+                                                            var MI = (from m in db.MedicinaInterna where m.idPacienteDS == item.N.idPacienteDS orderby m.idMedicinaInterna descending select m).FirstOrDefault();
+
+                                                            <h4><b class="text-info">Certificado Médico: </b><span class="text-primary">@MI.CertificadoMedico</span></h4>
+                                                            <h4><b class="text-info">Plan de Tratamiento: </b><span class="text-primary">@MI.PlanTratamiento</span></h4>
+                                                        }
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 }
                             }
-                    else
-                    {
-                        <h4>N/A</h4>
-                    }
+                            else
+                            {
+                                <h4>N/A</h4>
+                            }
+
+
 
                         }
                     </td>
@@ -295,13 +327,38 @@ else
                                 }
                                 else
                                 {
-                                    <h4 class="text-success">Ver Certificado</h4>
+                                    <h4 class="text-success" data-toggle="modal" data-target="#certificadoOF_@item.N.idPacienteDS">Ver Certificado</h4>
+
+                                    <div class="modal fade" id="certificadoOF_@item.M.idPacienteDS" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title" id="exampleModalLabel"><b>Certificado de Oftalmología para <span class="text-danger">@item.N.Nombre</span></b></h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="form-group">
+                                                        @{
+                                                            var OF = (from m in db.Oftalmologo where m.idPacienteDS == item.N.idPacienteDS orderby m.idOftalmologo descending select m).FirstOrDefault();
+
+                                                            <h4><b class="text-info">Certificado Médico: </b><span class="text-primary">@OF.CertificadoMedico</span></h4>
+                                                            <h4><b class="text-info">Plan de Tratamiento: </b><span class="text-primary">@OF.PlanTratamiento</span></h4>
+                                                        }
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 }
                             }
                             else
                             {
                                 <h4>N/A</h4>
                             }
+
+
 
                         }
                     </td>
@@ -315,13 +372,38 @@ else
                                 }
                                 else
                                 {
-                                    <h4 class="text-success">Ver Certificado</h4>
+                                    <h4 class="text-success" data-toggle="modal" data-target="#certificadoCA_@item.N.idPacienteDS">Ver Certificado</h4>
+
+                                    <div class="modal fade" id="certificadoCA_@item.M.idPacienteDS" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title" id="exampleModalLabel"><b>Certificado de Cardiología para <span class="text-danger">@item.N.Nombre</span></b></h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="form-group">
+                                                        @{
+                                                            var CA = (from m in db.Cardiologo where m.idPacienteDS == item.N.idPacienteDS orderby m.idCardiologo descending select m).FirstOrDefault();
+
+                                                            <h4><b class="text-info">Certificado Médico: </b><span class="text-primary">@CA.CertificadoMedico</span></h4>
+                                                            <h4><b class="text-info">Plan de Tratamiento: </b><span class="text-primary">@CA.PlanTratamiento</span></h4>
+                                                        }
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 }
                             }
                             else
                             {
                                 <h4>N/A</h4>
                             }
+
+
 
                         }
                     </td>
@@ -335,13 +417,38 @@ else
                                 }
                                 else
                                 {
-                                    <h4 class="text-success">Ver Certificado</h4>
+                                    <h4 class="text-success" data-toggle="modal" data-target="#certificadoNU_@item.N.idPacienteDS">Ver Certificado</h4>
+
+                                    <div class="modal fade" id="certificadoNU_@item.M.idPacienteDS" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title" id="exampleModalLabel"><b>Certificado de Nutrición para <span class="text-danger">@item.N.Nombre</span></b></h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="form-group">
+                                                        @{
+                                                            var NU = (from m in db.Nutriologo where m.idPacienteDS == item.N.idPacienteDS orderby m.idNutriologo descending select m).FirstOrDefault();
+
+                                                            <h4><b class="text-info">Certificado Médico: </b><span class="text-primary">@NU.CertificadoMedico</span></h4>
+                                                            <h4><b class="text-info">Plan de Tratamiento: </b><span class="text-primary">@NU.PlanTratamiento</span></h4>
+                                                        }
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 }
                             }
                             else
                             {
                                 <h4>N/A</h4>
                             }
+
+
 
                         }
                     </td>
@@ -355,106 +462,34 @@ else
                                 <a href="#" data-toggle="modal" data-target="#entregar_@item.M.idPacienteDS">Medicamento</a>
                                 <div class="dropdown-divider"></div>
                                 @*<a href="#" data-toggle="modal" data-target="#estatus_@item.M.idPacienteDS">Estatus Medicamento</a>
-                                <div class="dropdown-divider"></div>*@
+                                    <div class="dropdown-divider"></div>*@
                             </div>
                         </div>
 
                         <!-- Modal para elegir modulos de entrega medicamento -->
-                        <form method="post" enctype="multipart/form-data" action="@Url.Content("~/Recepcion/PagadoMedicamento")">
+                        <form method="post" enctype="multipart/form-data" action="@Url.Content("~/Modulos/Guardar_Farmacia")">
                             @Html.AntiForgeryToken()
                             <div class="modal fade" id="entregar_@item.M.idPacienteDS" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header bg-info">
-                                            <h4 class="modal-title" id="exampleModalLabel"><b>Elegir Medicamento Pagados</b></h4>
+                                            <h4 class="modal-title" id="exampleModalLabel"><b>Elegir Medicamento a Entregar</b></h4>
                                         </div>
                                         <div class="modal-body">
                                             <input type="hidden" name="id" value="@item.M.idPacienteDS" />
                                             <div class="form-group">
-                                                @{
-                                                    var medicinaMI = (from i in db.MedicinaInterna where i.idPacienteDS == item.N.idPacienteDS orderby i.idMedicinaInterna descending select i).FirstOrDefault();
-                                                    var medicinaOftalmologo = (from i in db.Oftalmologo where i.idPacienteDS == item.N.idPacienteDS orderby i.idOftalmologo descending select i).FirstOrDefault();
-                                                    var medicinaCardiologo = (from i in db.Cardiologo where i.idPacienteDS == item.N.idPacienteDS orderby i.idCardiologo descending select i).FirstOrDefault();
-                                                    var medicinaNutricion = (from i in db.Nutriologo where i.idPacienteDS == item.N.idPacienteDS orderby i.idNutriologo descending select i).FirstOrDefault();
-
-                                                    if (medicinaMI != null && medicinaMI.PlanTratamiento == null)
-                                                    {
-                                                        <label class="h4">Médicina Interna: <span class="text-info">Examen en proceso...</span></label>
-                                                        <input type="hidden" value="no" id="derechorp" name="mi">
-                                                        <br />
-                                                    }
-                                                    else if (medicinaMI != null && medicinaMI.Medicamento != null)
-                                                    {
-                                                        <label class="h4">Médicina Interna: <span class="text-success">Medicamento Pagado</span></label>
-                                                        <input type="hidden" value="no" id="derechorp" name="mi">
-                                                        <br />
-                                                    }
-                                                    else if (medicinaMI != null && medicinaMI.PlanTratamiento != null)
-                                                    {
-                                                        <label class="h4">Médicina Interna: &nbsp; </label>
-                                                        <input type="checkbox" id="derechorp" name="mi">
-                                                        <br />
-                                                    }
-
-
-                                                    if (medicinaOftalmologo != null && medicinaOftalmologo.PlanTratamiento == null)
-                                                    {
-                                                        <label class="h4">Oftalmologo: <span class="text-info">Examen en proceso...</span></label>
-                                                        <input type="hidden" value="no" id="derechorp" name="ofta">
-                                                        <br />
-                                                    }
-                                                    else if (medicinaOftalmologo != null && medicinaOftalmologo.Medicamento != null)
-                                                    {
-                                                        <label class="h4">Oftalmologo: <span class="text-success">Medicamento Pagado</span></label>
-                                                        <input type="hidden" value="no" id="derechorp" name="ofta">
-                                                        <br />
-                                                    }
-                                                    else if (medicinaOftalmologo != null && medicinaOftalmologo.PlanTratamiento != null)
-                                                    {
-                                                        <label class="h4">Oftalmologo: &nbsp; </label>
-                                                        <input type="checkbox" id="derechorp" name="ofta">
-                                                        <br />
-                                                    }
-
-                                                    if (medicinaCardiologo != null && medicinaCardiologo.PlanTratamiento == null)
-                                                    {
-                                                        <label class="h4">Cardiologo: <span class="text-info">Examen en proceso...</span></label>
-                                                        <input type="hidden" value="no" id="derechorp" name="cardio">
-                                                        <br />
-                                                    }
-                                                    else if (medicinaCardiologo != null && medicinaCardiologo.Medicamento != null)
-                                                    {
-                                                        <label class="h4">Cardiólogo: <span class="text-success">Medicamento Pagado</span></label>
-                                                        <input type="hidden" value="no" id="derechorp" name="cardio">
-                                                        <br />
-                                                    }
-                                                    else if (medicinaCardiologo != null && medicinaCardiologo.PlanTratamiento != null)
-                                                    {
-                                                        <label class="h4">Cardiólogo: &nbsp; </label>
-                                                        <input type="checkbox" id="derechorp" name="cardio">
-                                                        <br />
-                                                    }
-
-                                                    if (medicinaNutricion != null && medicinaNutricion.PlanTratamiento == null)
-                                                    {
-                                                        <label class="h4">Nutriólogo: <span class="text-info">Examen en proceso...</span></label>
-                                                        <input type="hidden" value="no" id="derechorp" name="nutri">
-                                                        <br />
-                                                    }
-                                                    else if (medicinaNutricion != null && medicinaNutricion.Medicamento != null)
-                                                    {
-                                                        <label class="h4">Nutrición: <span class="text-success">Medicamento Pagado</span></label>
-                                                        <input type="hidden" value="no" id="derechorp" name="nutri">
-                                                        <br />
-                                                    }
-                                                    else if (medicinaNutricion != null && medicinaNutricion.PlanTratamiento != null)
-                                                    {
-                                                        <label class="h4">Nutriólogo: &nbsp; </label>
-                                                        <input type="checkbox" id="derechorp" name="nutri">
-                                                        <br />
-                                                    }
-
-                                                }
+                                                <label class="h4">PARACETAMOL:</label>
+                                                <input type="checkbox" id="derechorp" name="paracetamol"><br />
+                                                <label class="h4">METFORMINA:</label>
+                                                <input type="checkbox" id="derechorp" name="metformina"><br />
+                                                <label class="h4">ENALAPRIL:</label>
+                                                <input type="checkbox" id="derechorp" name="enalapril"><br />
+                                                <label class="h4">CAPTOPRIL:</label>
+                                                <input type="checkbox" id="derechorp" name="captopril"><br />
+                                                <label class="h4">HIDROCLOROTIAZIDA:</label>
+                                                <input type="checkbox" id="derechorp" name="hidroclorotiazida"><br />
+                                                <label class="h4">PIOGLITAZONA:</label>
+                                                <input type="checkbox" id="derechorp" name="pioglitazona"><br />
                                             </div>
                                         </div>
                                         <div class="modal-footer">
@@ -493,38 +528,38 @@ else
 
 
                         <!-- Modal para ver estatus de entrega de medicamento-->
-                            <div class="modal fade" id="estatus_@item.M.idPacienteDS" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title text-primary" id="exampleModalLabel"><b>Medicamentos entregados</b></h4>
+                        <div class="modal fade" id="estatus_@item.M.idPacienteDS" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title text-primary" id="exampleModalLabel"><b>Medicamentos entregados</b></h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="recipient-name" class="col-form-label">Nombre del Paciente:</label>
+                                            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="@item.N.Nombre">
+                                            <input type="hidden" class="form-control" id="id" name="id" value="@item.N.idPacienteDS">
                                         </div>
-                                        <div class="modal-body">
-                                            <div class="form-group">
-                                                <label for="recipient-name" class="col-form-label">Nombre del Paciente:</label>
-                                                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="@item.N.Nombre">
-                                                <input type="hidden" class="form-control" id="id" name="id" value="@item.N.idPacienteDS">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="recipient-name" class="col-form-label">Teléfono:</label>
-                                                <input type="text" class="form-control" id="telefono" name="telefono" placeholder="@item.N.Telefono" />
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="recipient-name" class="col-form-label">Email:</label>
-                                                <input type="email" class="form-control" id="email" name="email" placeholder="@item.N.Email" />
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="recipient-name" class="col-form-label">Código HASH:</label>
-                                                <input type="text" class="form-control" id="email" name="estado" placeholder="@item.N.HASH" />
-                                            </div>
+                                        <div class="form-group">
+                                            <label for="recipient-name" class="col-form-label">Teléfono:</label>
+                                            <input type="text" class="form-control" id="telefono" name="telefono" placeholder="@item.N.Telefono" />
                                         </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                            <input type="submit" value="Guardar" class="btn btn-primary" />
+                                        <div class="form-group">
+                                            <label for="recipient-name" class="col-form-label">Email:</label>
+                                            <input type="email" class="form-control" id="email" name="email" placeholder="@item.N.Email" />
                                         </div>
+                                        <div class="form-group">
+                                            <label for="recipient-name" class="col-form-label">Código HASH:</label>
+                                            <input type="text" class="form-control" id="email" name="estado" placeholder="@item.N.HASH" />
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                        <input type="submit" value="Guardar" class="btn btn-primary" />
                                     </div>
                                 </div>
                             </div>
+                        </div>
 
                     </td>
                 </tr>
@@ -536,4 +571,5 @@ else
         </table>
     </div>
 }
+
 

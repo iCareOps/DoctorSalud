@@ -50,5 +50,7 @@ namespace DoctorSalud
         public virtual DbSet<Epi_Oftalmologia> Epi_Oftalmologia { get; set; }
         public virtual DbSet<EPI_SignosVitales> EPI_SignosVitales { get; set; }
         public virtual DbSet<Paciente> Paciente { get; set; }
+        public virtual DbSet<SignosVitalesDS> SignosVitalesDS { get; set; }
+        public virtual DbSet<Farmacia> Farmacia { get; set; }
     }
 }
