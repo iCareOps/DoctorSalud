@@ -33,6 +33,7 @@
     <Property Name="Membresia" Type="varchar" MaxLength="10" />
     <Property Name="Inicio_SignosVitales" Type="datetime" />
     <Property Name="Fin_SignosVitales" Type="datetime" />
+    <Property Name="NoMembresia" Type="varchar" MaxLength="30" />
   </EntityType>
   <EntityType Name="EPI_A_Heredofamiliares">
     <Key>

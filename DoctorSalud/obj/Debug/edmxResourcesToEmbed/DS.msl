@@ -15,6 +15,7 @@
     <EntitySetMapping Name="CitaDS">
       <EntityTypeMapping TypeName="DSModel.CitaDS">
         <MappingFragment StoreEntitySet="CitaDS">
+          <ScalarProperty Name="NoMembresia" ColumnName="NoMembresia" />
           <ScalarProperty Name="Fin_SignosVitales" ColumnName="Fin_SignosVitales" />
           <ScalarProperty Name="Inicio_SignosVitales" ColumnName="Inicio_SignosVitales" />
           <ScalarProperty Name="Membresia" ColumnName="Membresia" />

@@ -247,6 +247,9 @@ else
                         SUCURSAL
                     </th>
                     <th>
+                        MEMBRESÍA
+                    </th>
+                    <th>
                         ESTATUS PAGO
                     </th>
                     <th></th>
@@ -318,6 +321,18 @@ else
                         <b>@Html.DisplayFor(modelItem => item.M.Sucursal)</b>
                     </td>
                     <td>
+                        @{
+                            if (item.M.NoMembresia != null)
+                            {
+                                @Html.DisplayFor(modelItem => item.M.NoMembresia)
+                            }
+                            else
+                    {
+                        <span>N/A</span>
+                    }
+                        }
+                    </td>
+                    <td>
                         @if (item.M.EstatusPago == "pending_payment" || item.M.EstatusPago == "Pendiente")
                         {
                             <b><mark style="background-color: #FFFF00; padding:5px; border-radius:10px">Pendiente</mark></b>
@@ -380,8 +395,10 @@ else
                                                 <label class="h4">Oftalmología: &nbsp; </label>
                                                 <input type="checkbox" id="derechorp" name="ofta">
                                                 <hr />
-                                                <label class="h4">¿Cuenta con Membresía?: &nbsp; </label>
-                                                <input type="checkbox" id="derechorp" name="membresia">
+                                                <div class="form-group">
+                                                    <label for="recipient-name" class="col-form-label"><h4>¿Cuenta con Membresía?:</h4></label>
+                                                    <input type="tel" class="form-control" id="nombre" name="membresia" placeholder="Número de Membresía"/>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="modal-footer">

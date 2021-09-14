@@ -38,6 +38,7 @@
           <Property Name="Membresia" Type="varchar" MaxLength="10" />
           <Property Name="Inicio_SignosVitales" Type="datetime" />
           <Property Name="Fin_SignosVitales" Type="datetime" />
+          <Property Name="NoMembresia" Type="varchar" MaxLength="30" />
         </EntityType>
         <EntityType Name="EPI_A_Heredofamiliares">
           <Key>
@@ -804,6 +805,7 @@
           <Property Name="Membresia" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="Inicio_SignosVitales" Type="DateTime" Precision="3" />
           <Property Name="Fin_SignosVitales" Type="DateTime" Precision="3" />
+          <Property Name="NoMembresia" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="MedicinaInterna">
           <Key>
@@ -1597,6 +1599,7 @@
           <EntitySetMapping Name="CitaDS">
             <EntityTypeMapping TypeName="DSModel.CitaDS">
               <MappingFragment StoreEntitySet="CitaDS">
+                <ScalarProperty Name="NoMembresia" ColumnName="NoMembresia" />
                 <ScalarProperty Name="Fin_SignosVitales" ColumnName="Fin_SignosVitales" />
                 <ScalarProperty Name="Inicio_SignosVitales" ColumnName="Inicio_SignosVitales" />
                 <ScalarProperty Name="Membresia" ColumnName="Membresia" />

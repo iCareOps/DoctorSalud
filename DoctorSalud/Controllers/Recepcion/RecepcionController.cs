@@ -123,7 +123,7 @@ namespace DoctorSalud.Controllers.Recepcion
             var signos = (from o in db.SignosVitalesDS where o.idPacienteDS == id select o).FirstOrDefault();
 
             cita.EstatusPago = "Pagado";
-            cita.Membresia = membresia == "on" ? "SI" : null;
+            cita.NoMembresia = membresia == "" ? null : membresia;
 
             SignosVitalesDS signosV = new SignosVitalesDS();
             signosV.idPacienteDS = id;
