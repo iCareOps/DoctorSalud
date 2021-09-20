@@ -9,6 +9,7 @@
     <Property Name="CertificadoMedico" Type="varchar(max)" />
     <Property Name="PlanTratamiento" Type="varchar(max)" />
     <Property Name="Medicamento" Type="varchar" MaxLength="20" />
+    <Property Name="Seguimiento" Type="datetime" />
   </EntityType>
   <EntityType Name="CitaDS">
     <Key>
@@ -238,6 +239,7 @@
     <Property Name="CertificadoMedico" Type="varchar(max)" />
     <Property Name="PlanTratamiento" Type="varchar(max)" />
     <Property Name="Medicamento" Type="varchar" MaxLength="20" />
+    <Property Name="Seguimiento" Type="datetime" />
   </EntityType>
   <EntityType Name="Menu">
     <Key>
@@ -257,6 +259,7 @@
     <Property Name="CertificadoMedico" Type="varchar(max)" />
     <Property Name="PlanTratamiento" Type="varchar(max)" />
     <Property Name="Medicamento" Type="varchar" MaxLength="20" />
+    <Property Name="Seguimiento" Type="datetime" />
   </EntityType>
   <EntityType Name="Oftalmologo">
     <Key>
@@ -267,6 +270,7 @@
     <Property Name="CertificadoMedico" Type="varchar(max)" />
     <Property Name="PlanTratamiento" Type="varchar(max)" />
     <Property Name="Medicamento" Type="varchar" MaxLength="20" />
+    <Property Name="Seguimiento" Type="datetime" />
   </EntityType>
   <EntityType Name="Paciente">
     <Key>

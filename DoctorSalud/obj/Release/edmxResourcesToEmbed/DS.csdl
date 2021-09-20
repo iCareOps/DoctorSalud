@@ -10,6 +10,7 @@
     <Property Name="CertificadoMedico" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="PlanTratamiento" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="Medicamento" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Seguimiento" Type="DateTime" Precision="3" />
   </EntityType>
   <EntityType Name="CitaDS">
     <Key>
@@ -35,6 +36,7 @@
     <Property Name="Membresia" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
     <Property Name="Inicio_SignosVitales" Type="DateTime" Precision="3" />
     <Property Name="Fin_SignosVitales" Type="DateTime" Precision="3" />
+    <Property Name="NoMembresia" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="MedicinaInterna">
     <Key>
@@ -46,6 +48,7 @@
     <Property Name="CertificadoMedico" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="PlanTratamiento" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="Medicamento" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Seguimiento" Type="DateTime" Precision="3" />
   </EntityType>
   <EntityType Name="Nutriologo">
     <Key>
@@ -57,6 +60,7 @@
     <Property Name="CertificadoMedico" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="PlanTratamiento" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="Medicamento" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Seguimiento" Type="DateTime" Precision="3" />
   </EntityType>
   <EntityType Name="Oftalmologo">
     <Key>
@@ -68,6 +72,7 @@
     <Property Name="CertificadoMedico" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="PlanTratamiento" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="Medicamento" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Seguimiento" Type="DateTime" Precision="3" />
   </EntityType>
   <EntityType Name="PacienteDS">
     <Key>

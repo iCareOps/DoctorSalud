@@ -19,6 +19,7 @@ namespace DoctorSalud
         public string CertificadoMedico { get; set; }
         public string PlanTratamiento { get; set; }
         public string Medicamento { get; set; }
+        public Nullable<System.DateTime> Seguimiento { get; set; }
     
         public virtual PacienteDS PacienteDS { get; set; }
     }

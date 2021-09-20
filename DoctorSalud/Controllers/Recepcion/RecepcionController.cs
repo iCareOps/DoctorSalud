@@ -26,6 +26,54 @@ namespace DoctorSalud.Controllers.Recepcion
             return View();
         }
 
+        public ActionResult Dashboard(DateTime? inicio, DateTime? final)
+        {
+            DateTime thisDate = new DateTime();
+            DateTime tomorrowDate = new DateTime();
+
+            DateTime start1 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+            DateTime finish1 = new DateTime(DateTime.Now.AddDays(1).Year, DateTime.Now.AddDays(1).Month, DateTime.Now.AddDays(1).Day);
+
+            int nulos = 0;
+
+            if (inicio != null || final != null)
+            {
+                nulos = 1;
+            }
+
+            if (inicio != null)
+            {
+                DateTime start = Convert.ToDateTime(inicio);
+                int year = start.Year;
+                int month = start.Month;
+                int day = start.Day;
+
+                inicio = new DateTime(year, month, day);
+                thisDate = new DateTime(year, month, day);
+            }
+            if (final != null)
+            {
+                DateTime finish = Convert.ToDateTime(final).AddDays(1);
+                int year = finish.Year;
+                int month = finish.Month;
+                int day = finish.Day;
+
+                final = new DateTime(year, month, day);
+                tomorrowDate = new DateTime(year, month, day);
+            }
+
+            inicio = (inicio ?? start1);
+            final = (final ?? finish1);
+
+            ViewBag.Inicio = inicio;
+            ViewBag.Final = final;
+            ViewBag.Estado = nulos;
+
+            ViewBag.Parameter = "";
+
+            return View();
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Crear(string nombre, string telefono, string email, string usuario, string sucursal, string hash)
@@ -88,7 +136,7 @@ namespace DoctorSalud.Controllers.Recepcion
         }
 
 
-        public ActionResult Editar(int id, string nombre, string email, string telefono, string hash)
+        public ActionResult Editar(int id, string nombre, string email, string telefono, string hash, string membresia)
         {
             var paciente = db.PacienteDS.Find(id);
 
@@ -97,6 +145,7 @@ namespace DoctorSalud.Controllers.Recepcion
             paciente.Telefono = telefono == "" ? paciente.Telefono : telefono;
 
             var cita = (from c in db.CitaDS where c.idPacienteDS == id select c).FirstOrDefault();
+            cita.NoMembresia = membresia == "" ? cita.NoMembresia : membresia;
 
             paciente.HASH = hash == "" ? paciente.HASH : hash;
 
@@ -123,7 +172,7 @@ namespace DoctorSalud.Controllers.Recepcion
             var signos = (from o in db.SignosVitalesDS where o.idPacienteDS == id select o).FirstOrDefault();
 
             cita.EstatusPago = "Pagado";
-            cita.NoMembresia = membresia == "" ? null : membresia;
+            cita.NoMembresia = membresia == "" ? cita.NoMembresia : membresia;
 
             SignosVitalesDS signosV = new SignosVitalesDS();
             signosV.idPacienteDS = id;
@@ -136,12 +185,7 @@ namespace DoctorSalud.Controllers.Recepcion
                 }
             }
 
-            if (ModelState.IsValid)
-            {
-                db.Entry(cita).State = EntityState.Modified;
-                db.SaveChanges();
-            }
-
+            
             if (ofta != null && oftalmo == null)
             {
                 Oftalmologo oftalmologo = new Oftalmologo();
@@ -153,6 +197,18 @@ namespace DoctorSalud.Controllers.Recepcion
                     db.SaveChanges();
                 }
             }
+            else if(ofta == null && oftalmo != null)
+            {
+                var ide = (from i in db.Oftalmologo where i.idPacienteDS == id orderby i.idOftalmologo descending select i.idOftalmologo).FirstOrDefault();
+                Oftalmologo oftalmologo = db.Oftalmologo.Find(ide);
+                cita.Inicio_Oftalmologia = null;
+
+                if (ModelState.IsValid)
+                {
+                    db.Oftalmologo.Remove(oftalmologo);
+                    db.SaveChanges();
+                }  
+            }
 
             if (cardio != null && cardiolo == null)
             {
@@ -162,6 +218,18 @@ namespace DoctorSalud.Controllers.Recepcion
                 if (ModelState.IsValid)
                 {
                     db.Cardiologo.Add(cardiologo);
+                    db.SaveChanges();
+                }
+            }
+            else if (cardio == null && cardiolo != null)
+            {
+                var ide = (from i in db.Cardiologo where i.idPacienteDS == id orderby i.idCardiologo descending select i.idCardiologo).FirstOrDefault();
+                Cardiologo cardiologo = db.Cardiologo.Find(ide);
+                cita.Inicio_Cardiologia = null;
+
+                if (ModelState.IsValid)
+                {
+                    db.Cardiologo.Remove(cardiologo);
                     db.SaveChanges();
                 }
             }
@@ -177,6 +245,18 @@ namespace DoctorSalud.Controllers.Recepcion
                     db.SaveChanges();
                 }
             }
+            else if (mi == null && medicina != null)
+            {
+                var ide = (from i in db.MedicinaInterna where i.idPacienteDS == id orderby i.idMedicinaInterna descending select i.idMedicinaInterna).FirstOrDefault();
+                MedicinaInterna medicinaInterna = db.MedicinaInterna.Find(ide);
+                cita.Inicio_MedicinaInterna = null;
+
+                if (ModelState.IsValid)
+                {
+                    db.MedicinaInterna.Remove(medicinaInterna);
+                    db.SaveChanges();
+                }
+            }
 
             if (nutri != null && nutriolo == null)
             {
@@ -188,6 +268,24 @@ namespace DoctorSalud.Controllers.Recepcion
                     db.Nutriologo.Add(nutriologo);
                     db.SaveChanges();
                 }
+            }
+            else if (nutri == null && nutriolo != null)
+            {
+                var ide = (from i in db.Nutriologo where i.idPacienteDS == id orderby i.idNutriologo descending select i.idNutriologo).FirstOrDefault();
+                Nutriologo nutriologo = db.Nutriologo.Find(ide);
+                cita.Inicio_Nutriciom = null;
+
+                if (ModelState.IsValid)
+                {
+                    db.Nutriologo.Remove(nutriologo);
+                    db.SaveChanges();
+                }
+            }
+
+            if (ModelState.IsValid)
+            {
+                db.Entry(cita).State = EntityState.Modified;
+                db.SaveChanges();
             }
 
             return Redirect("Index");

@@ -247,6 +247,9 @@ else
                         SUCURSAL
                     </th>
                     <th>
+                        MEMBRESÍA
+                    </th>
+                    <th>
                         ESTATUS PAGO
                     </th>
                     <th></th>
@@ -318,6 +321,18 @@ else
                         <b>@Html.DisplayFor(modelItem => item.M.Sucursal)</b>
                     </td>
                     <td>
+                        @{
+                            if (item.M.NoMembresia != null)
+                            {
+                                @Html.DisplayFor(modelItem => item.M.NoMembresia)
+                            }
+                            else
+                    {
+                        <span>N/A</span>
+                    }
+                        }
+                    </td>
+                    <td>
                         @if (item.M.EstatusPago == "pending_payment" || item.M.EstatusPago == "Pendiente")
                         {
                             <b><mark style="background-color: #FFFF00; padding:5px; border-radius:10px">Pendiente</mark></b>
@@ -368,20 +383,81 @@ else
                                         <div class="modal-body">
                                             <input type="hidden" name="id" value="@item.M.idPacienteDS" />
                                             <div class="form-group">
-                                                <label class="h4">Médicina Interna: &nbsp; </label>
-                                                <input type="checkbox" id="derechorp" name="mi">
-                                                <br />
-                                                <label class="h4">Cardiólogo: &nbsp; </label>
-                                                <input type="checkbox" id="derechorp" name="cardio">
-                                                <br />
-                                                <label class="h4">Nutriólogo: &nbsp; </label>
-                                                <input type="checkbox" id="derechorp" name="nutri">
-                                                <br />
-                                                <label class="h4">Oftalmología: &nbsp; </label>
-                                                <input type="checkbox" id="derechorp" name="ofta">
-                                                <hr />
-                                                <label class="h4">¿Cuenta con Membresía?: &nbsp; </label>
-                                                <input type="checkbox" id="derechorp" name="membresia">
+                                                @{
+                                                    var nutricion = (from n in db.Nutriologo where n.idPacienteDS == item.M.idPacienteDS orderby n.idNutriologo descending select n).FirstOrDefault();
+                                                    var medicinaInterna = (from n in db.MedicinaInterna where n.idPacienteDS == item.M.idPacienteDS orderby n.idMedicinaInterna descending select n).FirstOrDefault();
+                                                    var oftalmologia = (from n in db.Oftalmologo where n.idPacienteDS == item.M.idPacienteDS orderby n.idOftalmologo descending select n).FirstOrDefault();
+                                                    var cardiologia = (from n in db.Cardiologo where n.idPacienteDS == item.M.idPacienteDS orderby n.idCardiologo descending select n).FirstOrDefault();
+                                                    var membresia = (from n in db.CitaDS where n.idPacienteDS == item.M.idPacienteDS orderby n.idCitaDS descending select n.NoMembresia).FirstOrDefault();
+
+
+                                                    if (medicinaInterna != null)
+                                                    {
+                                                        <label class="h4">Médicina Interna: &nbsp; </label>
+                                                        <input type="checkbox" checked id="derechorp" name="mi">
+                                                        <br />
+                                                    }
+                                                    else
+                                                    {
+                                                        <label class="h4">Médicina Interna: &nbsp; </label>
+                                                        <input type="checkbox" id="derechorp" name="mi">
+                                                        <br />
+                                                    }
+
+                                                    if (nutricion != null)
+                                                    {
+                                                        <label class="h4">Nutriólogo: &nbsp; </label>
+                                                        <input type="checkbox" checked id="derechorp" name="nutri">
+                                                        <br />
+                                                    }
+                                                    else
+                                                    {
+                                                        <label class="h4">Nutriólogo: &nbsp; </label>
+                                                        <input type="checkbox" id="derechorp" name="nutri">
+                                                        <br />
+                                                    }
+
+                                                    if (cardiologia != null)
+                                                    {
+                                                        <label class="h4">Cardiólogo: &nbsp; </label>
+                                                        <input type="checkbox" checked id="derechorp" name="cardio">
+                                                        <br />
+                                                    }
+                                                    else
+                                                    {
+                                                        <label class="h4">Cardiólogo: &nbsp; </label>
+                                                        <input type="checkbox" id="derechorp" name="cardio">
+                                                        <br />
+                                                    }
+
+                                                    if (oftalmologia != null)
+                                                    {
+                                                        <label class="h4">Oftalmología: &nbsp; </label>
+                                                        <input type="checkbox" checked id="derechorp" name="ofta">
+                                                        <hr />
+                                                    }
+                                                    else
+                                                    {
+                                                        <label class="h4">Oftalmología: &nbsp; </label>
+                                                        <input type="checkbox" id="derechorp" name="ofta">
+                                                        <hr />
+                                                    }
+
+                                                    if (membresia != null)
+                                                    {
+                                            <div class="form-group">
+                                                <label for="recipient-name" class="col-form-label"><h4>¿Cuenta con Membresía?:</h4></label>
+                                                <input type="tel" class="form-control" id="nombre" name="membresia" placeholder="@item.M.NoMembresia" />
+                                            </div>
+                                                    }
+                                                    else
+                                                    {
+                                            <div class="form-group">
+                                                <label for="recipient-name" class="col-form-label"><h4>¿Cuenta con Membresía?:</h4></label>
+                                                <input type="tel" class="form-control" id="nombre" name="membresia" placeholder="Número de Membresía" />
+                                            </div>
+                                                    }
+                                                }
                                             </div>
                                         </div>
                                         <div class="modal-footer">
@@ -445,6 +521,10 @@ else
                                             <div class="form-group">
                                                 <label for="recipient-name" class="col-form-label">Código HASH:</label>
                                                 <input type="text" class="form-control" id="email" name="estado" placeholder="@item.N.HASH" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="recipient-name" class="col-form-label">No. de Membresía:</label>
+                                                <input type="text" class="form-control" id="email" name="membresia" placeholder="@item.M.NoMembresia" />
                                             </div>
                                         </div>
                                         <div class="modal-footer">

@@ -4,6 +4,7 @@
     <EntitySetMapping Name="Cardiologo">
       <EntityTypeMapping TypeName="DSModel.Cardiologo">
         <MappingFragment StoreEntitySet="Cardiologo">
+          <ScalarProperty Name="Seguimiento" ColumnName="Seguimiento" />
           <ScalarProperty Name="Medicamento" ColumnName="Medicamento" />
           <ScalarProperty Name="PlanTratamiento" ColumnName="PlanTratamiento" />
           <ScalarProperty Name="CertificadoMedico" ColumnName="CertificadoMedico" />
@@ -15,6 +16,7 @@
     <EntitySetMapping Name="CitaDS">
       <EntityTypeMapping TypeName="DSModel.CitaDS">
         <MappingFragment StoreEntitySet="CitaDS">
+          <ScalarProperty Name="NoMembresia" ColumnName="NoMembresia" />
           <ScalarProperty Name="Fin_SignosVitales" ColumnName="Fin_SignosVitales" />
           <ScalarProperty Name="Inicio_SignosVitales" ColumnName="Inicio_SignosVitales" />
           <ScalarProperty Name="Membresia" ColumnName="Membresia" />
@@ -40,6 +42,7 @@
     <EntitySetMapping Name="MedicinaInterna">
       <EntityTypeMapping TypeName="DSModel.MedicinaInterna">
         <MappingFragment StoreEntitySet="MedicinaInterna">
+          <ScalarProperty Name="Seguimiento" ColumnName="Seguimiento" />
           <ScalarProperty Name="Medicamento" ColumnName="Medicamento" />
           <ScalarProperty Name="PlanTratamiento" ColumnName="PlanTratamiento" />
           <ScalarProperty Name="CertificadoMedico" ColumnName="CertificadoMedico" />
@@ -51,6 +54,7 @@
     <EntitySetMapping Name="Nutriologo">
       <EntityTypeMapping TypeName="DSModel.Nutriologo">
         <MappingFragment StoreEntitySet="Nutriologo">
+          <ScalarProperty Name="Seguimiento" ColumnName="Seguimiento" />
           <ScalarProperty Name="Medicamento" ColumnName="Medicamento" />
           <ScalarProperty Name="PlanTratamiento" ColumnName="PlanTratamiento" />
           <ScalarProperty Name="CertificadoMedico" ColumnName="CertificadoMedico" />
@@ -62,6 +66,7 @@
     <EntitySetMapping Name="Oftalmologo">
       <EntityTypeMapping TypeName="DSModel.Oftalmologo">
         <MappingFragment StoreEntitySet="Oftalmologo">
+          <ScalarProperty Name="Seguimiento" ColumnName="Seguimiento" />
           <ScalarProperty Name="Medicamento" ColumnName="Medicamento" />
           <ScalarProperty Name="PlanTratamiento" ColumnName="PlanTratamiento" />
           <ScalarProperty Name="CertificadoMedico" ColumnName="CertificadoMedico" />

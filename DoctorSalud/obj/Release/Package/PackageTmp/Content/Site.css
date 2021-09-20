@@ -93,13 +93,12 @@ textarea {
     width: 355px;
     height: 70px;
     padding: 8px;
-    color: white; /*#AC9070;*/
     border: 2px solid #6577B3;
     text-align: center;
     outline: none;
     text-decoration: none;
-    background-color: #2E2D3F;
     transition: background-color 0.2s ease-out, color 0.2s ease-out;
+    border-radius:30px;
 }
 
 .boton-transparenteIndicador2 {
@@ -107,13 +106,12 @@ textarea {
     width: 355px;
     height: 70px;
     padding: 8px;
-    color: white; /*#AC9070;*/
     border: 2px solid #9665B3;
     text-align: center;
     outline: none;
     text-decoration: none;
-    background-color: #2E2D3F;
     transition: background-color 0.2s ease-out, color 0.2s ease-out;
+    border-radius: 30px;
 }
 
 .boton-transparenteIndicador3 {
@@ -121,13 +119,12 @@ textarea {
     width: 355px;
     height: 70px;
     padding: 8px;
-    color: white; /*#AC9070;*/
     border: 2px solid #B3658D;
     text-align: center;
     outline: none;
     text-decoration: none;
-    background-color: #2E2D3F;
     transition: background-color 0.2s ease-out, color 0.2s ease-out;
+    border-radius: 30px;
 }
 
 .boton-transparenteIndicador4 {

@@ -1,0 +1,549 @@
+﻿
+@{
+    ViewBag.Title = "Administrador";
+
+    DoctorSalud_Entities db = new DoctorSalud_Entities();
+
+    var oUser = (Usuarios)HttpContext.Current.Session["User"];
+
+    string nombreUsuario = null;
+    int idUser = 0;
+    int? idRol = 0;
+
+    if (oUser != null)
+    {
+        idUser = oUser.idUsuario;
+        nombreUsuario = oUser.Nombre;
+        idRol = oUser.idRol;
+    }
+
+    var sucursalesLista = from s in db.SucursalDS select s;
+
+    int diaHoy = DateTime.Now.Day;
+    int mesHoy = DateTime.Now.Month;
+    int anioHoy = DateTime.Now.Year;
+
+    DateTime dateToday = new DateTime(anioHoy, mesHoy, diaHoy);
+
+    int diaManana = DateTime.Now.AddDays(1).Day;
+    int mesManana = DateTime.Now.AddDays(1).Month;
+    int anioManana = DateTime.Now.AddDays(1).Year;
+
+    DateTime dateTomorrow = new DateTime(anioManana, mesManana, diaManana);
+
+    dateToday = Convert.ToDateTime(ViewBag.Inicio);
+    dateTomorrow = Convert.ToDateTime(ViewBag.Final);
+
+    var modelo = db.PacienteDS.Join(db.CitaDS, n => n.idPacienteDS, m => m.idPacienteDS, (n, m) => new { N = n, M = m }).Where(s => s.M.FechaCita >= dateToday && s.M.FechaCita < dateTomorrow)@*.OrderByDescending(o => new { o.M.TipoTramite,  }).OrderBy(r => r.M.EstatusPago)*@;
+
+
+    var citasHoy = (from c in db.CitaDS select c).Where(w => w.FechaCita >= dateToday && w.FechaCita < dateTomorrow);
+    int citasHoyConteo = (from c in db.CitaDS select c).Where(w => w.FechaCita >= dateToday && w.FechaCita < dateTomorrow).Count();
+
+    var membresiasHoy = (from c in db.CitaDS select c).Where(w => w.FechaCita >= dateToday && w.FechaCita < dateTomorrow && w.NoMembresia != null);
+    int membresiasHoyConteo = (from c in db.CitaDS select c).Where(w => w.FechaCita >= dateToday && w.FechaCita < dateTomorrow && w.NoMembresia != null).Count();
+
+    var hash = db.PacienteDS.Join(db.Paciente, n => n.idPacienteDS, m => m.idPaciente, (n, m) => new { N = n, M = m })
+        .Join(db.CitaDS, a => a.N.idPacienteDS, b => b.idPacienteDS, (a, b) => new { A = a, B = b })
+                .Where(w => w.B.FechaCita >= dateToday && w.B.FechaCita < dateTomorrow && w.A.M.HASH == w.A.N.HASH);
+    //.Select(S => new
+    //{
+    //    S.N.Sucursal,
+    //    S.N.FechaCita,
+    //    S.M.EstatusEnvio
+    //});
+
+    int hashCount = db.PacienteDS.Join(db.Paciente, n => n.idPacienteDS, m => m.idPaciente, (n, m) => new { N = n, M = m })
+        .Join(db.CitaDS, a => a.N.idPacienteDS, b => b.idPacienteDS, (a, b) => new { A = a, B = b })
+                .Where(w => w.B.FechaCita >= dateToday && w.B.FechaCita < dateTomorrow && w.A.M.HASH == w.A.N.HASH).Count();
+
+
+
+    //var mejorSucursal = (from s in db.Cita where s.FechaCita >= dateToday && s.FechaCita < dateTomorrow && s.Doctor != null select s).GroupBy(o => o.Sucursal);
+    //var mejorS = (from m in mejorSucursal select m).OrderByDescending(o => o.Count());
+
+    //var mejorGestor = (from s in db.Cita where s.FechaCita >= dateToday && s.FechaCita < dateTomorrow && (s.Canal != "SITIO" && s.Canal != "Call Center") select s).GroupBy(o => o.Canal);
+    //var mejorG = (from m in mejorGestor select m).OrderByDescending(o => o.Count());
+
+    //var mejorCapturista = (from s in db.Captura where s.FechaExpdiente >= dateToday && s.FechaExpdiente < dateTomorrow && s.EstatusCaptura == "Terminado" select s).GroupBy(o => o.Capturista);
+    //var mejorC = (from m in mejorCapturista select m).OrderByDescending(o => o.Count());
+
+    //var capturistas = from c in db.Usuarios where c.idRol == 7 && c.idUsuario != 13 && c.idUsuario != 25 select c.Nombre;
+
+    //var capturistasAnexa = from c in db.Usuarios where c.idRol == 9 select c.Nombre;
+
+    //int citasEfectuadas = (from c in db.Cita select c).Where(w => w.FechaCita >= dateToday && w.FechaCita < dateTomorrow && w.CC != null).Count();
+    //var citasCompletadas = (from c in db.Cita select c).Where(w => w.FechaCita >= dateToday && w.FechaCita < dateTomorrow && w.CC != null && w.Asistencia == null && (w.EstatusPago == "Pagado" || w.EstatusPago == "paid")).Count();
+    //var citasPendientes = (from c in db.Cita select c).Where(w => w.FechaCita >= dateToday && w.FechaCita < dateTomorrow && w.CC != null && w.Doctor == null && w.Asistencia == null).Count();
+    //int citasCanceladas = (from c in db.Cita select c).Where(w => w.FechaCita >= dateToday && w.FechaCita < dateTomorrow && w.CC != null && w.Asistencia != null).Count();
+
+    //int efectividad = 0;
+
+    //if (citasCompletadas != 0)
+    //{
+    //    efectividad = ((citasCompletadas * 100) / citasEfectuadas);
+    //}
+
+    int flag = 1;
+    int flag2 = 1;
+    int flag3 = 1;
+
+}
+
+<br />
+
+<h3 class="text-center text-primary"><span style="color:#AC9070">Bienvenido</span> @nombreUsuario </h3>
+
+<br />
+@if (ViewBag.Estado == 1)
+{
+    <h5 style="color:darkgray">Mostrando resultados de: <span style="color:cornflowerblue">@ViewBag.Inicio.ToString("dd-MMMM-yyyy")</span> hasta <span style="color:cornflowerblue">@ViewBag.Final.ToString("dd-MMMM-yyyy")</span></h5>
+}
+@*<form class="form-inline" method="post" enctype="multipart/form-data" action="@Url.Content("~/Admin/Index")">
+        <div style="display:inline-block; padding:10px; background-color:gainsboro; border-radius: 5px">
+            <label for="recipient-name" style="color:navy" class="col-form-label text-primary">Desde:</label>
+            <input type="date" class="form-control" name="inicio" />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+            <label for="recipient-name" style="color:navy" class="col-form-label text-primary">Hasta:</label>
+            <input type="date" class="form-control" name="final" /> &nbsp; &nbsp;
+            <input type="submit" class="btn btn-primary" value="Enviar" />
+            <a href="~/EPIs/Captura"><button type="button" class="btn btn-success">Limpiar Consulta</button></a>
+        </div>
+        <div class="input-group pull-right">
+            <input type="text" class="form-control" id="buscador" name="dato" placeholder="Paciente o Expediente">
+            <span class="input-group-btn">
+                <button class="btn btn-info buscar" id="buscar" type="button"><span class="glyphicon glyphicon-search"></span></button>
+            </span>
+        </div>
+    </form>*@
+
+<form class="form-inline" method="post" enctype="multipart/form-data" action="@Url.Content("~/Recepcion/Dashboard")">
+    <div style="display:inline-block; padding:15px; background-color:gainsboro; border-radius: 5px">
+        <label for="recipient-name" style="color:navy" class="col-form-label text-primary">Desde:</label>
+        <input type="date" class="form-control" min="2021-08-02" name="inicio" />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        <label for="recipient-name" style="color:navy" class="col-form-label text-primary">Hasta:</label>
+        <input type="date" class="form-control" name="final" /> &nbsp; &nbsp;
+        <input type="submit" class="btn btn-primary" value="Enviar" />
+        <a href="~/Recepcion/Dashboard"><button type="button" class="btn btn-success">Limpiar Consulta</button></a>
+    </div>
+
+    <div class="col-lg-3" id="barras" style="margin: 10px 0 0 10px; display:inline-grid">
+        <div class="input-group">
+            <input type="text" class="form-control input-g" id="buscador" name="dato" placeholder="Paciente o Expediente">
+            <span class="input-group-btn">
+                <button class="btn btn-info buscar" id="buscar" type="button"><span class="glyphicon glyphicon-search"></span></button>
+            </span>
+        </div>
+    </div>
+</form>
+
+<br />
+
+
+@section scripts{
+
+    <script>
+        var input = document.getElementById("buscador");
+        input.addEventListener("keydown", function (event) {
+            if (event.keyCode === 13) {
+                event.preventDefault();
+                document.getElementById("buscar").click();
+            }
+        });
+
+    </script>
+
+    <script>
+    $(function () {
+        $(".buscar").click(function () {
+            var url = "@Url.Action("BuscarTodo", "Recepcion")";
+            var dato = $("#buscador").val();
+            var data = { dato: dato };
+
+            $.post(url, data).done(function (data) {
+                console.log(data);
+                let miResultado = "";
+                if ($.isEmptyObject(data)) {
+                    miResultado = "<h3>No se encontraron registros.</h3>"
+                }
+                else {
+                    miResultado += "<tr class=\"bg-primary\"><th>Nombre</th><th>Expediente</th><th>Email</th><th>Teléfono</th><th>Fecha Cita</th><th>Sucursal</th><th></th></tr>"
+                    for (let i = 0; i < data.length; i++) {
+                        var url = '@Url.Action("DescargarPDF","EPIs", new {id="xxxx"})';
+                        var epi = '<b>@Html.ActionLink("XXX", "AbrirEPI_EC", new { id = "xxxxx" }, new { style = "color: black; text-decoration: none" })</b>';
+                        url = url.replace("xxxx", data[i].idCaptura);
+                        epi = epi.replace("XXX", data[i].Nombre);
+                        epi = epi.replace("xxxxx", data[i].idCaptura);
+                        miResultado += "<tr style=\"border:1px solid gray\">" +
+                            "<td><b>" + epi + "</b></td>" +
+                            "<td><b>" + data[i].NoExpediente + "</b></td>" +
+                            "<td><b>" + data[i].Email + "</b></td>" +
+                            "<td><b>" + data[i].Telefono + "</b></td>" +
+                            "<td><b>" + data[i].FechaReferencia + "</b></td>" +
+                            "<td><b>" + data[i].Sucursal + "</b></td>" +
+                            "<td><a href="+url+"> <b.autton type=\"button\" class=\"btn btn-danger\">Descargar</button></a></td>" +
+
+                            "</tr>"
+                    }
+                }
+
+                $('#exampleModal10').modal('show');
+                document.getElementById("tablaEjemplo").innerHTML = miResultado;
+
+            }).fail().always(function () {
+
+            });
+        });
+    });
+
+    </script>
+
+    @if (TempData["ID"] != null)
+    {
+        <script>
+            window.open('@Url.Action("AbrirEPI","EPIs", new { id = TempData["ID"] })');
+        </script>
+    }
+
+}
+
+<div class="modal fade" id="exampleModal10" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="width:70%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title text-primary" id="exampleModalLabel"><b>Resultado de la búsqueda:</b></h3>
+            </div>
+            <div class="modal-body">
+                <div class="tablaScroll">
+                    <table class="table tablas table-responsive" id="tablaEjemplo" style="color: #2F2D6B">
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-outline-warning boton-transparenteIndicador1 botonesGral col-md-4" data-toggle="modal" data-target="#citasHoy">
+    <h4><span class="glyphicon glyphicon-list-alt"></span> &nbsp; &nbsp;Citas: <b>@citasHoyConteo</b></h4>
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="citasHoy" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:aquamarine">
+                <h3 class="modal-title" id="exampleModalLabel"><span class="glyphicon glyphicon-list-alt"></span> &nbsp; &nbsp;Citas generadas: <b>@citasHoyConteo</b></h3>
+            </div>
+            <div class="modal-body">
+                @{
+                    foreach (var item in sucursalesLista)
+                    {
+                        var elemento = (from e in db.CitaDS where e.Sucursal == item.Nombre && e.FechaCita >= dateToday && e.FechaCita < dateTomorrow select e).Count();
+
+                        <h4><b>@item.Nombre:</b> @elemento</h4>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-outline-warning boton-transparenteIndicador2 botonesGral col-md-4" data-toggle="modal" data-target="#episHoy">
+    <h4><span class="glyphicon glyphicon-duplicate"></span> &nbsp; &nbsp;Revaloraciones: <b>@hashCount</b></h4>
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="episHoy" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:aquamarine">
+                <h3 class="modal-title" id="exampleModalLabel"><span class="glyphicon glyphicon-duplicate"></span> &nbsp; &nbsp;Revaloraciones: <b>@hashCount</b></h3>
+            </div>
+            <div class="modal-body">
+                @{
+                    foreach (var item in sucursalesLista)
+                    {
+                        var elemento = (from e in db.CitaDS where e.Sucursal == item.Nombre && e.FechaCita >= dateToday && e.FechaCita < dateTomorrow select e).Count();
+
+                        <h4><b>@item.Nombre:</b> @elemento</h4>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-outline-warning boton-transparenteIndicador3 botonesGral col-md-4" data-toggle="modal" data-target="#dictamenesHoy">
+    <h4><span class="glyphicon glyphicon-file"></span> &nbsp; &nbsp;Membresías: <b>@membresiasHoyConteo</b></h4>
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="dictamenesHoy" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:aquamarine">
+                <h3 class="modal-title" id="exampleModalLabel"><span class="glyphicon glyphicon-file"></span> &nbsp; &nbsp;Membresías: <b>@membresiasHoyConteo</b></h3>
+            </div>
+            <div class="modal-body">
+                @{
+                    foreach (var item in sucursalesLista)
+                    {
+                        var elemento = (from e in db.CitaDS where e.Sucursal == item.Nombre && e.FechaCita >= dateToday && e.FechaCita < dateTomorrow && e.NoMembresia != null select e).Count();
+
+                        <h4><b>@item.Nombre:</b> @elemento</h4>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<br />
+<br />
+<br />
+<br />
+<br />
+@if (modelo.FirstOrDefault() == null)
+{
+    <h1 class="text-primary">No existen citas registradas el día de hoy</h1>
+}
+else
+{
+    <div class="tablaScroll">
+        <table class="table tablas" style="color: #2F2D6B">
+            <thead>
+                <tr class="bg-primary" style="border-top-color: black">
+                    <th>
+                    </th>
+
+                    <th>
+                        Paciente
+                    </th>
+                    <th>
+                        Teléfono
+                    </th>
+
+                    @{
+                        if (idRol == 18)
+                        {
+                            <th>
+                                Sucursal
+                            </th>
+                        }
+
+                    }
+
+                    <th>
+                        M.I.
+                    </th>
+                    <th>
+                        Oftalmo
+                    </th>
+                    <th>
+                        Cardio
+                    </th>
+                    <th>
+                        Nutri
+                    </th>
+                    <th>
+                        FARMACIA
+                    </th>
+                    <th>
+                        Estatus
+                    </th>
+                    <th>
+                        Membresía
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+
+
+
+            @foreach (var item in modelo)
+            {
+                <tr style="background-color:white; border-bottom: solid 0.1px #337AB7">
+                    <td>
+                        @flag
+                    </td>
+
+                    <td>
+                        <b>@Html.DisplayFor(modelItem => item.N.Nombre)</b>
+                    </td>
+                    <td>
+                        <b>@Html.DisplayFor(modelItem => item.N.Telefono)</b>
+                    </td>
+                    @{
+                        if (idRol == 18)
+                        {
+                            <td>
+                                @item.M.Sucursal
+                            </td>
+                        }
+                    }
+                    <td>
+                        @{
+                            if ((from c in db.MedicinaInterna where c.idPacienteDS == item.N.idPacienteDS select c).FirstOrDefault() != null)
+                            {
+                                if ((from c in db.CitaDS where c.idPacienteDS == item.N.idPacienteDS select c.Fin_MedicinaInterna).FirstOrDefault() == null)
+                                {
+                                    <span class="glyphicon glyphicon-minus" style="color:dodgerblue"></span>
+                                }
+                                else
+                                {
+                                    <span class="glyphicon glyphicon-ok" style="color:forestgreen"></span>
+                                }
+                            }
+                            else
+                            {
+                                <h4>N/A</h4>
+                            }
+
+                        }
+                        @*@{
+                                if ((from c in db.CitaDS where c.idPacienteDS == item.N.idPacienteDS select c.Fin_MedicinaInterna).FirstOrDefault() == null)
+                                {
+                                    <span class="glyphicon glyphicon-minus" style="color:dodgerblue"></span>
+                                }
+                                else
+                                {
+                                    <span class="glyphicon glyphicon-ok" style="color:forestgreen"></span>
+                                }
+                            }*@
+                    </td>
+                    <td>
+                        @{
+                            if ((from c in db.Oftalmologo where c.idPacienteDS == item.N.idPacienteDS select c).FirstOrDefault() != null)
+                            {
+                                if ((from c in db.CitaDS where c.idPacienteDS == item.N.idPacienteDS select c.Fin_Oftalmologia).FirstOrDefault() == null)
+                                {
+                                    <span class="glyphicon glyphicon-minus" style="color:dodgerblue"></span>
+                                }
+                                else
+                                {
+                                    <span class="glyphicon glyphicon-ok" style="color:forestgreen"></span>
+                                }
+                            }
+                            else
+                            {
+                                <h4>N/A</h4>
+                            }
+
+                        }
+                        @*@{
+                                if ((from c in db.CitaDS where c.idPacienteDS == item.N.idPacienteDS select c.Fin_Oftalmologia).FirstOrDefault() == null)
+                                {
+                                    <span class="glyphicon glyphicon-minus" style="color:dodgerblue"></span>
+                                }
+                                else
+                                {
+                                    <span class="glyphicon glyphicon-ok" style="color:forestgreen"></span>
+                                }
+                            }*@
+                    </td>
+                    <td>
+                        @{
+                            if ((from c in db.Cardiologo where c.idPacienteDS == item.N.idPacienteDS select c).FirstOrDefault() != null)
+                            {
+                                if ((from c in db.CitaDS where c.idPacienteDS == item.N.idPacienteDS select c.Fin_Cardiologia).FirstOrDefault() == null)
+                                {
+                                    <span class="glyphicon glyphicon-minus" style="color:dodgerblue"></span>
+                                }
+                                else
+                                {
+                                    <span class="glyphicon glyphicon-ok" style="color:forestgreen"></span>
+                                }
+                            }
+                            else
+                            {
+                                <h4>N/A</h4>
+                            }
+
+                        }
+                        @*@{
+                                if ((from c in db.CitaDS where c.idPacienteDS == item.N.idPacienteDS select c.Fin_Cardiologia).FirstOrDefault() == null)
+                                {
+                                    <span class="glyphicon glyphicon-minus" style="color:dodgerblue"></span>
+                                }
+                                else
+                                {
+                                    <span class="glyphicon glyphicon-ok" style="color:forestgreen"></span>
+                                }
+                            }*@
+                    </td>
+                    <td>
+                        @{
+                            if ((from c in db.Nutriologo where c.idPacienteDS == item.N.idPacienteDS select c).FirstOrDefault() != null)
+                            {
+                                if ((from c in db.CitaDS where c.idPacienteDS == item.N.idPacienteDS select c.Fin_Nutricion).FirstOrDefault() == null)
+                                {
+                                    <span class="glyphicon glyphicon-minus" style="color:dodgerblue"></span>
+                                }
+                                else
+                                {
+                                    <span class="glyphicon glyphicon-ok" style="color:forestgreen"></span>
+                                }
+                            }
+                            else
+                            {
+                                <h4>N/A</h4>
+                            }
+
+                        }
+                        @*@{
+                                if ((from c in db.CitaDS where c.idPacienteDS == item.N.idPacienteDS select c.Fin_Nutricion).FirstOrDefault() == null)
+                                {
+                                    <span class="glyphicon glyphicon-minus" style="color:dodgerblue"></span>
+                                }
+                                else
+                                {
+                                    <span class="glyphicon glyphicon-ok" style="color:forestgreen"></span>
+                                }
+                            }*@
+                    </td>
+                    <td>
+
+                    </td>
+                    <td>
+
+                    </td>
+                    <td>
+                        @{ 
+                            if(item.M.NoMembresia != null)
+                            {
+                                <b>@item.M.NoMembresia</b>
+                            }
+                    else
+                    {
+                        <span>N/A</span>
+                    }
+                        }
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <form method="post" enctype="multipart/form-data" action="@Url.Content("~/Modulos/Index")">
+                                <input type="hidden" value="@item.N.idPacienteDS" name="id" />
+                                <input type="submit" class="btn btn-info" value="Exámenes" />
+                            </form>
+                        </div>
+
+                    </td>
+                </tr>
+
+                flag += 1;
+
+            }
+
+        </table>
+    </div>
+}
+
+
