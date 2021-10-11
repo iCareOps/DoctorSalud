@@ -34,6 +34,7 @@ namespace DoctorSalud
         public Nullable<System.DateTime> Inicio_SignosVitales { get; set; }
         public Nullable<System.DateTime> Fin_SignosVitales { get; set; }
         public string NoMembresia { get; set; }
+        public string ReferidoPor { get; set; }
     
         public virtual PacienteDS PacienteDS { get; set; }
     }

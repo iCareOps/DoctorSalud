@@ -16,6 +16,7 @@
     <EntitySetMapping Name="CitaDS">
       <EntityTypeMapping TypeName="DSModel.CitaDS">
         <MappingFragment StoreEntitySet="CitaDS">
+          <ScalarProperty Name="ReferidoPor" ColumnName="ReferidoPor" />
           <ScalarProperty Name="NoMembresia" ColumnName="NoMembresia" />
           <ScalarProperty Name="Fin_SignosVitales" ColumnName="Fin_SignosVitales" />
           <ScalarProperty Name="Inicio_SignosVitales" ColumnName="Inicio_SignosVitales" />
@@ -78,6 +79,12 @@
     <EntitySetMapping Name="PacienteDS">
       <EntityTypeMapping TypeName="DSModel.PacienteDS">
         <MappingFragment StoreEntitySet="PacienteDS">
+          <ScalarProperty Name="Nacimiento" ColumnName="Nacimiento" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="Ciudad" ColumnName="Ciudad" />
+          <ScalarProperty Name="CP" ColumnName="CP" />
+          <ScalarProperty Name="Colonia" ColumnName="Colonia" />
+          <ScalarProperty Name="Direccion" ColumnName="Direccion" />
           <ScalarProperty Name="idPacienteDS" ColumnName="idPacienteDS" />
           <ScalarProperty Name="Nombre" ColumnName="Nombre" />
           <ScalarProperty Name="Email" ColumnName="Email" />
@@ -144,6 +151,9 @@
     <EntitySetMapping Name="EPI_A_Heredofamiliares">
       <EntityTypeMapping TypeName="DSModel.EPI_A_Heredofamiliares">
         <MappingFragment StoreEntitySet="EPI_A_Heredofamiliares">
+          <ScalarProperty Name="HermanosViven_ESP" ColumnName="HermanosViven_ESP" />
+          <ScalarProperty Name="PadreVive_ESP" ColumnName="PadreVive_ESP" />
+          <ScalarProperty Name="MadreVive_ESP" ColumnName="MadreVive_ESP" />
           <ScalarProperty Name="idPaciente" ColumnName="idPaciente" />
           <ScalarProperty Name="Neoplasticas" ColumnName="Neoplasticas" />
           <ScalarProperty Name="Tiroides" ColumnName="Tiroides" />
@@ -177,6 +187,18 @@
     <EntitySetMapping Name="EPI_A_Patologicos">
       <EntityTypeMapping TypeName="DSModel.EPI_A_Patologicos">
         <MappingFragment StoreEntitySet="EPI_A_Patologicos">
+          <ScalarProperty Name="Hipertension_ESP" ColumnName="Hipertension_ESP" />
+          <ScalarProperty Name="Cardiopatias_ESP" ColumnName="Cardiopatias_ESP" />
+          <ScalarProperty Name="Oncologicos_ESP" ColumnName="Oncologicos_ESP" />
+          <ScalarProperty Name="Convulsivas_ESP" ColumnName="Convulsivas_ESP" />
+          <ScalarProperty Name="Traumatismo_ESP" ColumnName="Traumatismo_ESP" />
+          <ScalarProperty Name="Diabetes_ESP" ColumnName="Diabetes_ESP" />
+          <ScalarProperty Name="Transfuncionales_ESP" ColumnName="Transfuncionales_ESP" />
+          <ScalarProperty Name="Quirurgicos_ESP" ColumnName="Quirurgicos_ESP" />
+          <ScalarProperty Name="Pulmonar_ESP" ColumnName="Pulmonar_ESP" />
+          <ScalarProperty Name="TrastornoMemoria_ESP" ColumnName="TrastornoMemoria_ESP" />
+          <ScalarProperty Name="Alergias_ASP" ColumnName="Alergias_ASP" />
+          <ScalarProperty Name="EnfermedadCongenita_ESP" ColumnName="EnfermedadCongenita_ESP" />
           <ScalarProperty Name="idPaciente" ColumnName="idPaciente" />
           <ScalarProperty Name="Drogas" ColumnName="Drogas" />
           <ScalarProperty Name="Fuma" ColumnName="Fuma" />
@@ -377,6 +399,33 @@
           <ScalarProperty Name="idPacienteDS" ColumnName="idPacienteDS" />
           <ScalarProperty Name="MedicamentoGeneral" ColumnName="MedicamentoGeneral" />
           <ScalarProperty Name="idFarmacia" ColumnName="idFarmacia" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Referido">
+      <EntityTypeMapping TypeName="DSModel.Referido">
+        <MappingFragment StoreEntitySet="Referido">
+          <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="idReferido" ColumnName="idReferido" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DoctorModuloDS">
+      <EntityTypeMapping TypeName="DSModel.DoctorModuloDS">
+        <MappingFragment StoreEntitySet="DoctorModuloDS">
+          <ScalarProperty Name="idModulo" ColumnName="idModulo" />
+          <ScalarProperty Name="idSucursalDS" ColumnName="idSucursalDS" />
+          <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
+          <ScalarProperty Name="idDoctorModuloDS" ColumnName="idDoctorModuloDS" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Modulos">
+      <EntityTypeMapping TypeName="DSModel.Modulos">
+        <MappingFragment StoreEntitySet="Modulos">
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="idModulo" ColumnName="idModulo" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

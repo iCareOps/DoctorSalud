@@ -18,6 +18,7 @@ namespace DoctorSalud
         public Usuarios()
         {
             this.RecepcionistaDS = new HashSet<RecepcionistaDS>();
+            this.DoctorModuloDS = new HashSet<DoctorModuloDS>();
         }
     
         public int idUsuario { get; set; }
@@ -29,5 +30,7 @@ namespace DoctorSalud
         public virtual Roles Roles { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RecepcionistaDS> RecepcionistaDS { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DoctorModuloDS> DoctorModuloDS { get; set; }
     }
 }

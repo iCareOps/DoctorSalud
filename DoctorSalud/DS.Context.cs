@@ -52,5 +52,8 @@ namespace DoctorSalud
         public virtual DbSet<Paciente> Paciente { get; set; }
         public virtual DbSet<SignosVitalesDS> SignosVitalesDS { get; set; }
         public virtual DbSet<Farmacia> Farmacia { get; set; }
+        public virtual DbSet<Referido> Referido { get; set; }
+        public virtual DbSet<DoctorModuloDS> DoctorModuloDS { get; set; }
+        public virtual DbSet<Modulos> Modulos { get; set; }
     }
 }

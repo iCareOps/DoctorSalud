@@ -37,6 +37,7 @@
     <Property Name="Inicio_SignosVitales" Type="DateTime" Precision="3" />
     <Property Name="Fin_SignosVitales" Type="DateTime" Precision="3" />
     <Property Name="NoMembresia" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="ReferidoPor" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="MedicinaInterna">
     <Key>
@@ -90,6 +91,12 @@
     <NavigationProperty Name="Oftalmologo" Relationship="Self.FK_Oftalmologo_PacienteDS" FromRole="PacienteDS" ToRole="Oftalmologo" />
     <NavigationProperty Name="SignosVitalesDS" Relationship="DSModel.FK_SignosVitalesDS_PacienteDS" FromRole="PacienteDS" ToRole="SignosVitalesDS" />
     <NavigationProperty Name="Farmacia" Relationship="DSModel.FK_Farmacia_PacienteDS" FromRole="PacienteDS" ToRole="Farmacia" />
+    <Property Name="Direccion" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="Colonia" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="CP" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Ciudad" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Estado" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Nacimiento" Type="DateTime" Precision="3" />
   </EntityType>
   <Association Name="FK_Cardiologo_PacienteDS">
     <End Role="PacienteDS" Type="Self.PacienteDS" Multiplicity="0..1" />
@@ -275,6 +282,21 @@
       <End Role="PacienteDS" EntitySet="PacienteDS" />
       <End Role="Farmacia" EntitySet="Farmacia" />
     </AssociationSet>
+    <EntitySet Name="Referido" EntityType="DSModel.Referido" />
+    <EntitySet Name="DoctorModuloDS" EntityType="DSModel.DoctorModuloDS" />
+    <AssociationSet Name="FK_DoctorModuloDS_SucursalDS" Association="DSModel.FK_DoctorModuloDS_SucursalDS">
+      <End Role="SucursalDS" EntitySet="SucursalDS" />
+      <End Role="DoctorModuloDS" EntitySet="DoctorModuloDS" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DoctorModuloDS_Usuarios" Association="DSModel.FK_DoctorModuloDS_Usuarios">
+      <End Role="Usuarios" EntitySet="Usuarios" />
+      <End Role="DoctorModuloDS" EntitySet="DoctorModuloDS" />
+    </AssociationSet>
+    <EntitySet Name="Modulos" EntityType="DSModel.Modulos" />
+    <AssociationSet Name="FK_DoctorModuloDS_Modulos" Association="DSModel.FK_DoctorModuloDS_Modulos">
+      <End Role="Modulos" EntitySet="Modulos" />
+      <End Role="DoctorModuloDS" EntitySet="DoctorModuloDS" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Menu">
     <Key>
@@ -316,6 +338,7 @@
     <Property Name="idRol" Type="Int32" />
     <NavigationProperty Name="Roles" Relationship="DSModel.FK_Usuarios_Roles" FromRole="Usuarios" ToRole="Roles" />
     <NavigationProperty Name="RecepcionistaDS" Relationship="DSModel.FK_RecepcionistaDS_Usuarios" FromRole="Usuarios" ToRole="RecepcionistaDS" />
+    <NavigationProperty Name="DoctorModuloDS" Relationship="DSModel.FK_DoctorModuloDS_Usuarios" FromRole="Usuarios" ToRole="DoctorModuloDS" />
   </EntityType>
   <Association Name="FK_RolMenu_Menu">
     <End Type="DSModel.Menu" Role="Menu" Multiplicity="0..1" />
@@ -370,6 +393,7 @@
     <Property Name="idSucursalDS" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="RecepcionistaDS" Relationship="DSModel.FK_RecepcionistaDS_SucursalDS" FromRole="SucursalDS" ToRole="RecepcionistaDS" />
+    <NavigationProperty Name="DoctorModuloDS" Relationship="DSModel.FK_DoctorModuloDS_SucursalDS" FromRole="SucursalDS" ToRole="DoctorModuloDS" />
   </EntityType>
   <Association Name="FK_RecepcionistaDS_SucursalDS">
     <End Type="DSModel.SucursalDS" Role="SucursalDS" Multiplicity="0..1" />
@@ -414,6 +438,9 @@
     <Property Name="Neoplasticas" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
     <Property Name="idPaciente" Type="Int32" />
     <NavigationProperty Name="Paciente" Relationship="DSModel.FK_EPI_A_Heredofamiliares_Paciente" FromRole="EPI_A_Heredofamiliares" ToRole="Paciente" />
+    <Property Name="MadreVive_ESP" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+    <Property Name="PadreVive_ESP" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+    <Property Name="HermanosViven_ESP" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="EPI_A_NoPatologicos">
     <Key>
@@ -450,6 +477,18 @@
     <Property Name="Drogas" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
     <Property Name="idPaciente" Type="Int32" />
     <NavigationProperty Name="Paciente" Relationship="DSModel.FK_EPI_A_Patologicos_Paciente" FromRole="EPI_A_Patologicos" ToRole="Paciente" />
+    <Property Name="EnfermedadCongenita_ESP" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+    <Property Name="Alergias_ASP" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+    <Property Name="TrastornoMemoria_ESP" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+    <Property Name="Pulmonar_ESP" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+    <Property Name="Quirurgicos_ESP" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+    <Property Name="Transfuncionales_ESP" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+    <Property Name="Diabetes_ESP" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+    <Property Name="Traumatismo_ESP" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+    <Property Name="Convulsivas_ESP" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+    <Property Name="Oncologicos_ESP" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+    <Property Name="Cardiopatias_ESP" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+    <Property Name="Hipertension_ESP" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="EPI_AparatosSistemas">
     <Key>
@@ -810,6 +849,70 @@
       </Principal>
       <Dependent Role="Farmacia">
         <PropertyRef Name="idPacienteDS" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Referido">
+    <Key>
+      <PropertyRef Name="idReferido" />
+    </Key>
+    <Property Name="idReferido" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Tipo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="DoctorModuloDS">
+    <Key>
+      <PropertyRef Name="idDoctorModuloDS" />
+    </Key>
+    <Property Name="idDoctorModuloDS" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="idUsuario" Type="Int32" />
+    <Property Name="idSucursalDS" Type="Int32" />
+    <Property Name="idModulo" Type="Int32" />
+    <NavigationProperty Name="SucursalDS" Relationship="DSModel.FK_DoctorModuloDS_SucursalDS" FromRole="DoctorModuloDS" ToRole="SucursalDS" />
+    <NavigationProperty Name="Usuarios" Relationship="DSModel.FK_DoctorModuloDS_Usuarios" FromRole="DoctorModuloDS" ToRole="Usuarios" />
+    <NavigationProperty Name="Modulos" Relationship="DSModel.FK_DoctorModuloDS_Modulos" FromRole="DoctorModuloDS" ToRole="Modulos" />
+  </EntityType>
+  <Association Name="FK_DoctorModuloDS_SucursalDS">
+    <End Type="DSModel.SucursalDS" Role="SucursalDS" Multiplicity="0..1" />
+    <End Type="DSModel.DoctorModuloDS" Role="DoctorModuloDS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SucursalDS">
+        <PropertyRef Name="idSucursalDS" />
+      </Principal>
+      <Dependent Role="DoctorModuloDS">
+        <PropertyRef Name="idSucursalDS" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DoctorModuloDS_Usuarios">
+    <End Type="DSModel.Usuarios" Role="Usuarios" Multiplicity="0..1" />
+    <End Type="DSModel.DoctorModuloDS" Role="DoctorModuloDS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Usuarios">
+        <PropertyRef Name="idUsuario" />
+      </Principal>
+      <Dependent Role="DoctorModuloDS">
+        <PropertyRef Name="idUsuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Modulos">
+    <Key>
+      <PropertyRef Name="idModulo" />
+    </Key>
+    <Property Name="idModulo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="DoctorModuloDS" Relationship="DSModel.FK_DoctorModuloDS_Modulos" FromRole="Modulos" ToRole="DoctorModuloDS" />
+  </EntityType>
+  <Association Name="FK_DoctorModuloDS_Modulos">
+    <End Type="DSModel.Modulos" Role="Modulos" Multiplicity="0..1" />
+    <End Type="DSModel.DoctorModuloDS" Role="DoctorModuloDS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Modulos">
+        <PropertyRef Name="idModulo" />
+      </Principal>
+      <Dependent Role="DoctorModuloDS">
+        <PropertyRef Name="idModulo" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

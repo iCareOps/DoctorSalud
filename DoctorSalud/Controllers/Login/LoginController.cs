@@ -49,7 +49,10 @@ namespace DoctorSalud.Controllers.Login
                             return Redirect("~/Recepcion/Farmacia");
                         case 18:
                             ViewBag.Nombre = oUser.Nombre.ToString();
-                            return Redirect("~/Recepcion/Index");
+                            return Redirect("~/Recepcion/Dashboard");
+                        case 19:
+                            ViewBag.Nombre = oUser.Nombre.ToString();
+                            return Redirect("~/Recepcion/Inicio");
                         default:
                             return View();
                     }

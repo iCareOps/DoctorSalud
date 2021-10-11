@@ -41,11 +41,19 @@
             var medicina = (from o in db.MedicinaInterna where o.idPacienteDS == idPaciente orderby o.idMedicinaInterna descending select o).FirstOrDefault();
             var signos = (from o in db.SignosVitalesDS where o.idPacienteDS == idPaciente orderby o.idSignosVitalesDS descending select o).FirstOrDefault();
 
-            if (signos != null)
+            if (signos != null && (idRol == 19 || idRol == 18 || nombreUsuario == "Óscar Antonio Alfonso Montero"))
             {
                 if ((from i in db.CitaDS where i.idPacienteDS == idPaciente && i.Fin_SignosVitales != null orderby i.idCitaDS descending select i).FirstOrDefault() != null)
                 {
-                    <button class="btn btn-primary" data-toggle="modal" data-target="#signosCompleto" style="width:25vw; height:25vw; margin:0.5%; max-width: 200px; max-height:200px; white-space:normal; font-size: 75%" id="aparicion">SIGNOS VITALES <span style="color:gold">(COMPLETO)</span></button>
+                    if (idRol == 18 || nombreUsuario == "Óscar Antonio Alfonso Montero")
+                    {
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#signosCompletoEditar" style="width:25vw; height:25vw; margin:0.5%; max-width: 200px; max-height:200px; white-space:normal; font-size: 75%" id="aparicion">SIGNOS VITALES <span style="color:gold">(COMPLETO)</span></button>
+                    }
+                    else
+                    {
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#signosCompleto" style="width:25vw; height:25vw; margin:0.5%; max-width: 200px; max-height:200px; white-space:normal; font-size: 75%" id="aparicion">SIGNOS VITALES <span style="color:gold">(COMPLETO)</span></button>
+                    }
+
                 }
                 else
                 {
@@ -53,67 +61,115 @@
                 }
 
             }
+            else
+            {
+                <button class="btn btn-primary" disabled style="width:25vw; height:25vw; margin:0.5%; max-width: 200px; max-height:200px; white-space:normal; font-size: 75%" id="aparicion">SIGNOS VITALES</button>
+            }
+
+
             if (medicina != null)
             {
-                if ((from i in db.SignosVitalesDS where i.idPacienteDS == idPaciente orderby i.idSignosVitalesDS descending select i.Diastolica).FirstOrDefault() == null)
+                var moduloMI = (from i in db.DoctorModuloDS where i.idUsuario == idUser && i.idModulo == 9 select i).FirstOrDefault();
+
+                if (moduloMI != null || idRol == 18)
                 {
-                    <button class="btn btn-info" data-toggle="modal" data-target="#sinsignos" style="width:25vw; height:25vw; margin:0.5%; max-width: 200px; max-height:200px; white-space:normal; font-size: 75%" id="aparicion">MEDICINA INTERNA</button>
-                }
-                else if ((from i in db.CitaDS where i.idPacienteDS == idPaciente && i.Fin_MedicinaInterna != null orderby i.idCitaDS descending select i).FirstOrDefault() != null)
-                {
-                    <button class="btn btn-info" data-toggle="modal" data-target="#medicinaCompleto" style="width:25vw; height:25vw; margin:0.5%; max-width: 200px; max-height:200px; white-space:normal; font-size: 75%" id="aparicion">MEDICINA INTERNA <span style="color:gold">(COMPLETO)</span></button>
+                    if ((from i in db.SignosVitalesDS where i.idPacienteDS == idPaciente orderby i.idSignosVitalesDS descending select i.Diastolica).FirstOrDefault() == null)
+                    {
+                        <button class="btn btn-info" data-toggle="modal" data-target="#sinsignos" style="width:25vw; height:25vw; margin:0.5%; max-width: 200px; max-height:200px; white-space:normal; font-size: 75%" id="aparicion">MEDICINA INTERNA</button>
+                    }
+                    else if ((from i in db.CitaDS where i.idPacienteDS == idPaciente && i.Fin_MedicinaInterna != null orderby i.idCitaDS descending select i).FirstOrDefault() != null)
+                    {
+                        <button class="btn btn-info" data-toggle="modal" data-target="#medicinaCompleto" style="width:25vw; height:25vw; margin:0.5%; max-width: 200px; max-height:200px; white-space:normal; font-size: 75%" id="aparicion">MEDICINA INTERNA <span style="color:gold">(COMPLETO)</span></button>
+                    }
+                    else
+                    {
+                        <button class="btn btn-info" data-toggle="modal" data-target="#medicina" style="width:25vw; height:25vw; margin:0.5%; max-width: 200px; max-height:200px; white-space:normal; font-size: 75%" id="aparicion">MEDICINA INTERNA</button>
+                    }
                 }
                 else
                 {
-                    <button class="btn btn-info" data-toggle="modal" data-target="#medicina" style="width:25vw; height:25vw; margin:0.5%; max-width: 200px; max-height:200px; white-space:normal; font-size: 75%" id="aparicion">MEDICINA INTERNA</button>
+                    <button class="btn btn-info" disabled style="width:25vw; height:25vw; margin:0.5%; max-width: 200px; max-height:200px; white-space:normal; font-size: 75%" id="aparicion">MEDICINA INTERNA</button>
                 }
 
             }
             if (oftalmo != null)
             {
-                if ((from i in db.SignosVitalesDS where i.idPacienteDS == idPaciente orderby i.idSignosVitalesDS descending select i.Diastolica).FirstOrDefault() == null)
+                var moduloOF = (from i in db.DoctorModuloDS where i.idUsuario == idUser && i.idModulo == 10 select i).FirstOrDefault();
+
+                if (moduloOF != null || idRol == 18)
                 {
-                    <button class="btn btn-info" data-toggle="modal" data-target="#sinsignos" style="width:25vw; height:25vw; margin:0.5%; max-width: 200px; max-height:200px; white-space:normal; font-size: 75%" id="aparicion">OFTALMOLOGÍA</button>
-                }
-                else if ((from i in db.CitaDS where i.idPacienteDS == idPaciente && i.Fin_Oftalmologia != null orderby i.idCitaDS descending select i).FirstOrDefault() != null)
-                {
-                    <button class="btn btn-info" data-toggle="modal" data-target="#oftalmologiaCompleto" style="width:25vw; height:25vw; margin:0.5%; max-width: 200px; max-height:200px; white-space:normal; font-size: 75%" id="aparicion">OFTALMOLOGÍA <span style="color:gold">(COMPLETO)</span></button>
+                    if ((from i in db.SignosVitalesDS where i.idPacienteDS == idPaciente orderby i.idSignosVitalesDS descending select i.Diastolica).FirstOrDefault() == null)
+                    {
+                        <button class="btn btn-info" data-toggle="modal" data-target="#sinsignos" style="width:25vw; height:25vw; margin:0.5%; max-width: 200px; max-height:200px; white-space:normal; font-size: 75%" id="aparicion">OFTALMOLOGÍA</button>
+                    }
+                    else if ((from i in db.CitaDS where i.idPacienteDS == idPaciente && i.Fin_Oftalmologia != null orderby i.idCitaDS descending select i).FirstOrDefault() != null)
+                    {
+                        <button class="btn btn-info" data-toggle="modal" data-target="#oftalmologiaCompleto" style="width:25vw; height:25vw; margin:0.5%; max-width: 200px; max-height:200px; white-space:normal; font-size: 75%" id="aparicion">OFTALMOLOGÍA <span style="color:gold">(COMPLETO)</span></button>
+                    }
+                    else
+                    {
+                        <button class="btn btn-info" data-toggle="modal" data-target="#oftalmologia" style="width:25vw; height:25vw; margin:0.5%; max-width: 200px; max-height:200px; white-space:normal; font-size: 75%" id="aparicion">OFTALMOLOGÍA</button>
+                    }
                 }
                 else
                 {
-                    <button class="btn btn-info" data-toggle="modal" data-target="#oftalmologia" style="width:25vw; height:25vw; margin:0.5%; max-width: 200px; max-height:200px; white-space:normal; font-size: 75%" id="aparicion">OFTALMOLOGÍA</button>
+                    <button class="btn btn-info" disabled style="width:25vw; height:25vw; margin:0.5%; max-width: 200px; max-height:200px; white-space:normal; font-size: 75%" id="aparicion">OFTALMOLOGÍA</button>
                 }
+
+
             }
             if (cardiolo != null)
             {
-                if ((from i in db.SignosVitalesDS where i.idPacienteDS == idPaciente orderby i.idSignosVitalesDS descending select i.Diastolica).FirstOrDefault() == null)
+                var moduloCA = (from i in db.DoctorModuloDS where i.idUsuario == idUser && i.idModulo == 11 select i).FirstOrDefault();
+
+                if (moduloCA != null || idRol == 18)
                 {
-                    <button class="btn btn-info" data-toggle="modal" data-target="#sinsignos" style="width:25vw; height:25vw; margin:0.5%; max-width: 200px; max-height:200px; white-space:normal; font-size: 75%" id="aparicion">CARDIOLOGÍA</button>
-                }
-                else if ((from i in db.CitaDS where i.idPacienteDS == idPaciente && i.Fin_Cardiologia != null orderby i.idCitaDS descending select i).FirstOrDefault() != null)
-                {
-                    <button class="btn btn-info" data-toggle="modal" data-target="#cardiologiaCompleto" style="width:25vw; height:25vw; margin:0.5%; max-width: 200px; max-height:200px; white-space:normal; font-size: 75%" id="aparicion">CARDIOLOGÍA <span style="color:gold">(COMPLETO)</span></button>
+                    if ((from i in db.SignosVitalesDS where i.idPacienteDS == idPaciente orderby i.idSignosVitalesDS descending select i.Diastolica).FirstOrDefault() == null)
+                    {
+                        <button class="btn btn-info" data-toggle="modal" data-target="#sinsignos" style="width:25vw; height:25vw; margin:0.5%; max-width: 200px; max-height:200px; white-space:normal; font-size: 75%" id="aparicion">CARDIOLOGÍA</button>
+                    }
+                    else if ((from i in db.CitaDS where i.idPacienteDS == idPaciente && i.Fin_Cardiologia != null orderby i.idCitaDS descending select i).FirstOrDefault() != null)
+                    {
+                        <button class="btn btn-info" data-toggle="modal" data-target="#cardiologiaCompleto" style="width:25vw; height:25vw; margin:0.5%; max-width: 200px; max-height:200px; white-space:normal; font-size: 75%" id="aparicion">CARDIOLOGÍA <span style="color:gold">(COMPLETO)</span></button>
+                    }
+                    else
+                    {
+                        <button class="btn btn-info" data-toggle="modal" data-target="#cardiologia" style="width:25vw; height:25vw; margin:0.5%; max-width: 200px; max-height:200px; white-space:normal; font-size: 75%" id="aparicion">CARDIOLOGÍA</button>
+                    }
                 }
                 else
                 {
-                    <button class="btn btn-info" data-toggle="modal" data-target="#cardiologia" style="width:25vw; height:25vw; margin:0.5%; max-width: 200px; max-height:200px; white-space:normal; font-size: 75%" id="aparicion">CARDIOLOGÍA</button>
+                    <button class="btn btn-info" disabled style="width:25vw; height:25vw; margin:0.5%; max-width: 200px; max-height:200px; white-space:normal; font-size: 75%" id="aparicion">CARDIOLOGÍA</button>
                 }
+
+
 
             }
             if (nutriolo != null)
             {
-                if ((from i in db.SignosVitalesDS where i.idPacienteDS == idPaciente orderby i.idSignosVitalesDS descending select i.Diastolica).FirstOrDefault() == null)
+
+                var moduloNU = (from i in db.DoctorModuloDS where i.idUsuario == idUser && i.idModulo == 12 select i).FirstOrDefault();
+
+                if (moduloNU != null || idRol == 18)
                 {
-                    <button class="btn btn-info" data-toggle="modal" data-target="#sinsignos" style="width:25vw; height:25vw; margin:0.5%; max-width: 200px; max-height:200px; white-space:normal; font-size: 75%" id="aparicion">NUTRICIÓN</button>
-                }
-                else if ((from i in db.CitaDS where i.idPacienteDS == idPaciente && i.Fin_Nutricion != null orderby i.idCitaDS descending select i).FirstOrDefault() != null)
-                {
-                    <button class="btn btn-info" data-toggle="modal" data-target="#nutricionCompleto" style="width:25vw; height:25vw; margin:0.5%; max-width: 200px; max-height:200px; white-space:normal; font-size: 75%" id="aparicion">NUTRICIÓN <span style="color:gold">(COMPLETO)</span></button>
+                    if ((from i in db.SignosVitalesDS where i.idPacienteDS == idPaciente orderby i.idSignosVitalesDS descending select i.Diastolica).FirstOrDefault() == null)
+                    {
+                        <button class="btn btn-info" data-toggle="modal" data-target="#sinsignos" style="width:25vw; height:25vw; margin:0.5%; max-width: 200px; max-height:200px; white-space:normal; font-size: 75%" id="aparicion">NUTRICIÓN</button>
+                    }
+                    else if ((from i in db.CitaDS where i.idPacienteDS == idPaciente && i.Fin_Nutricion != null orderby i.idCitaDS descending select i).FirstOrDefault() != null)
+                    {
+                        <button class="btn btn-info" data-toggle="modal" data-target="#nutricionCompleto" style="width:25vw; height:25vw; margin:0.5%; max-width: 200px; max-height:200px; white-space:normal; font-size: 75%" id="aparicion">NUTRICIÓN <span style="color:gold">(COMPLETO)</span></button>
+                    }
+                    else
+                    {
+                        <button class="btn btn-info" data-toggle="modal" data-target="#nutricion" style="width:25vw; height:25vw; margin:0.5%; max-width: 200px; max-height:200px; white-space:normal; font-size: 75%" id="aparicion">NUTRICIÓN</button>
+                    }
                 }
                 else
                 {
-                    <button class="btn btn-info" data-toggle="modal" data-target="#nutricion" style="width:25vw; height:25vw; margin:0.5%; max-width: 200px; max-height:200px; white-space:normal; font-size: 75%" id="aparicion">NUTRICIÓN</button>
+                    <button class="btn btn-info" disabled style="width:25vw; height:25vw; margin:0.5%; max-width: 200px; max-height:200px; white-space:normal; font-size: 75%" id="aparicion">NUTRICIÓN</button>
                 }
+
 
             }
         }
@@ -154,6 +210,73 @@
             </div>
         </div>
     </div>
+
+    <form method="post" enctype="multipart/form-data" style="display:inline-block" action="@Url.Content("~/Modulos/SignosVitales_Editar")">
+        <div class="modal fade" id="signosCompletoEditar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title text-primary" id="exampleModalLabel"><b>Signos Vitales del paciente:</b></h4>
+                        <input type="hidden" value="@idPaciente" name="id" />
+                    </div>
+                    <div class="modal-body">
+                        @{
+                            var SV1 = (from s in db.SignosVitalesDS where s.idPacienteDS == idPaciente orderby s.idSignosVitalesDS descending select s).FirstOrDefault();
+
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Presion Arterial Sistólica:</label>
+                                <input type="text" class="form-control" id="nombre" name="sistolica" placeholder="@SV1.Sistolica" />
+                            </div>
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Presión Arterial Diastólica:</label>
+                                <input type="text" class="form-control" id="nombre" name="diastolica" placeholder="@SV1.Diastolica" />
+                            </div>
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Frecuencia Cardiaca:</label>
+                                <input type="text" class="form-control" id="nombre" name="cardiaca" placeholder="@SV1.Cardiaca" />
+                            </div>
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Frecuencia Respiratoria:</label>
+                                <input type="text" class="form-control" id="nombre" name="respiratoria" placeholder="@SV1.Respiratoria" />
+                            </div>
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Temperatura:</label>
+                                <input type="text" class="form-control" id="nombre" name="temperatura" placeholder="@SV1.Temperatura" />
+                            </div>
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Peso:</label>
+                                <input type="text" class="form-control" id="nombre" name="peso" placeholder="@SV1.Peso" />
+                            </div>
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Estatura:</label>
+                                <input type="text" class="form-control" id="nombre" name="estatura" placeholder="@SV1.Estatura" />
+                            </div>
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Cintura:</label>
+                                <input type="text" class="form-control" id="nombre" name="cintura" placeholder="@SV1.Cintura" />
+                            </div>
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Cuello:</label>
+                                <input type="text" class="form-control" id="nombre" name="cuello" placeholder="@SV1.Cuello" />
+                            </div>
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Porcentaje de Grasa:</label>
+                                <input type="text" class="form-control" id="nombre" name="grasa" placeholder="@SV1.Grasa" />
+                            </div>
+                        }
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-info">Enviar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    
+
+
 
     <div class="modal fade" id="sinsignos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">

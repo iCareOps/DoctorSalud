@@ -12,20 +12,17 @@ namespace DoctorSalud
     using System;
     using System.Collections.Generic;
     
-    public partial class SucursalDS
+    public partial class Modulos
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public SucursalDS()
+        public Modulos()
         {
-            this.RecepcionistaDS = new HashSet<RecepcionistaDS>();
             this.DoctorModuloDS = new HashSet<DoctorModuloDS>();
         }
     
-        public int idSucursalDS { get; set; }
+        public int idModulo { get; set; }
         public string Nombre { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<RecepcionistaDS> RecepcionistaDS { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DoctorModuloDS> DoctorModuloDS { get; set; }
     }

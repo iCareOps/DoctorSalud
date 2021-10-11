@@ -1,0 +1,213 @@
+﻿@model IEnumerable<DoctorSalud.Usuarios>
+@{
+    ViewBag.Title = "Index";
+
+    DoctorSalud_Entities db = new DoctorSalud_Entities();
+
+    var modelo = from i in db.Usuarios where i.idRol == 14 || i.idRol == 15 || i.idRol == 16 || i.idRol == 18 || i.idRol == 19 select i;
+}
+
+<br />
+
+<br />
+
+<h3 class="text-primary">Usuarios</h3>
+<br />
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#crear"><span class="glyphicon glyphicon-plus"></span> Nuevo Usuario</button>
+<a href="~/Usuarios/Modulos"><button type="button" style="color:white" class="btn btn-warning"><span class="glyphicon glyphicon-list-alt"></span>&nbsp; Módulos</button></a>
+
+<br />
+<br />
+<div class="tablaScroll">
+    <table class="table tablas table-responsive" style="color: #2F2D6B">
+        <thead>
+            <tr class="bg-primary">
+                <th>
+                    <h4>@Html.DisplayNameFor(model => model.Nombre)</h4>
+                </th>
+                <th>
+                    <h4>@Html.DisplayNameFor(model => model.Email)</h4>
+                </th>
+                <th>
+                    <h4>Rol</h4>
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+
+
+        @foreach (var item in modelo)
+        {
+            <tr>
+                <td>
+                    <b>@Html.DisplayFor(modelItem => item.Nombre)</b>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    <b>@Html.DisplayFor(modelItem => item.Roles.Nombre)</b>
+                </td>
+                <td>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Acción &nbsp;<span class="glyphicon glyphicon-chevron-down"></span>
+                        </button>
+                        <div class="dropdown-menu">
+                            <h5><a href="#" data-toggle="modal" data-target="#editar_@item.idUsuario">Editar</a></h5>
+                            <div class="dropdown-divider"></div>
+                            @{
+                                if (item.idRol != 18)
+                                {
+                                    <div class="dropdown-divider"></div>
+                                    <h5><a href="#" data-toggle="modal" data-target="#Modal_@item.idUsuario"><b>Asignar Sucursal</b></a></h5>
+                                }
+                            }
+                            <h5><a href="#" data-toggle="modal" data-target="#eliminar_@item.idUsuario">Eliminar</a></h5>
+                            <div class="dropdown-divider"></div>
+                        </div>
+                    </div>
+
+                    <form method="post" enctype="multipart/form-data" action="@Url.Content("~/Usuarios/EditarUsuario")">
+
+                        <div class="modal fade" id="editar_@item.idUsuario" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header" style="background-color: aqua; color:darkblue">
+                                        <h4 class="modal-title" id="exampleModalLabel"><b>Editar Usuario <i>@item.Nombre</i></b></h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input type="hidden" name="id" value="@item.idUsuario" />
+                                        <div class="form-group">
+                                            <label for="recipient-name" class="col-form-label">Nombre:</label>
+                                            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="@item.Nombre">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="recipient-name" class="col-form-label">Email:</label>
+                                            <input type="email" class="form-control" id="email" name="email" placeholder="@item.Email">
+                                        </div>
+                                        <select name="rol" style="width:100%; min-height:5vh; min-width:99%; font-size:2vh" class="form-select">
+                                            @{
+                                                var rolActual = (from r in db.Roles where r.idRol == item.idRol select r.Nombre).FirstOrDefault();
+
+                                                <option value="@rolActual">@rolActual.Replace("DS", "")</option>
+
+                                                var roles1 = from i in db.Roles where i.idRol == 14 || i.idRol == 15 || i.idRol == 16 || i.idRol == 18 || i.idRol == 19 || i.idRol == 20 select i.Nombre;
+                                                foreach (var opcion in roles1)
+                                                {
+                                                    <option value="@opcion">@opcion.Replace("DS", "")</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                        <input type="submit" value="Enviar" class="btn btn-primary" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <form method="post" enctype="multipart/form-data" action="@Url.Content("~/Usuarios/EliminarUsuario")">
+
+                        <div class="modal fade" id="eliminar_@item.idUsuario" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header" style="background-color: aqua; color:darkblue">
+                                        <h4 class="modal-title" id="exampleModalLabel"><b>¿Desea eliminar al usuario <i>@item.Nombre?</i></b></h4>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input type="hidden" name="id" value="@item.idUsuario" />
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                                        <input type="submit" value="Si" class="btn btn-primary" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+
+                    <!-- Modal para elegir el método de pago una vez que se concrete el mismo -->
+                    <form method="post" enctype="multipart/form-data" action="@Url.Content("~/Usuarios/AsignarSucursal")">
+                        @Html.AntiForgeryToken()
+                        <div class="modal fade" id="Modal_@item.idUsuario" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" id="exampleModalLabel"><b>Elegir Sucursal para <i>@item.Nombre</i></b></h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input type="hidden" name="id" value="@item.idUsuario" />
+                                        <div class="form-group" style="width:60%; min-width:320px">
+                                            <label for="recipient-name" class="col-form-label">Sucursal:</label>
+                                            <select name="sucursal" style="width:100%; min-height:5vh; min-width:99%; font-size:2vh" class="form-select">
+                                                @{
+                                                    var sucursales = from s in db.SucursalDS select s;
+
+                                                    foreach (var item1 in sucursales)
+                                                    {
+                                                        <option value="@item1.idSucursalDS">@item1.Nombre</option>
+                                                    }
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                        <input type="submit" value="Asignar" class="btn btn-primary" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+
+
+<form method="post" enctype="multipart/form-data" action="@Url.Content("~/Usuarios/CrearUsuario")">
+    <div class="modal fade" id="crear" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: aqua; color:darkblue">
+                    <h4 class="modal-title" id="exampleModalLabel"><b>Crear Usuario</i></b></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Nombre:</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Email:</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Contraseña:</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    <div class="form-group" style="width:60%; min-width:320px">
+                        <label for="recipient-name" class="col-form-label">Puesto:</label>
+                        <select name="rol" style="width:100%; min-height:5vh; min-width:99%; font-size:2vh" class="form-select">
+                            @{
+                                var roles = from i in db.Roles where i.idRol == 14 || i.idRol == 15 || i.idRol == 16 || i.idRol == 18 || i.idRol == 19 || i.idRol == 20 select i.Nombre;
+                                foreach (var opcion in roles)
+                                {
+                                    <option value="@opcion">@opcion.Replace("DS", "")</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <input type="submit" value="Enviar" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

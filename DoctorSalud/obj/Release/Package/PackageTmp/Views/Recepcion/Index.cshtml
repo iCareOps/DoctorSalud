@@ -150,6 +150,49 @@ registros = db.PacienteDS.Join(db.CitaDS, n => n.idPacienteDS, m => m.idPaciente
     });
     </script>
 
+
+    <script>
+    $(function () {
+        $(".ConsultaHash").click(function () {
+            var url = "@Url.Action("BuscarTodo", "Recepcion")";
+            var dato = $("#Hash").val();
+
+            if (dato == "") {
+                document.getElementById("nombre").value = null;
+                document.getElementById("telefono").value = null;
+                document.getElementById("email").value = null;
+                alert("Debe llenar el campo HASH");
+            }
+            else {
+                var data = { dato: dato };
+
+                $.post(url, data).done(function (data) {
+                    console.log(data);
+
+                    if ($.isEmptyObject(data.Nombre)) {
+                        alert("El paciente no existe");
+                        document.getElementById("nombre").value = null;
+                        document.getElementById("telefono").value = null;
+                        document.getElementById("email").value = null;
+                    }
+                    else {
+                        document.getElementById("nombre").value = data.Nombre;
+                        document.getElementById("telefono").value = data.Telefono;
+                        document.getElementById("email").value = data.Email;
+                    }
+
+                    
+
+                }).fail().always(function () {
+
+                });
+            }
+
+            
+        });
+    });
+    </script>
+
     @if (TempData["Link"] != null)
     {
         <script>
@@ -193,24 +236,147 @@ registros = db.PacienteDS.Join(db.CitaDS, n => n.idPacienteDS, m => m.idPaciente
                 <form method="post" enctype="multipart/form-data" action="@Url.Content("~/Recepcion/Crear")">
                     @Html.AntiForgeryToken()
                     <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Nombre del Paciente:</label>
-                        <input type="text" class="form-control" id="nombre" name="nombre" required />
-                    </div>
-                    <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Teléfono:</label>
-                        <input type="text" class="form-control" id="telefono" name="telefono" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Email:</label>
-                        <input type="email" class="form-control" id="email" name="email" required>
-                    </div>
-                    <div class="form-group">
                         <label for="recipient-name" class="col-form-label">Código HASH:</label>
-                        <input type="text" class="form-control" id="email" name="hash" required>
+                        <input type="text" class="form-control" id="Hash" name="hash">
                     </div>
+                    <div class="form-group">
+                        <button id="ConsultaHash" type="button" class="btn btn-success ConsultaHash">Consultar Hash</button>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-xs-8">
+                            <label for="recipient-name" class="col-form-label">Nombre del Paciente:</label>
+                            <input type="text" class="form-control" id="nombre" name="nombre" required style="max-width:100%" />
+                        </div>
+                        <div class="form-group col-xs-4">
+                            <label for="recipient-name" class="col-form-label">Teléfono:</label>
+                            <input type="text" class="form-control" id="telefono" name="telefono" style="max-width:100%" required>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="form-group col-xs-6">
+                            <label for="recipient-name" class="col-form-label">Email:</label>
+                            <input type="email" class="form-control" id="email" name="email" required style="max-width:100%">
+                        </div>
+                        <div class="form-group col-xs-6">
+                            <label for="recipient-name" class="col-form-label">Fecha de Nacimiento:</label>
+                            <input type="date" class="form-control" id="email" name="nacimiento" required style="max-width:100%">
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <label for="recipient-name" class="col-form-label">Calle y Número:</label>
+                            <input type="text" class="form-control" id="email" name="calle" required style="max-width:100%">
+                        </div>
+                        <div class="col-xs-4">
+                            <label for="recipient-name" class="col-form-label">Colonia:</label>
+                            <input type="text" class="form-control" id="email" name="colonia" required style="max-width:100%">
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <label for="recipient-name" class="col-form-label">C. Postal:</label>
+                            <input type="tel" class="form-control" id="email" name="cp" required style="max-width:100%">
+                        </div>
+                        <div class="col-xs-4">
+                            <label for="recipient-name" class="col-form-label">Ciudad:</label>
+                            <input type="text" class="form-control" id="email" name="ciudad" required style="max-width:100%">
+                        </div>
+                        <div class="col-xs-4">
+                            <label for="recipient-name" class="col-form-label">Estado:</label>
+                            <input type="text" class="form-control" id="email" name="estado" required style="max-width:100%">
+                        </div>
+
+                    </div>
+                    <br />
+                    @{
+                        if (idRol == 18)
+                        {
+                            <div class="form-group" style="width:60%; min-width:320px">
+                                <label for="recipient-name" class="col-form-label">Sucursal:</label>
+                                <select name="sucursal" style="width:100%; min-height:5vh; min-width:99%; font-size:2vh" class="form-select">
+                                    <option value="" disabled selected>SELECCIONE UNA OPCIÓN</option>
+                                    @{
+                                        var sucursalesOption = from s in db.SucursalDS select s.Nombre;
+                                        foreach (var opcion in sucursalesOption)
+                                        {
+                                            <option value="@opcion">@opcion</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        }
+                        else
+                        {
+                            <input type="hidden" value="@Sucursal" name="sucursal" />
+                        }
+                    }
+
+                    <div class="form-group" style="width:60%; min-width:320px">
+                        <label for="recipient-name" class="col-form-label">Referido Por:</label>
+                        <select name="referido" style="width:100%; min-height:5vh; min-width:99%; font-size:2vh" class="form-select">
+                            <option selected value="NINGUNO">NINGUNO</option>
+                            @{
+                                //var gestores2 = from g in db.Usuarios where g.idRol == 10 select g.Nombre;
+                                var referidosGestor = (from r in db.Referido where r.Tipo == "Gestor" select r).OrderBy(o => o.Nombre);
+                                var referidosGMI = (from r in db.Referido where r.Tipo == "GMI" select r).OrderBy(o => o.Nombre);
+                                var referidosEmpresa = (from r in db.Referido where r.Tipo == "Empresa" select r).OrderBy(o => o.Nombre);
+                                var referidosCanacar = (from r in db.Referido where r.Tipo == "Canacar" select r).OrderBy(o => o.Nombre);
+                                var referidosParticular = (from r in db.Referido where r.Tipo == "Particular" select r).OrderBy(o => o.Nombre);
+                                var referidosSindicato = (from r in db.Referido where r.Tipo == "Sindicato" select r).OrderBy(o => o.Nombre);
+                                var referidosAnexa = (from r in db.Referido where r.Tipo == "Anexa" select r).OrderBy(o => o.Nombre);
+
+                                <option disabled>--------GESTORES--------</option>
+                                foreach (var item in referidosGestor)
+                                {
+                                    <option value="@item.Nombre">@item.Nombre</option>
+                                }
+
+                                <option disabled><b>--------GMI--------</b></option>
+                                foreach (var item in referidosGMI)
+                                {
+                                    <option value="@item.Nombre">@item.Nombre</option>
+                                }
+
+                                <option disabled><b>--------EMPRESAS--------</b></option>
+                                foreach (var item in referidosEmpresa)
+                                {
+                                    <option value="@item.Nombre">@item.Nombre</option>
+                                }
+
+                                <option disabled><b>--------CANACAR--------</b></option>
+                                foreach (var item in referidosCanacar)
+                                {
+                                    <option value="@item.Nombre">@item.Nombre</option>
+                                }
+
+                                <option disabled><b>--------PARTICULAR--------</b></option>
+                                foreach (var item in referidosParticular)
+                                {
+                                    <option value="@item.Nombre">@item.Nombre</option>
+                                }
+
+                                <option disabled><b>--------SINDICATOS--------</b></option>
+                                foreach (var item in referidosSindicato)
+                                {
+                                    <option value="@item.Nombre">@item.Nombre</option>
+                                }
+
+                                <option disabled><b>--------ANEXA--------</b></option>
+                                foreach (var item in referidosAnexa)
+                                {
+                                    <option value="@item.Nombre">@item.Nombre</option>
+                                }
+                            }
+                            <option disabled><b>--------OTROS--------</b></option>
+                            <option value="OTRO">OTRO</option>
+                        </select>
+                    </div>
+
                     <input type="hidden" value="@nombreUsuario" name="usuario" />
-                    <input type="hidden" value="@Sucursal" name="sucursal" />
-            </div>
+</div>
             <div class="modal-footer bg-info">
                 <button type="button" class="btn btn-warning" data-dismiss="modal">Cerrar</button>
                 <input type="submit" value="Enviar" class="btn btn-primary" />
@@ -256,7 +422,7 @@ else
                 </tr>
             </thead>
 
-            
+
 
             @foreach (var item in modelo)
             {
@@ -327,9 +493,9 @@ else
                                 @Html.DisplayFor(modelItem => item.M.NoMembresia)
                             }
                             else
-                    {
-                        <span>N/A</span>
-                    }
+                            {
+                                <span>N/A</span>
+                            }
                         }
                     </td>
                     <td>
@@ -356,7 +522,7 @@ else
                                     <a href="#" data-toggle="modal" data-target="#ModalPago_@item.M.idPacienteDS"><b>Agregar Examen</b></a>
                                     <div class="dropdown-divider"></div>
                                     @*<a href="#" data-toggle="modal" data-target="#examen_@item.M.idPacienteDS"><b>Iniciar Examen</b></a>
-                                    <div class="dropdown-divider"></div>*@
+                                        <div class="dropdown-divider"></div>*@
                                 }
                                 else if (item.M.EstatusPago == "Pendiente")
                                 {
@@ -365,7 +531,7 @@ else
                                     <a href="#" data-toggle="modal" data-target="#ModalPago_@item.M.idPacienteDS"><b>Pagado</b></a>
                                     <div class="dropdown-divider"></div>
                                     @*<a href="#" data-toggle="modal" data-target="#cancela_@item.M.idPacienteDS"><b class="text-danger">Cancelar Cita</b></a>
-                                    <div class="dropdown-divider"></div>*@
+                                        <div class="dropdown-divider"></div>*@
                                 }
 
                             </div>
@@ -445,17 +611,17 @@ else
 
                                                     if (membresia != null)
                                                     {
-                                            <div class="form-group">
-                                                <label for="recipient-name" class="col-form-label"><h4>¿Cuenta con Membresía?:</h4></label>
-                                                <input type="tel" class="form-control" id="nombre" name="membresia" placeholder="@item.M.NoMembresia" />
-                                            </div>
+                                                        <div class="form-group">
+                                                            <label for="recipient-name" class="col-form-label"><h4>¿Cuenta con Membresía?:</h4></label>
+                                                            <input type="tel" class="form-control" id="nombre" name="membresia" placeholder="@item.M.NoMembresia" />
+                                                        </div>
                                                     }
                                                     else
                                                     {
-                                            <div class="form-group">
-                                                <label for="recipient-name" class="col-form-label"><h4>¿Cuenta con Membresía?:</h4></label>
-                                                <input type="tel" class="form-control" id="nombre" name="membresia" placeholder="Número de Membresía" />
-                                            </div>
+                                                        <div class="form-group">
+                                                            <label for="recipient-name" class="col-form-label"><h4>¿Cuenta con Membresía?:</h4></label>
+                                                            <input type="tel" class="form-control" id="nombre" name="membresia" placeholder="Número de Membresía" />
+                                                        </div>
                                                     }
                                                 }
                                             </div>
@@ -506,19 +672,6 @@ else
                                         </div>
                                         <div class="modal-body">
                                             <div class="form-group">
-                                                <label for="recipient-name" class="col-form-label">Nombre del Paciente:</label>
-                                                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="@item.N.Nombre">
-                                                <input type="hidden" class="form-control" id="id" name="id" value="@item.N.idPacienteDS">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="recipient-name" class="col-form-label">Teléfono:</label>
-                                                <input type="text" class="form-control" id="telefono" name="telefono" placeholder="@item.N.Telefono" />
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="recipient-name" class="col-form-label">Email:</label>
-                                                <input type="email" class="form-control" id="email" name="email" placeholder="@item.N.Email" />
-                                            </div>
-                                            <div class="form-group">
                                                 <label for="recipient-name" class="col-form-label">Código HASH:</label>
                                                 <input type="text" class="form-control" id="email" name="estado" placeholder="@item.N.HASH" />
                                             </div>
@@ -526,7 +679,80 @@ else
                                                 <label for="recipient-name" class="col-form-label">No. de Membresía:</label>
                                                 <input type="text" class="form-control" id="email" name="membresia" placeholder="@item.M.NoMembresia" />
                                             </div>
+                                            <div class="row">
+                                                <div class="form-group col-xs-8">
+                                                    <label for="recipient-name" class="col-form-label">Nombre del Paciente:</label>
+                                                    <input type="text" class="form-control" id="nombre" name="nombre" required style="max-width:100%" placeholder="@item.N.Nombre" />
+                                                </div>
+                                                <div class="form-group col-xs-4">
+                                                    <label for="recipient-name" class="col-form-label">Teléfono:</label>
+                                                    <input type="text" class="form-control" id="telefono" name="telefono" style="max-width:100%" placeholder="@item.N.Telefono">
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <div class="row">
+                                                <div class="form-group col-xs-6">
+                                                    <label for="recipient-name" class="col-form-label">Email:</label>
+                                                    <input type="email" class="form-control" id="email" name="email" placeholder="@item.N.Email" style="max-width:100%">
+                                                </div>
+                                                <div class="form-group col-xs-6">
+                                                    <label for="recipient-name" class="col-form-label">Fecha de Nacimiento:</label>
+                                                    <input type="date" class="form-control" id="email" name="nacimiento" style="max-width:100%">
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <div class="row">
+                                                <div class="col-xs-8">
+                                                    <label for="recipient-name" class="col-form-label">Calle y Número:</label>
+                                                    <input type="text" class="form-control" id="email" name="calle" placeholder="@item.N.Direccion" style="max-width:100%">
+                                                </div>
+                                                <div class="col-xs-4">
+                                                    <label for="recipient-name" class="col-form-label">Colonia:</label>
+                                                    <input type="text" class="form-control" id="email" name="colonia" placeholder="@item.N.Colonia" style="max-width:100%">
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <input type="hidden" class="form-control" id="id" name="id" value="@item.N.idPacienteDS">
+                                            <div class="row">
+                                                <div class="col-xs-4">
+                                                    <label for="recipient-name" class="col-form-label">C. Postal:</label>
+                                                    <input type="tel" class="form-control" id="email" name="cp" placeholder="@item.N.CP" style="max-width:100%">
+                                                </div>
+                                                <div class="col-xs-4">
+                                                    <label for="recipient-name" class="col-form-label">Ciudad:</label>
+                                                    <input type="text" class="form-control" id="email" name="ciudad" placeholder="@item.N.Ciudad" style="max-width:100%">
+                                                </div>
+                                                <div class="col-xs-4">
+                                                    <label for="recipient-name" class="col-form-label">Estado:</label>
+                                                    <input type="text" class="form-control" id="email" name="estado" placeholder="@item.N.Estado" style="max-width:100%">
+                                                </div>
+                                            </div>
                                         </div>
+                                        
+
+                                        @*<div class="modal-body">
+            <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Nombre del Paciente:</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="@item.N.Nombre">
+                <input type="hidden" class="form-control" id="id" name="id" value="@item.N.idPacienteDS">
+            </div>
+            <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Teléfono:</label>
+                <input type="text" class="form-control" id="telefono" name="telefono" placeholder="@item.N.Telefono" />
+            </div>
+            <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Email:</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="@item.N.Email" />
+            </div>
+            <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Código HASH:</label>
+                <input type="text" class="form-control" id="email" name="estado" placeholder="@item.N.HASH" />
+            </div>
+            <div class="form-group">
+                <label for="recipient-name" class="col-form-label">No. de Membresía:</label>
+                <input type="text" class="form-control" id="email" name="membresia" placeholder="@item.M.NoMembresia" />
+            </div>
+        </div>*@
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                                             <input type="submit" value="Guardar" class="btn btn-primary" />

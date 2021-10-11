@@ -31,6 +31,12 @@ namespace DoctorSalud
         public string Email { get; set; }
         public string Telefono { get; set; }
         public string HASH { get; set; }
+        public string Direccion { get; set; }
+        public string Colonia { get; set; }
+        public string CP { get; set; }
+        public string Ciudad { get; set; }
+        public string Estado { get; set; }
+        public Nullable<System.DateTime> Nacimiento { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Cardiologo> Cardiologo { get; set; }

@@ -10,7 +10,7 @@
         <EntityTypeShape EntityType="DSModel.MedicinaInterna" Width="1.5" PointX="6.125" PointY="2.625" IsExpanded="true" />
         <EntityTypeShape EntityType="DSModel.Nutriologo" Width="1.5" PointX="4.125" PointY="4.375" IsExpanded="true" />
         <EntityTypeShape EntityType="DSModel.Oftalmologo" Width="1.5" PointX="3.5" PointY="6.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DSModel.PacienteDS" Width="1.5" PointX="0.875" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DSModel.PacienteDS" Width="1.5" PointX="9.375" PointY="1.125" IsExpanded="true" />
         <AssociationConnector Association="DSModel.FK_Cardiologo_PacienteDS" ManuallyRouted="false" />
         <AssociationConnector Association="DSModel.FK_CitaDS_PacienteDS" ManuallyRouted="false" />
         <AssociationConnector Association="DSModel.FK_MedicinaInterna_PacienteDS" ManuallyRouted="false" />
@@ -56,6 +56,12 @@
         <AssociationConnector Association="DSModel.FK_SignosVitalesDS_PacienteDS" />
         <EntityTypeShape EntityType="DSModel.Farmacia" Width="1.5" PointX="3.125" PointY="66" />
         <AssociationConnector Association="DSModel.FK_Farmacia_PacienteDS" />
+        <EntityTypeShape EntityType="DSModel.Referido" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="DSModel.DoctorModuloDS" Width="1.5" PointX="11.25" PointY="14.625" />
+        <AssociationConnector Association="DSModel.FK_DoctorModuloDS_SucursalDS" />
+        <AssociationConnector Association="DSModel.FK_DoctorModuloDS_Usuarios" />
+        <EntityTypeShape EntityType="DSModel.Modulos" Width="1.5" PointX="11.375" PointY="0.875" />
+        <AssociationConnector Association="DSModel.FK_DoctorModuloDS_Modulos" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

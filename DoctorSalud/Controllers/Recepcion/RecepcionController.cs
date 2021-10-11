@@ -76,13 +76,20 @@ namespace DoctorSalud.Controllers.Recepcion
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Crear(string nombre, string telefono, string email, string usuario, string sucursal, string hash)
+        public ActionResult Crear(string nombre, string telefono, string email, string usuario, string sucursal, string hash,
+            string calle, string colonia, string cp, string ciudad, string estado, DateTime nacimiento, string referido)
         {
 
             PacienteDS paciente = new PacienteDS();
             paciente.Nombre = nombre.ToUpper();
             paciente.Telefono = telefono;
             paciente.Email = email;
+            paciente.Direccion = calle.ToUpper();
+            paciente.Colonia = colonia.ToUpper();
+            paciente.CP = cp;
+            paciente.Ciudad = ciudad.ToUpper();
+            paciente.Estado = estado.ToUpper();
+            paciente.Nacimiento = nacimiento;
 
 
             string mes = DateTime.Now.Month.ToString();
@@ -122,6 +129,7 @@ namespace DoctorSalud.Controllers.Recepcion
             cita.FechaCita = DateTime.Now;
             cita.Recepcionista = usuario;
             cita.EstatusPago = "Pendiente";
+            cita.ReferidoPor = referido.ToUpper();
             //cita.Estado = estado.ToUpper();
 
             //-------------------------------------------------------------
@@ -136,13 +144,20 @@ namespace DoctorSalud.Controllers.Recepcion
         }
 
 
-        public ActionResult Editar(int id, string nombre, string email, string telefono, string hash, string membresia)
+        public ActionResult Editar(int id, string nombre, string email, string telefono, string hash, string membresia,
+            string calle, string colonia, string cp, string ciudad, string estado, DateTime? nacimiento)
         {
             var paciente = db.PacienteDS.Find(id);
 
-            paciente.Nombre = nombre == "" ? paciente.Nombre : nombre;
+            paciente.Nombre = nombre == "" ? paciente.Nombre : nombre.ToUpper();
             paciente.Email = email == "" ? paciente.Email : email;
             paciente.Telefono = telefono == "" ? paciente.Telefono : telefono;
+            paciente.Direccion = calle == "" ? paciente.Direccion : calle.ToUpper();
+            paciente.Colonia = colonia == "" ? paciente.Colonia : colonia.ToUpper();
+            paciente.CP = cp == "" ? paciente.CP : cp;
+            paciente.Ciudad = ciudad == "" ? paciente.Ciudad : ciudad.ToUpper();
+            paciente.Estado = estado == "" ? paciente.Estado : estado.ToUpper();
+            paciente.Nacimiento = nacimiento == null ? paciente.Nacimiento : nacimiento;
 
             var cita = (from c in db.CitaDS where c.idPacienteDS == id select c).FirstOrDefault();
             cita.NoMembresia = membresia == "" ? cita.NoMembresia : membresia;
@@ -351,6 +366,20 @@ namespace DoctorSalud.Controllers.Recepcion
             }
 
             return Redirect("Farmacia");
+        }
+
+        public JsonResult BuscarTodo(string dato)
+        {
+            var selected = (from i in db.Paciente where i.HASH == dato select i).Select(s => new { s.Nombre, s.Telefono, s.Email }).FirstOrDefault();
+
+            if(selected == null)
+            {
+                var nulo = "nulo";
+
+                return Json(nulo, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(selected, JsonRequestBehavior.AllowGet);
         }
 
     }

@@ -28,6 +28,9 @@ namespace DoctorSalud
         public string Tiroides { get; set; }
         public string Neoplasticas { get; set; }
         public Nullable<int> idPaciente { get; set; }
+        public string MadreVive_ESP { get; set; }
+        public string PadreVive_ESP { get; set; }
+        public string HermanosViven_ESP { get; set; }
     
         public virtual Paciente Paciente { get; set; }
     }

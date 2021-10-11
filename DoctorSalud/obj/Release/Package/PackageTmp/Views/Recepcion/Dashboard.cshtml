@@ -37,56 +37,56 @@
     var modelo = db.PacienteDS.Join(db.CitaDS, n => n.idPacienteDS, m => m.idPacienteDS, (n, m) => new { N = n, M = m }).Where(s => s.M.FechaCita >= dateToday && s.M.FechaCita < dateTomorrow)@*.OrderByDescending(o => new { o.M.TipoTramite,  }).OrderBy(r => r.M.EstatusPago)*@;
 
 
-    var citasHoy = (from c in db.CitaDS select c).Where(w => w.FechaCita >= dateToday && w.FechaCita < dateTomorrow);
-    int citasHoyConteo = (from c in db.CitaDS select c).Where(w => w.FechaCita >= dateToday && w.FechaCita < dateTomorrow).Count();
+var citasHoy = (from c in db.CitaDS select c).Where(w => w.FechaCita >= dateToday && w.FechaCita < dateTomorrow);
+int citasHoyConteo = (from c in db.CitaDS select c).Where(w => w.FechaCita >= dateToday && w.FechaCita < dateTomorrow).Count();
 
-    var membresiasHoy = (from c in db.CitaDS select c).Where(w => w.FechaCita >= dateToday && w.FechaCita < dateTomorrow && w.NoMembresia != null);
-    int membresiasHoyConteo = (from c in db.CitaDS select c).Where(w => w.FechaCita >= dateToday && w.FechaCita < dateTomorrow && w.NoMembresia != null).Count();
+var membresiasHoy = (from c in db.CitaDS select c).Where(w => w.FechaCita >= dateToday && w.FechaCita < dateTomorrow && w.NoMembresia != null);
+int membresiasHoyConteo = (from c in db.CitaDS select c).Where(w => w.FechaCita >= dateToday && w.FechaCita < dateTomorrow && w.NoMembresia != null).Count();
 
-    var hash = db.PacienteDS.Join(db.Paciente, n => n.idPacienteDS, m => m.idPaciente, (n, m) => new { N = n, M = m })
-        .Join(db.CitaDS, a => a.N.idPacienteDS, b => b.idPacienteDS, (a, b) => new { A = a, B = b })
-                .Where(w => w.B.FechaCita >= dateToday && w.B.FechaCita < dateTomorrow && w.A.M.HASH == w.A.N.HASH);
-    //.Select(S => new
-    //{
-    //    S.N.Sucursal,
-    //    S.N.FechaCita,
-    //    S.M.EstatusEnvio
-    //});
+var hash = db.PacienteDS.Join(db.Paciente, n => n.idPacienteDS, m => m.idPaciente, (n, m) => new { N = n, M = m })
+.Join(db.CitaDS, a => a.N.idPacienteDS, b => b.idPacienteDS, (a, b) => new { A = a, B = b })
+.Where(w => w.B.FechaCita >= dateToday && w.B.FechaCita < dateTomorrow && w.A.M.HASH == w.A.N.HASH);
+//.Select(S => new
+//{
+//    S.N.Sucursal,
+//    S.N.FechaCita,
+//    S.M.EstatusEnvio
+//});
 
-    int hashCount = db.PacienteDS.Join(db.Paciente, n => n.idPacienteDS, m => m.idPaciente, (n, m) => new { N = n, M = m })
-        .Join(db.CitaDS, a => a.N.idPacienteDS, b => b.idPacienteDS, (a, b) => new { A = a, B = b })
-                .Where(w => w.B.FechaCita >= dateToday && w.B.FechaCita < dateTomorrow && w.A.M.HASH == w.A.N.HASH).Count();
+int hashCount = db.PacienteDS.Join(db.Paciente, n => n.idPacienteDS, m => m.idPaciente, (n, m) => new { N = n, M = m })
+.Join(db.CitaDS, a => a.N.idPacienteDS, b => b.idPacienteDS, (a, b) => new { A = a, B = b })
+.Where(w => w.B.FechaCita >= dateToday && w.B.FechaCita < dateTomorrow && w.A.M.HASH == w.A.N.HASH).Count();
 
 
 
-    //var mejorSucursal = (from s in db.Cita where s.FechaCita >= dateToday && s.FechaCita < dateTomorrow && s.Doctor != null select s).GroupBy(o => o.Sucursal);
-    //var mejorS = (from m in mejorSucursal select m).OrderByDescending(o => o.Count());
+//var mejorSucursal = (from s in db.Cita where s.FechaCita >= dateToday && s.FechaCita < dateTomorrow && s.Doctor != null select s).GroupBy(o => o.Sucursal);
+//var mejorS = (from m in mejorSucursal select m).OrderByDescending(o => o.Count());
 
-    //var mejorGestor = (from s in db.Cita where s.FechaCita >= dateToday && s.FechaCita < dateTomorrow && (s.Canal != "SITIO" && s.Canal != "Call Center") select s).GroupBy(o => o.Canal);
-    //var mejorG = (from m in mejorGestor select m).OrderByDescending(o => o.Count());
+//var mejorGestor = (from s in db.Cita where s.FechaCita >= dateToday && s.FechaCita < dateTomorrow && (s.Canal != "SITIO" && s.Canal != "Call Center") select s).GroupBy(o => o.Canal);
+//var mejorG = (from m in mejorGestor select m).OrderByDescending(o => o.Count());
 
-    //var mejorCapturista = (from s in db.Captura where s.FechaExpdiente >= dateToday && s.FechaExpdiente < dateTomorrow && s.EstatusCaptura == "Terminado" select s).GroupBy(o => o.Capturista);
-    //var mejorC = (from m in mejorCapturista select m).OrderByDescending(o => o.Count());
+//var mejorCapturista = (from s in db.Captura where s.FechaExpdiente >= dateToday && s.FechaExpdiente < dateTomorrow && s.EstatusCaptura == "Terminado" select s).GroupBy(o => o.Capturista);
+//var mejorC = (from m in mejorCapturista select m).OrderByDescending(o => o.Count());
 
-    //var capturistas = from c in db.Usuarios where c.idRol == 7 && c.idUsuario != 13 && c.idUsuario != 25 select c.Nombre;
+//var capturistas = from c in db.Usuarios where c.idRol == 7 && c.idUsuario != 13 && c.idUsuario != 25 select c.Nombre;
 
-    //var capturistasAnexa = from c in db.Usuarios where c.idRol == 9 select c.Nombre;
+//var capturistasAnexa = from c in db.Usuarios where c.idRol == 9 select c.Nombre;
 
-    //int citasEfectuadas = (from c in db.Cita select c).Where(w => w.FechaCita >= dateToday && w.FechaCita < dateTomorrow && w.CC != null).Count();
-    //var citasCompletadas = (from c in db.Cita select c).Where(w => w.FechaCita >= dateToday && w.FechaCita < dateTomorrow && w.CC != null && w.Asistencia == null && (w.EstatusPago == "Pagado" || w.EstatusPago == "paid")).Count();
-    //var citasPendientes = (from c in db.Cita select c).Where(w => w.FechaCita >= dateToday && w.FechaCita < dateTomorrow && w.CC != null && w.Doctor == null && w.Asistencia == null).Count();
-    //int citasCanceladas = (from c in db.Cita select c).Where(w => w.FechaCita >= dateToday && w.FechaCita < dateTomorrow && w.CC != null && w.Asistencia != null).Count();
+//int citasEfectuadas = (from c in db.Cita select c).Where(w => w.FechaCita >= dateToday && w.FechaCita < dateTomorrow && w.CC != null).Count();
+//var citasCompletadas = (from c in db.Cita select c).Where(w => w.FechaCita >= dateToday && w.FechaCita < dateTomorrow && w.CC != null && w.Asistencia == null && (w.EstatusPago == "Pagado" || w.EstatusPago == "paid")).Count();
+//var citasPendientes = (from c in db.Cita select c).Where(w => w.FechaCita >= dateToday && w.FechaCita < dateTomorrow && w.CC != null && w.Doctor == null && w.Asistencia == null).Count();
+//int citasCanceladas = (from c in db.Cita select c).Where(w => w.FechaCita >= dateToday && w.FechaCita < dateTomorrow && w.CC != null && w.Asistencia != null).Count();
 
-    //int efectividad = 0;
+//int efectividad = 0;
 
-    //if (citasCompletadas != 0)
-    //{
-    //    efectividad = ((citasCompletadas * 100) / citasEfectuadas);
-    //}
+//if (citasCompletadas != 0)
+//{
+//    efectividad = ((citasCompletadas * 100) / citasEfectuadas);
+//}
 
-    int flag = 1;
-    int flag2 = 1;
-    int flag3 = 1;
+int flag = 1;
+int flag2 = 1;
+int flag3 = 1;
 
 }
 
@@ -226,7 +226,6 @@
     </div>
 </div>
 
-
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-outline-warning boton-transparenteIndicador1 botonesGral col-md-4" data-toggle="modal" data-target="#citasHoy">
     <h4><span class="glyphicon glyphicon-list-alt"></span> &nbsp; &nbsp;Citas: <b>@citasHoyConteo</b></h4>
@@ -306,18 +305,169 @@
     </div>
 </div>
 
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-outline-warning boton-transparenteIndicador1 botonesGral col-md-4" data-toggle="modal" data-target="#especialidades">
+    <h4><span class="glyphicon glyphicon-folder-close"></span> &nbsp; &nbsp;Conteo por Especialidad</b></h4>
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="especialidades" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:aquamarine">
+                <h3 class="modal-title" id="exampleModalLabel"><span class="glyphicon glyphicon-folder-close"></span> &nbsp; &nbsp;Conteo por Especialidad</b></h3>
+            </div>
+            <div class="modal-body">
+                @{
+                    var revisionMI = db.CitaDS.Join(db.MedicinaInterna, n => n.idPacienteDS, m => m.idPacienteDS, (n, m) => new { N = n, M = m })
+                        .Where(w => w.N.FechaCita >= dateToday && w.N.FechaCita < dateTomorrow).Count();
+
+                    var revisionNU = db.CitaDS.Join(db.Nutriologo, n => n.idPacienteDS, m => m.idPacienteDS, (n, m) => new { N = n, M = m })
+                        .Where(w => w.N.FechaCita >= dateToday && w.N.FechaCita < dateTomorrow).Count();
+
+                    var revisionCA = db.CitaDS.Join(db.Cardiologo, n => n.idPacienteDS, m => m.idPacienteDS, (n, m) => new { N = n, M = m })
+                        .Where(w => w.N.FechaCita >= dateToday && w.N.FechaCita < dateTomorrow).Count();
+
+                    var revisionOF = db.CitaDS.Join(db.Oftalmologo, n => n.idPacienteDS, m => m.idPacienteDS, (n, m) => new { N = n, M = m })
+                        .Where(w => w.N.FechaCita >= dateToday && w.N.FechaCita < dateTomorrow).Count();
+
+                    <h4><b>Medicina Interna: </b> @revisionMI</h4>
+                    <h4><b>Nutriólogo: </b> @revisionNU</h4>
+                    <h4><b>Cardiólogo: </b> @revisionCA</h4>
+                    <h4><b>Oftalmólogo: </b> @revisionOF</h4>
+
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-outline-warning boton-transparenteIndicador1 botonesGral col-md-4" data-toggle="modal" data-target="#medicamento">
+    <h4><span class="glyphicon glyphicon-folder-close"></span> &nbsp; &nbsp;Estatus Medicamento</b></h4>
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="medicamento" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:aquamarine">
+                <h3 class="modal-title" id="exampleModalLabel"><span class="glyphicon glyphicon-folder-close"></span> &nbsp; &nbsp;Estatus Medicamento</b></h3>
+            </div>
+            <div class="modal-body">
+                <table class="table tablas" style="color: #2F2D6B">
+                    <thead>
+                        <tr class="bg-primary" style="border-top-color: black">
+                            <th>Sucursal</th>
+                            <th>Entregados</th>
+                            <th>Parcialmente</th>
+                            <th>No Entregados</th>
+                        </tr>
+                    </thead>
+                    @{
+                        foreach (var item in sucursalesLista)
+                        {
+                            int entregados = 0;
+                            int parcial = 0;
+                            int noEntregados = 0;
+
+                            var cita = (from e in db.CitaDS where e.Sucursal == item.Nombre && e.FechaCita >= dateToday && e.FechaCita < dateTomorrow select e);
+                            var elemento = (from e in db.CitaDS where e.Sucursal == item.Nombre && e.FechaCita >= dateToday && e.FechaCita < dateTomorrow select e).Count();
+
+                            foreach(var m in cita)
+                            {
+                                int cuentaSI = 0;
+                                int cuentaNO = 0;
+
+                                var revisionMEDICINA = (from i in db.MedicinaInterna where i.idPacienteDS == m.idPacienteDS orderby i.idMedicinaInterna descending select i).FirstOrDefault();
+                                var revisionNUTRICION = (from i in db.Nutriologo where i.idPacienteDS == m.idPacienteDS orderby i.idNutriologo descending select i).FirstOrDefault();
+                                var revisionCARDIOLOGIA = (from i in db.Cardiologo where i.idPacienteDS == m.idPacienteDS orderby i.idCardiologo descending select i).FirstOrDefault();
+                                var revisionOFTALMOLOGIA = (from i in db.Oftalmologo where i.idPacienteDS == m.idPacienteDS orderby i.idOftalmologo descending select i).FirstOrDefault();
+
+                                if(revisionMEDICINA != null)
+                                {
+                                    cuentaSI++;
+
+                                    if(revisionMEDICINA.Medicamento == null)
+                                    {
+                                        cuentaNO++;
+                                    }
+                                }
+
+                                if (revisionNUTRICION != null)
+                                {
+                                    cuentaSI++;
+
+                                    if (revisionNUTRICION.Medicamento == null)
+                                    {
+                                        cuentaNO++;
+                                    }
+                                }
+
+                                if (revisionOFTALMOLOGIA != null)
+                                {
+                                    cuentaSI++;
+
+                                    if (revisionOFTALMOLOGIA.Medicamento == null)
+                                    {
+                                        cuentaNO++;
+                                    }
+                                }
+
+                                if (revisionCARDIOLOGIA != null)
+                                {
+                                    cuentaSI++;
+
+                                    if (revisionCARDIOLOGIA.Medicamento == null)
+                                    {
+                                        cuentaNO++;
+                                    }
+                                }
+
+                                if(cuentaSI > 0 && (cuentaSI == cuentaNO))
+                                {
+                                    noEntregados++;
+                                }
+                                else if(cuentaSI > 0 && cuentaNO > 0 && (cuentaSI != cuentaNO))
+                                {
+                                    parcial++;
+                                }
+                                else
+                                {
+                                    entregados++;
+                                }
+                            }
+
+                            <tr>
+                                <td><b>@item.Nombre</b></td>
+                                <td>@entregados</td>
+                                <td>@parcial</td>
+                                <td>@noEntregados</td>
+                            </tr>
+
+                            @*<h4><b>@item.Nombre:</b> @elemento</h4>*@
+                        }
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
 <br />
-<br />
-<br />
-<br />
-<br />
+
 @if (modelo.FirstOrDefault() == null)
 {
+    <br />
+    <br />
     <h1 class="text-primary">No existen citas registradas el día de hoy</h1>
 }
 else
 {
     <div class="tablaScroll">
+        <br />
+        <br />
         <table class="table tablas" style="color: #2F2D6B">
             <thead>
                 <tr class="bg-primary" style="border-top-color: black">
@@ -354,10 +504,10 @@ else
                         Nutri
                     </th>
                     <th>
-                        FARMACIA
+                        Entrega Medicamento
                     </th>
                     <th>
-                        Estatus
+                        Estatus Pago
                     </th>
                     <th>
                         Membresía
@@ -404,7 +554,7 @@ else
                             }
                             else
                             {
-                                <h4>N/A</h4>
+                                <h5>N/A</h5>
                             }
 
                         }
@@ -434,7 +584,7 @@ else
                             }
                             else
                             {
-                                <h4>N/A</h4>
+                                <h5>N/A</h5>
                             }
 
                         }
@@ -464,7 +614,7 @@ else
                             }
                             else
                             {
-                                <h4>N/A</h4>
+                                <h5>N/A</h5>
                             }
 
                         }
@@ -494,7 +644,7 @@ else
                             }
                             else
                             {
-                                <h4>N/A</h4>
+                                <h5>N/A</h5>
                             }
 
                         }
@@ -510,21 +660,83 @@ else
                             }*@
                     </td>
                     <td>
+                        @{
+                            int medicamentos = 0;
+                            int entregados = 0;
 
+                            var medicamento1 = (from i in db.MedicinaInterna where i.idPacienteDS == item.M.idPacienteDS orderby i.idMedicinaInterna descending select i).FirstOrDefault();
+                            var medicamento2 = (from i in db.Cardiologo where i.idPacienteDS == item.M.idPacienteDS orderby i.idCardiologo descending select i).FirstOrDefault();
+                            var medicamento3 = (from i in db.Nutriologo where i.idPacienteDS == item.M.idPacienteDS orderby i.idNutriologo descending select i).FirstOrDefault();
+                            var medicamento4 = (from i in db.Oftalmologo where i.idPacienteDS == item.M.idPacienteDS orderby i.idOftalmologo descending select i).FirstOrDefault();
+
+                            if (medicamento1 != null)
+                            {
+                                medicamentos++;
+                                if (medicamento1.Medicamento != null)
+                                {
+                                    entregados++;
+                                }
+                            }
+                            if (medicamento2 != null)
+                            {
+                                medicamentos++;
+                                if (medicamento2.Medicamento != null)
+                                {
+                                    entregados++;
+                                }
+                            }
+                            if (medicamento3 != null)
+                            {
+                                medicamentos++;
+                                if (medicamento3.Medicamento != null)
+                                {
+                                    entregados++;
+                                }
+                            }
+                            if (medicamento4 != null)
+                            {
+                                medicamentos++;
+                                if (medicamento4.Medicamento != null)
+                                {
+                                    entregados++;
+                                }
+                            }
+
+                            if (medicamentos > 0 && (medicamentos == entregados))
+                            {
+                                <b><mark style="background-color: chartreuse; padding:5px; border-radius:10px">ENTREGADO</mark></b>
+                            }
+                            else if (medicamentos > 0 && (medicamentos != entregados) && entregados > 0)
+                            {
+                                <b><mark style="background-color: gold; padding:5px; border-radius:10px">PARCIALMENTE</mark></b>
+                            }
+                            else if (medicamentos > 0 && entregados == 0)
+                            {
+                                <b><mark style="background-color: coral; padding:5px; border-radius:10px">NO ENTREGADO</mark></b>
+                            }
+
+                        }
                     </td>
                     <td>
-
+                        @if (item.M.EstatusPago == "pending_payment" || item.M.EstatusPago == "Pendiente")
+                        {
+                            <b><mark style="background-color: #FFFF00; padding:5px; border-radius:10px">Pendiente</mark></b>
+                        }
+                        else if (item.M.EstatusPago == "paid" || item.M.EstatusPago == "Pagado")
+                        {
+                            <b><mark style="background-color: #41F51A; padding:5px; border-radius:10px">Pagado</mark></b>
+                        }
                     </td>
                     <td>
-                        @{ 
-                            if(item.M.NoMembresia != null)
+                        @{
+                            if (item.M.NoMembresia != null)
                             {
                                 <b>@item.M.NoMembresia</b>
                             }
-                    else
-                    {
-                        <span>N/A</span>
-                    }
+                            else
+                            {
+                                <span>N/A</span>
+                            }
                         }
                     </td>
                     <td>

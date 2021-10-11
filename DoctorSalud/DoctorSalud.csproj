@@ -179,6 +179,10 @@
     <Compile Include="Controllers\Modulos\BaseColor.cs" />
     <Compile Include="Controllers\Modulos\ModulosController.cs" />
     <Compile Include="Controllers\Recepcion\RecepcionController.cs" />
+    <Compile Include="Controllers\Usuarios\UsuariosController.cs" />
+    <Compile Include="DoctorModuloDS.cs">
+      <DependentUpon>DS.tt</DependentUpon>
+    </Compile>
     <Compile Include="DS.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -245,6 +249,9 @@
     <Compile Include="Menu.cs">
       <DependentUpon>DS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Modulos.cs">
+      <DependentUpon>DS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Nutriologo.cs">
       <DependentUpon>DS.tt</DependentUpon>
     </Compile>
@@ -259,6 +266,9 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RecepcionistaDS.cs">
+      <DependentUpon>DS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Referido.cs">
       <DependentUpon>DS.tt</DependentUpon>
     </Compile>
     <Compile Include="Roles.cs">
@@ -297,6 +307,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Images\DoctorSalud.png" />
+    <Content Include="Images\Footer_Oscar_Antonio_Alfonso_Montera.png" />
     <Content Include="Images\HeaderCARDIOLOGIA.png" />
     <Content Include="Images\HeaderFARMACIA.png" />
     <Content Include="Images\HeaderMG.png" />
@@ -350,6 +361,8 @@
     <Content Include="Views\Recepcion\Farmacia.cshtml" />
     <Content Include="Views\Modulos\SignosVitales.cshtml" />
     <Content Include="Views\Recepcion\Dashboard.cshtml" />
+    <Content Include="Views\Usuarios\Index.cshtml" />
+    <Content Include="Views\Usuarios\Modulos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
