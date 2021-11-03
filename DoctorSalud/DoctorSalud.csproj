@@ -314,6 +314,7 @@
     <Content Include="Images\HeaderNUTRICION.png" />
     <Content Include="Images\Login.jpg" />
     <Content Include="Images\medical-hero.jpg" />
+    <Content Include="Images\MI_CAR.png" />
     <Content Include="Images\Powered-blanco.png" />
     <Content Include="Images\Powered-negro.png" />
     <Content Include="Scripts\bootstrap.js" />

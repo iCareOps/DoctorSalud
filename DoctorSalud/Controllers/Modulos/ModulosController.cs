@@ -1314,6 +1314,7 @@ namespace DoctorSalud.Controllers.Modulos
             System.Console.WriteLine("Se obtiene la carpeta raiz" + requiredPath);
 
             var headerMG = requiredPath + ConfigurationManager.AppSettings["MEDICINAGENERAL"];
+            var footerOscarAlfonso = requiredPath + ConfigurationManager.AppSettings["OscarAlfonso"];
 
             var paciente = (from p in db.PacienteDS where p.idPacienteDS == id orderby p.idPacienteDS descending select p).FirstOrDefault();
             var cita = (from p in db.MedicinaInterna where p.idPacienteDS == id orderby p.idMedicinaInterna descending select p).FirstOrDefault();
@@ -1351,13 +1352,16 @@ namespace DoctorSalud.Controllers.Modulos
                 System.Console.WriteLine("Se prepara para obtener las imagenes");
 
                 iTextSharp.text.Image PNG1 = iTextSharp.text.Image.GetInstance(headerMG);
+                iTextSharp.text.Image PNG2 = iTextSharp.text.Image.GetInstance(footerOscarAlfonso);
 
                 System.Diagnostics.Debug.WriteLine("Se obtienen las imagenes" + PNG1.Url);
                 System.Console.WriteLine("Se obtienen las imagenes" + PNG1.Url);
 
                 PNG1.Alignment = Image.ALIGN_CENTER;
-
                 PNG1.ScaleAbsolute(650, 120);
+
+                PNG2.Alignment = Image.ALIGN_CENTER;
+                PNG2.ScaleAbsolute(650, 120);
 
                 var color = new iTextSharp.text.BaseColor(128, 128, 128);
                 var resultado = new iTextSharp.text.BaseColor(0, 0, 255); //apto
@@ -1366,7 +1370,7 @@ namespace DoctorSalud.Controllers.Modulos
                 iTextSharp.text.Paragraph p = new iTextSharp.text.Paragraph();
                 iTextSharp.text.Paragraph pr = new iTextSharp.text.Paragraph();
                 var font = FontFactory.GetFont(coloro, 9, Font.NORMAL, color);
-                var font2 = FontFactory.GetFont(coloro, 16, Font.NORMAL, color);
+                var font2 = FontFactory.GetFont(coloro, 13, Font.NORMAL, color);
                 var fontSpace = FontFactory.GetFont(coloro, 4, Font.NORMAL, color);
                 var fontA = FontFactory.GetFont(coloro, 9, Font.NORMAL, resultado);
                 var fontNA = FontFactory.GetFont(coloro, 9, Font.NORMAL, resultadoNO);
@@ -1400,7 +1404,7 @@ namespace DoctorSalud.Controllers.Modulos
                 { BorderWidthLeft = 0 } );
 
                 tbl2.AddCell(new PdfPCell(new Phrase("\nCERTIFICADO MÉDICO: \n \n" +
-                    cita.CertificadoMedico + "\n\n\n\n\n\n", font2)));
+                    cita.CertificadoMedico + "\n\n", font2)));
 
 
                 System.Diagnostics.Debug.WriteLine("Se prepara para generar el QR");
@@ -1415,6 +1419,7 @@ namespace DoctorSalud.Controllers.Modulos
                 p.Add(tbl);
                 p.Add(c0111);
                 p.Add(tbl2);
+                p.Add(PNG2);
 
                 doc.Add(p);
                 doc.Add(pr);
@@ -1469,6 +1474,7 @@ namespace DoctorSalud.Controllers.Modulos
             System.Console.WriteLine("Se obtiene la carpeta raiz" + requiredPath);
 
             var headerMG = requiredPath + ConfigurationManager.AppSettings["MEDICINAGENERAL"];
+            var footerOscarAlfonso = requiredPath + ConfigurationManager.AppSettings["OscarAlfonso"];
 
             var paciente = (from p in db.PacienteDS where p.idPacienteDS == id orderby p.idPacienteDS descending select p).FirstOrDefault();
             var cita = (from p in db.MedicinaInterna where p.idPacienteDS == id orderby p.idMedicinaInterna descending select p).FirstOrDefault();
@@ -1506,13 +1512,16 @@ namespace DoctorSalud.Controllers.Modulos
                 System.Console.WriteLine("Se prepara para obtener las imagenes");
 
                 iTextSharp.text.Image PNG1 = iTextSharp.text.Image.GetInstance(headerMG);
+                iTextSharp.text.Image PNG2 = iTextSharp.text.Image.GetInstance(footerOscarAlfonso);
 
                 System.Diagnostics.Debug.WriteLine("Se obtienen las imagenes" + PNG1.Url);
                 System.Console.WriteLine("Se obtienen las imagenes" + PNG1.Url);
 
                 PNG1.Alignment = Image.ALIGN_CENTER;
-
                 PNG1.ScaleAbsolute(650, 120);
+
+                PNG2.Alignment = Image.ALIGN_CENTER;
+                PNG2.ScaleAbsolute(650, 120);
 
                 var color = new iTextSharp.text.BaseColor(128, 128, 128);
                 var resultado = new iTextSharp.text.BaseColor(0, 0, 255); //apto
@@ -1521,7 +1530,7 @@ namespace DoctorSalud.Controllers.Modulos
                 iTextSharp.text.Paragraph p = new iTextSharp.text.Paragraph();
                 iTextSharp.text.Paragraph pr = new iTextSharp.text.Paragraph();
                 var font = FontFactory.GetFont(coloro, 9, Font.NORMAL, color);
-                var font2 = FontFactory.GetFont(coloro, 16, Font.NORMAL, color);
+                var font2 = FontFactory.GetFont(coloro, 13, Font.NORMAL, color);
                 var fontSpace = FontFactory.GetFont(coloro, 4, Font.NORMAL, color);
                 var fontA = FontFactory.GetFont(coloro, 9, Font.NORMAL, resultado);
                 var fontNA = FontFactory.GetFont(coloro, 9, Font.NORMAL, resultadoNO);
@@ -1555,7 +1564,7 @@ namespace DoctorSalud.Controllers.Modulos
                 { BorderWidthLeft = 0 });
 
                 tbl2.AddCell(new PdfPCell(new Phrase("\nPLAN DE TRATAMIENTO: \n \n" +
-                    cita.PlanTratamiento + "\n\n\n\n\n\n", font2)));
+                    cita.PlanTratamiento + "\n\n", font2)));
 
 
                 System.Diagnostics.Debug.WriteLine("Se prepara para generar el QR");
@@ -1570,6 +1579,7 @@ namespace DoctorSalud.Controllers.Modulos
                 p.Add(tbl);
                 p.Add(c0111);
                 p.Add(tbl2);
+                p.Add(PNG2);
 
                 doc.Add(p);
                 doc.Add(pr);
@@ -1833,6 +1843,9 @@ namespace DoctorSalud.Controllers.Modulos
 
                 PNG2.Alignment = Image.ALIGN_CENTER;
                 PNG2.ScaleAbsolute(650, 120);
+
+                PNG1.GetTop(0);
+                PNG2.GetBottom(0);
 
                 var color = new iTextSharp.text.BaseColor(128, 128, 128);
                 var resultado = new iTextSharp.text.BaseColor(0, 0, 255); //apto
